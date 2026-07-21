@@ -1,0 +1,11 @@
+.git
+.wrangler
+node_modules
+.DS_Store
+.playwright-cli
+*.log
+.gitignore
+.assetsignore
+wrangler.jsonc
+README.md
+nginx-errors.conf.example
