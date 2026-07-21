@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Страница не найдена." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#29282B" />
+    <title>Страница не найдена · Mixly</title>
+    <style>
+      html { background: #29282b; }
+      html.is-veiled { overflow: hidden !important; }
+      html.is-veiled::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        pointer-events: none;
+        background: #29282b;
+        opacity: 1;
+      }
+      html.content-pending body { opacity: 0 !important; }
+      html.scroll-pinned body {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+      }
+    </style>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="./favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      try {
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('is-veiled', 'veil-instant', 'page-arrived', 'content-pending', 'hover-lock', 'scroll-pinned');
+          window.scrollTo(0, 0);
+          window.setTimeout(() => document.documentElement.classList.remove('content-pending', 'is-veiled', 'veil-instant'), 3200);
+        }
+      } catch (_) {}
+    </script>
+    <script src="./page-nav.js" defer></script>
+    <script src="./i18n.js" defer></script>
+  </head>
+  <body data-error-page="404">
+    <div class="grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria">mixly</a>
+      <nav data-i18n-aria="nav.mainAria">
+        <a href="./#how-it-works" data-i18n="nav.how">Как это работает</a>
+        <a href="./#premium" data-i18n="nav.premium">Premium</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></a>
+        <div class="lang-switch" data-lang-switch>
+          <button type="button" class="lang-switch-toggle" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.label">RU</button>
+          <ul class="lang-switch-menu" hidden role="listbox">
+            <li role="option"><button type="button" data-lang="ru" aria-selected="false">RU</button></li>
+            <li role="option"><button type="button" data-lang="en" aria-selected="false">EN</button></li>
+            <li role="option"><button type="button" data-lang="de" aria-selected="false">DE</button></li>
+          </ul>
+        </div>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
+      <nav data-i18n-aria="nav.mobileAria">
+        <a href="./#how-it-works" data-i18n="nav.how">Как это работает</a>
+        <a href="./#premium" data-i18n="nav.premium">Premium</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
+      </nav>
+      <div class="mobile-menu-socials">
+        <p data-i18n="nav.socials">Соцсети</p>
+        <div class="mobile-menu-social-links">
+          <a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a>
+          <a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a>
+        </div>
+      </div>
+      <div class="mobile-menu-lang">
+        <div class="lang-switch lang-switch-mobile" data-lang-switch>
+          <div class="lang-switch-segment" role="listbox" data-i18n-aria="lang.label">
+            <button type="button" data-lang="ru" role="option" aria-selected="false">RU</button>
+            <button type="button" data-lang="en" role="option" aria-selected="false">EN</button>
+            <button type="button" data-lang="de" role="option" aria-selected="false">DE</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="error-page" id="content">
+      <section class="error-copy" aria-labelledby="error-title">
+        <p class="error-code" data-i18n="error.404.code">404</p>
+        <p class="eyebrow" data-i18n="error.404.eyebrow">Ошибка</p>
+        <h1 id="error-title" data-i18n="error.404.title">Такой страницы нет</h1>
+        <p class="error-lead" data-i18n="error.404.lead">Ссылка устарела или адрес введён с ошибкой. Вернись на главную и попробуй ещё раз.</p>
+        <div class="error-actions">
+          <a class="button button-primary" href="./" data-i18n="error.home">На главную</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria">mixly</a><p>Mixly app © 2026</p></div>
+        <div class="footer-links">
+          <div><p data-i18n="footer.app">Приложение</p><a href="./#how-it-works" data-i18n="nav.how">Как это работает</a><a href="./#premium" data-i18n="nav.premium">Premium</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
+          <div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div>
+          <div><p data-i18n="footer.socials">Соцсети</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><p data-i18n="footer.age">Только для взрослых 18+</p><p data-i18n="footer.tagline">Идеи для кальяна, которые хочется сохранить</p></div>
+    </footer>
+  </body>
+</html>

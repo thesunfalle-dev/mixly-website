@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Mixly, приложение, которое помогает находить и собирать кальянные миксы под любимые бренды, вкусы и крепость."
+    />
+    <meta name="theme-color" content="#29282B" />
+    <meta property="og:title" content="Mixly: новые идеи для твоего кальяна" />
+    <meta
+      property="og:description"
+      content="Находи миксы под свои вкусы, сохраняй идеи и собирай собственные рецепты."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://get-mixly.app/assets/mixly-app-icon.png" />
+    <meta property="og:url" content="https://get-mixly.app/" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://get-mixly.app/" />
+    <title>Mixly: новые идеи для твоего кальяна</title>
+    <style>
+      html { background: #29282b; }
+      html.is-veiled { overflow: hidden !important; }
+      html.is-veiled::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        pointer-events: none;
+        background: #29282b;
+        opacity: 1;
+      }
+      html.content-pending body { opacity: 0 !important; }
+      html.scroll-pinned body {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+      }
+    </style>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="./favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      try {
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('is-veiled', 'veil-instant', 'page-arrived', 'content-pending', 'hover-lock', 'scroll-pinned');
+          window.scrollTo(0, 0);
+          window.setTimeout(() => document.documentElement.classList.remove('content-pending', 'is-veiled', 'veil-instant'), 3200);
+          const folder = (() => {
+            try {
+              const stored = localStorage.getItem('mixly-lang');
+              if (stored === 'ru' || stored === 'en' || stored === 'de') return stored.toUpperCase();
+            } catch (_) {}
+            const nav = String(navigator.language || 'en').toLowerCase();
+            if (nav.indexOf('ru') === 0) return 'RU';
+            if (nav.indexOf('de') === 0) return 'DE';
+            return 'EN';
+          })();
+          [`./images_for_web/${folder}/main_1.png`, `./images_for_web/${folder}/main_2.png`].forEach((href) => {
+            const preload = document.createElement('link');
+            preload.rel = 'preload';
+            preload.as = 'image';
+            preload.href = href;
+            document.head.appendChild(preload);
+          });
+        }
+      } catch (_) {}
+    </script>
+    <script src="./page-nav.js" defer></script>
+    <script src="./i18n.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "Mixly",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "iOS",
+        "description": "Приложение для поиска и создания кальянных миксов.",
+        "inLanguage": "ru"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria">
+        mixly
+      </a>
+      <nav data-i18n-aria="nav.mainAria">
+        <a href="#how-it-works" data-i18n="nav.how">Как это работает</a>
+        <a href="#premium" data-i18n="nav.premium">Premium</a>
+        <a href="#journal" data-i18n="nav.blog">Блог</a>
+      </nav>
+      <div class="header-actions">
+        <button class="header-cta" type="button" data-download-open><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></button>
+        <div class="lang-switch" data-lang-switch>
+          <button type="button" class="lang-switch-toggle" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.label">RU</button>
+          <ul class="lang-switch-menu" hidden role="listbox">
+            <li role="option"><button type="button" data-lang="ru" aria-selected="false">RU</button></li>
+            <li role="option"><button type="button" data-lang="en" aria-selected="false">EN</button></li>
+            <li role="option"><button type="button" data-lang="de" aria-selected="false">DE</button></li>
+          </ul>
+        </div>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
+      <nav data-i18n-aria="nav.mobileAria">
+        <a href="#how-it-works" data-i18n="nav.how">Как это работает</a>
+        <a href="#premium" data-i18n="nav.premium">Premium</a>
+        <a href="#journal" data-i18n="nav.blog">Блог</a>
+      </nav>
+      <div class="mobile-menu-socials">
+        <p data-i18n="nav.socials">Соцсети</p>
+        <div class="mobile-menu-social-links">
+          <a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a>
+          <a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a>
+        </div>
+      </div>
+      <div class="mobile-menu-lang">
+        <div class="lang-switch lang-switch-mobile" data-lang-switch>
+          <div class="lang-switch-segment" role="listbox" data-i18n-aria="lang.label">
+            <button type="button" data-lang="ru" role="option" aria-selected="false">RU</button>
+            <button type="button" data-lang="en" role="option" aria-selected="false">EN</button>
+            <button type="button" data-lang="de" role="option" aria-selected="false">DE</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <dialog class="download-dialog" aria-labelledby="download-dialog-title">
+      <button class="dialog-close" type="button" data-i18n-aria="dialog.close" data-download-close>×</button>
+      <div class="dialog-icon"><img src="./assets/mixly-app-icon.png" alt="" /></div>
+      <p class="eyebrow" data-i18n="dialog.eyebrow">Скачать Mixly</p>
+      <h2 id="download-dialog-title" data-i18n="dialog.title">Открой Mixly на своём телефоне</h2>
+      <p class="dialog-copy" data-i18n="dialog.copy">Наведите камеру на QR-код или откройте магазин приложений напрямую.</p>
+      <div class="qr-options">
+        <a class="qr-option" href="https://apps.apple.com/app/id6762792005" rel="noopener">
+          <img src="./assets/qr-ios.svg" data-i18n-alt="dialog.qrAlt" alt="QR-код для загрузки Mixly в App Store" />
+          <span><small data-i18n="dialog.qrSmall">Скачать в</small>App Store</span>
+        </a>
+      </div>
+    </dialog>
+    <main id="content">
+      <section class="hero reveal" aria-labelledby="hero-title">
+        <div class="hero-orbits" aria-hidden="true">
+          <i class="hero-orbit hero-orbit-pink"></i>
+          <i class="hero-orbit hero-orbit-purple"></i>
+          <i class="hero-orbit hero-orbit-lime"></i>
+          <i class="hero-orbit hero-orbit-peach"></i>
+        </div>
+        <div class="hero-copy reveal-item">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Твой проводник в мире миксов</p>
+          <h1 id="hero-title" data-i18n="hero.title">Идеи для кальяна</h1>
+          <p class="hero-text" data-i18n="hero.text">
+            Mixly подбирает миксы по любимым брендам, вкусам и комфортной крепости. Сохраняй
+            находки и находи следующее сочетание.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary hero-download" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span aria-hidden="true"></span> <span data-i18n="hero.download">Скачать в App Store</span></a>
+          </div>
+        </div>
+
+        <div class="hero-phones reveal-item" data-i18n-aria="hero.phonesAria">
+          <figure class="app-shot hero-shot hero-shot-back">
+            <img src="./images_for_web/RU/main_2.png" width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="async" />
+          </figure>
+          <figure class="app-shot hero-shot hero-shot-front">
+            <img src="./images_for_web/RU/main_1.png" width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="async" fetchpriority="high" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="intro section reveal" id="how-it-works" aria-labelledby="intro-title">
+        <div class="intro-copy">
+          <div>
+            <p class="eyebrow" data-i18n="intro.eyebrow">Не просто каталог</p>
+            <h2 id="intro-title" data-i18n="intro.title">От вкуса, который хочется сегодня, до следующего любимого сочетания</h2>
+          </div>
+          <p class="section-lead" data-i18n="intro.lead">
+            Mixly складывает твои предпочтения в понятный маршрут, чтобы новая идея всегда была в тему.
+          </p>
+        </div>
+        <div class="intro-features" data-i18n-aria="intro.featuresAria">
+          <article class="intro-feature">
+          <p class="feature-number">01</p>
+          <h3 data-i18n="intro.f1.title">Находи миксы под себя</h3>
+          <p data-i18n="intro.f1.body">Выбери любимые бренды, категории, вкусы и крепость. Mixly сделает подборку релевантнее.</p>
+          </article>
+          <article class="intro-feature">
+          <p class="feature-number">02</p>
+          <h3 data-i18n="intro.f2.title">Собирай свою полку</h3>
+          <p data-i18n="intro.f2.body">Добавляй табаки, которые есть дома, и создавай собственные рецепты в Лаборатории.</p>
+          </article>
+          <article class="intro-feature">
+          <p class="feature-number">03</p>
+          <h3 data-i18n="intro.f3.title">Не теряй удачные находки</h3>
+          <p data-i18n="intro.f3.body">Сохраняй понравившиеся идеи в избранное и возвращайся к ним перед следующей чашей.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="ritual section reveal" aria-labelledby="ritual-title">
+        <div class="ritual-heading">
+          <p class="eyebrow" data-i18n="ritual.eyebrow">Твой ритуал проще</p>
+          <h2 id="ritual-title" data-i18n="ritual.title">От мысли «что забить?» до готовой идеи, в несколько касаний</h2>
+        </div>
+        <ol class="ritual-list">
+          <li><span>01</span><div><h3 data-i18n="ritual.s1.title">Расскажи, что любишь</h3><p data-i18n="ritual.s1.body">Выбери бренды, вкусы и крепость, которые тебе подходят.</p></div></li>
+          <li><span>02</span><div><h3 data-i18n="ritual.s2.title">Листай подборку</h3><p data-i18n="ritual.s2.body">Открывай новые сочетания без случайных советов и лишнего поиска.</p></div></li>
+          <li><span>03</span><div><h3 data-i18n="ritual.s3.title">Сохраняй своё</h3><p data-i18n="ritual.s3.body">Собирай личную коллекцию находок и рецептов в Лаборатории.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="discovery section reveal" aria-labelledby="discovery-title">
+        <div class="discovery-copy">
+          <p class="eyebrow" data-i18n="discovery.eyebrow">Открытия</p>
+          <h2 id="discovery-title" data-i18n="discovery.title">Открывай больше, чем привычные сочетания</h2>
+          <p class="discovery-lead" data-i18n="discovery.lead">В «Открытиях» появляются новые направления, идеи от сообщества и разговоры, которые помогают найти своё следующее сочетание.</p>
+          <ul class="discovery-points" data-i18n-aria="discovery.pointsAria">
+            <li><span>01</span><div><h3 data-i18n="discovery.p1.title">Вкусовые маршруты</h3><p data-i18n="discovery.p1.body">Исследуй сочетания через настроение, вкус и новое направление.</p></div></li>
+            <li><span>02</span><div><h3 data-i18n="discovery.p2.title">Идеи от сообщества</h3><p data-i18n="discovery.p2.body">Смотри предложения других пользователей и находи вдохновение.</p></div></li>
+            <li><span>03</span><div><h3 data-i18n="discovery.p3.title">Обсуждения миксов</h3><p data-i18n="discovery.p3.body">Делись впечатлениями и уточняй то, что хочется повторить.</p></div></li>
+          </ul>
+        </div>
+        <div class="discovery-visual">
+          <div class="discovery-orbit discovery-orbit-purple" aria-hidden="true"></div>
+          <div class="discovery-orbit discovery-orbit-lime" aria-hidden="true"></div>
+          <figure class="app-shot discovery-shot">
+            <img src="./images_for_web/RU/Discovery.png" width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="labs section reveal" aria-labelledby="labs-title">
+        <div class="labs-copy">
+          <p class="eyebrow" data-i18n="labs.eyebrow">Лаборатория</p>
+          <h2 id="labs-title" data-i18n="labs.title">Собирай сочетания, которые хочется повторить</h2>
+          <p class="labs-lead" data-i18n="labs.lead">Добавляй табаки, держи под рукой то, что есть дома, и сохраняй собственные рецепты в одном месте.</p>
+          <ul class="labs-points" data-i18n-aria="labs.pointsAria">
+            <li><span>01</span><div><h3 data-i18n="labs.p1.title">Свои рецепты</h3><p data-i18n="labs.p1.body">Собирай сочетания из знакомых вкусов и сохраняй пропорции.</p></div></li>
+            <li><span>02</span><div><h3 data-i18n="labs.p2.title">Табаки дома</h3><p data-i18n="labs.p2.body">Отмечай то, что уже есть на полке, чтобы выбирать быстрее.</p></div></li>
+            <li><span>03</span><div><h3 data-i18n="labs.p3.title">Удачные находки</h3><p data-i18n="labs.p3.body">Возвращайся к идеям, меняй детали и пробуй снова.</p></div></li>
+          </ul>
+        </div>
+        <div class="labs-visual">
+          <div class="labs-orbit labs-orbit-lime" aria-hidden="true"></div>
+          <div class="labs-orbit labs-orbit-peach" aria-hidden="true"></div>
+          <figure class="app-shot labs-shot">
+            <img src="./images_for_web/RU/Lab.png" width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="journal section reveal" id="journal" aria-labelledby="journal-title">
+        <div class="blog-preview-heading">
+          <div>
+            <p class="eyebrow" data-i18n="journal.eyebrow">Блог Mixly</p>
+            <h2 id="journal-title" data-i18n="journal.title">Новые идеи, чтобы выбирать с удовольствием</h2>
+          </div>
+          <div class="blog-preview-action">
+            <p data-i18n="journal.side">Три последних материала о вкусах, сочетаниях и привычках, которые помогают находить своё</p>
+            <a class="button blog-all-link" href="./blog.html"><span data-i18n="journal.all">Все статьи</span> <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="blog-preview-grid" data-i18n-aria="journal.gridAria">
+          <article class="blog-featured">
+            <a class="blog-card-link" href="./article.html?slug=base" data-i18n-aria="blog.card.base.aria">
+              <p class="article-meta" data-i18n="blog.card.base.meta">ВКУСЫ · 6 МИН</p>
+              <h3 data-i18n="blog.card.base.title">Как выбрать основу для нового сочетания</h3>
+              <p class="article-excerpt" data-i18n="blog.card.base.excerpt">Разбираемся, с какого вкуса начать и как оставить в миксе место для деталей.</p>
+              <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+          <div class="blog-preview-side">
+            <article>
+              <a class="blog-card-link" href="./article.html?slug=brands" data-i18n-aria="blog.card.brands.aria">
+                <p class="article-meta" data-i18n="blog.card.brands.meta">БРЕНДЫ · 4 МИН</p>
+                <h3 data-i18n="blog.card.brands.title">Как ориентироваться в линейках табака</h3>
+                <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
+              </a>
+            </article>
+            <article>
+              <a class="blog-card-link" href="./article.html?slug=practice" data-i18n-aria="blog.card.practice.aria">
+                <p class="article-meta" data-i18n="blog.card.practice.meta">ПРАКТИКА · 5 МИН</p>
+                <h3 data-i18n="blog.card.practice.title">Как сохранять свои удачные находки</h3>
+                <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="testimonials reveal" aria-labelledby="testimonials-title">
+        <div class="testimonials-heading">
+          <p class="eyebrow testimonials-kicker" data-i18n="testimonials.eyebrow">Отзывы</p>
+          <h2 id="testimonials-title" data-i18n="testimonials.title">Находить своё приятнее вместе</h2>
+          <p data-i18n="testimonials.lead">Лента впечатлений от тех, кто уже добавил Mixly в свой привычный ритуал.</p>
+        </div>
+        <div class="testimonials-rail" data-i18n-aria="testimonials.railAria">
+          <div class="testimonials-track">
+            <div class="testimonials-group">
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong>Мария</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong>Денис</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
+              <article class="testimonial-card"><header><span><strong>Алексей</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong>Елена</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
+            </div>
+            <div class="testimonials-group" aria-hidden="true">
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong>Мария</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong>Денис</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
+              <article class="testimonial-card"><header><span><strong>Алексей</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong>Елена</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="premium section reveal" id="premium" aria-labelledby="premium-title">
+        <div class="premium-copy">
+          <p class="eyebrow" data-i18n="premium.eyebrow">Mixly Premium</p>
+          <h2 id="premium-title" data-i18n="premium.title">Больше возможностей внутри Mixly</h2>
+          <p data-i18n="premium.lead">Собирай подборку под себя и возвращайся к новым сочетаниям, когда захочется попробовать что-то ещё.</p>
+        </div>
+        <div class="premium-benefits" data-i18n-aria="premium.benefitsAria">
+          <article><strong data-i18n="premium.b1.title" data-i18n-html>Более <br>500+</strong><p data-i18n="premium.b1.body" data-i18n-html>миксов в полной<br>библиотеке</p></article>
+          <article><strong data-i18n="premium.b2.title" data-i18n-html>Каждую <br>неделю</strong><p data-i18n="premium.b2.body" data-i18n-html>новые идеи и<br>пополнения</p></article>
+          <article><strong data-i18n="premium.b3.title" data-i18n-html>Без <br>ограничений</strong><p data-i18n="premium.b3.body" data-i18n-html>фильтры по вкусам,<br>брендам и крепости</p></article>
+        </div>
+        <a class="button button-primary premium-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span data-i18n="premium.cta">Попробовать Mixly</span> <span aria-hidden="true">→</span></a>
+      </section>
+
+    </main>
+
+    <footer class="site-footer reveal">
+      <div class="footer-main">
+        <div class="footer-brand-block">
+          <a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria">mixly</a>
+          <p>Mixly app © 2026</p>
+        </div>
+        <div class="footer-links">
+          <div><p data-i18n="footer.app">Приложение</p><a href="#how-it-works" data-i18n="nav.how">Как это работает</a><a href="#premium" data-i18n="nav.premium">Premium</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
+          <div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div>
+          <div><p data-i18n="footer.socials">Соцсети</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><p data-i18n="footer.age">Только для взрослых 18+</p><p data-i18n="footer.tagline">Идеи для кальяна, которые хочется сохранить</p></div>
+    </footer>
+    <script>
+      const revealObserver = new IntersectionObserver(
+        (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('.reveal').forEach((section) => revealObserver.observe(section));
+
+      const downloadDialog = document.querySelector('.download-dialog');
+      document.querySelectorAll('[data-download-open]').forEach((button) =>
+        button.addEventListener('click', () => downloadDialog.showModal())
+      );
+      document.querySelector('[data-download-close]').addEventListener('click', () => downloadDialog.close());
+      downloadDialog.addEventListener('click', (event) => {
+        if (event.target === downloadDialog) downloadDialog.close();
+      });
+
+      const siteHeader = document.querySelector('.site-header');
+      let previousScrollY = window.scrollY;
+      let headerFramePending = false;
+
+      const updateHeaderVisibility = () => {
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY > previousScrollY + 4;
+        const scrollingUp = currentScrollY < previousScrollY - 4;
+
+        if (currentScrollY < 80 || scrollingUp) siteHeader.classList.remove('is-hidden');
+        if (currentScrollY > 80 && scrollingDown) siteHeader.classList.add('is-hidden');
+
+        previousScrollY = currentScrollY;
+        headerFramePending = false;
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!headerFramePending) {
+          headerFramePending = true;
+          requestAnimationFrame(updateHeaderVisibility);
+        }
+      }, { passive: true });
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const testimonialsRail = document.querySelector('.testimonials-rail');
+      const testimonialsTrack = testimonialsRail?.querySelector('.testimonials-track');
+
+      if (testimonialsRail && testimonialsTrack && !reduceMotion) {
+        const testimonialsGroup = testimonialsTrack.querySelector('.testimonials-group');
+        let groupWidth = 0;
+        let offset = 0;
+        let currentSpeed = 22;
+        let targetSpeed = 22;
+        let lastFrame = performance.now();
+
+        const measureTestimonials = () => {
+          groupWidth = testimonialsGroup.getBoundingClientRect().width;
+          offset %= groupWidth || 1;
+        };
+
+        const moveTestimonials = (now) => {
+          const elapsed = Math.min(now - lastFrame, 80);
+          lastFrame = now;
+          currentSpeed += (targetSpeed - currentSpeed) * (1 - Math.exp(-elapsed / 620));
+          offset = (offset + currentSpeed * elapsed / 1000) % groupWidth;
+          testimonialsTrack.style.transform = `translate3d(${-offset}px, 0, 0)`;
+          requestAnimationFrame(moveTestimonials);
+        };
+
+        document.fonts.ready.then(() => {
+          measureTestimonials();
+          new ResizeObserver(measureTestimonials).observe(testimonialsRail);
+          requestAnimationFrame(moveTestimonials);
+        });
+
+        testimonialsRail.addEventListener('pointerenter', () => { targetSpeed = 3; });
+        testimonialsRail.addEventListener('pointerleave', () => { targetSpeed = 22; });
+      }
+    </script>
+  </body>
+</html>

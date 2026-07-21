@@ -1,0 +1,770 @@
+/* Mixly website i18n — generated; do not hand-edit dictionaries casually */
+var STRINGS = {
+  "ru": {
+    "error.403.lead": "У этой страницы ограниченный доступ. Вернись на главную и попробуй ещё раз.",
+    "error.403.title": "Сюда пока нельзя",
+    "error.403.eyebrow": "Ошибка",
+    "error.403.code": "403",
+    "error.500.lead": "На нашей стороне сбой. Попробуй обновить страницу чуть позже или зайди на главную.",
+    "error.500.title": "Что-то пошло не так",
+    "error.500.eyebrow": "Ошибка",
+    "error.500.code": "500",
+    "error.404.lead": "Ссылка устарела или адрес введён с ошибкой. Вернись на главную и попробуй ещё раз.",
+    "error.404.title": "Такой страницы нет",
+    "error.404.eyebrow": "Ошибка",
+    "error.404.code": "404",
+    "error.support": "Поддержка",
+    "error.home": "На главную",
+    "meta.error.403.description": "Доступ к этой странице закрыт.",
+    "meta.error.403.title": "Доступ закрыт · Mixly",
+    "meta.error.500.description": "Временная ошибка сервера.",
+    "meta.error.500.title": "Ошибка сервера · Mixly",
+    "meta.error.404.description": "Страница не найдена.",
+    "meta.error.404.title": "Страница не найдена · Mixly",
+    "legal.tocAria": "Разделы документа",
+    "legal.toc": "На этой странице",
+    "legal.back": "На главную",
+    "article.comingSoon": "Скоро появится",
+    "meta.home.title": "Mixly: новые идеи для твоего кальяна",
+    "meta.home.description": "Mixly, приложение, которое помогает находить и собирать кальянные миксы под любимые бренды, вкусы и крепость.",
+    "meta.home.ogTitle": "Mixly: новые идеи для твоего кальяна",
+    "meta.home.ogDescription": "Находи миксы под свои вкусы, сохраняй идеи и собирай собственные рецепты.",
+    "meta.blog.title": "Блог Mixly",
+    "meta.blog.description": "Блог Mixly о вкусах, сочетаниях и кальянной культуре.",
+    "meta.article.fallbackTitle": "Статья · Mixly",
+    "brand.homeAria": "Mixly, на главную",
+    "nav.mainAria": "Основная навигация",
+    "nav.how": "Как это работает",
+    "nav.premium": "Premium",
+    "nav.blog": "Блог",
+    "nav.download": "Скачать в App Store",
+    "nav.downloadShort": "App Store",
+    "nav.menuOpen": "Открыть меню",
+    "nav.menuAria": "Меню сайта",
+    "nav.mobileAria": "Мобильная навигация",
+    "nav.socials": "Соцсети",
+    "lang.label": "Язык",
+    "dialog.close": "Закрыть",
+    "dialog.eyebrow": "Скачать Mixly",
+    "dialog.title": "Открой Mixly на своём телефоне",
+    "dialog.copy": "Наведите камеру на QR-код или откройте магазин приложений напрямую.",
+    "dialog.qrAlt": "QR-код для загрузки Mixly в App Store",
+    "dialog.qrSmall": "Скачать в",
+    "hero.eyebrow": "Твой проводник в мире миксов",
+    "hero.title": "Идеи для кальяна",
+    "hero.text": "Mixly подбирает миксы по любимым брендам, вкусам и комфортной крепости. Сохраняй находки и находи следующее сочетание.",
+    "hero.download": "Скачать в App Store",
+    "hero.phonesAria": "Экраны приложения Mixly",
+    "hero.shotDiscoveryAlt": "Экран «Открытия» в приложении Mixly",
+    "hero.shotHomeAlt": "Главный экран приложения Mixly с карточкой микса",
+    "intro.eyebrow": "Не просто каталог",
+    "intro.title": "От вкуса, который хочется сегодня, до следующего любимого сочетания",
+    "intro.lead": "Mixly складывает твои предпочтения в понятный маршрут, чтобы новая идея всегда была в тему.",
+    "intro.featuresAria": "Возможности Mixly",
+    "intro.f1.title": "Находи миксы под себя",
+    "intro.f1.body": "Выбери любимые бренды, категории, вкусы и крепость. Mixly сделает подборку релевантнее.",
+    "intro.f2.title": "Собирай свою полку",
+    "intro.f2.body": "Добавляй табаки, которые есть дома, и создавай собственные рецепты в Лаборатории.",
+    "intro.f3.title": "Не теряй удачные находки",
+    "intro.f3.body": "Сохраняй понравившиеся идеи в избранное и возвращайся к ним перед следующей чашей.",
+    "ritual.eyebrow": "Твой ритуал проще",
+    "ritual.title": "От мысли «что забить?» до готовой идеи, в несколько касаний",
+    "ritual.s1.title": "Расскажи, что любишь",
+    "ritual.s1.body": "Выбери бренды, вкусы и крепость, которые тебе подходят.",
+    "ritual.s2.title": "Листай подборку",
+    "ritual.s2.body": "Открывай новые сочетания без случайных советов и лишнего поиска.",
+    "ritual.s3.title": "Сохраняй своё",
+    "ritual.s3.body": "Собирай личную коллекцию находок и рецептов в Лаборатории.",
+    "discovery.eyebrow": "Открытия",
+    "discovery.title": "Открывай больше, чем привычные сочетания",
+    "discovery.lead": "В «Открытиях» появляются новые направления, идеи от сообщества и разговоры, которые помогают найти своё следующее сочетание.",
+    "discovery.pointsAria": "Возможности раздела «Открытия»",
+    "discovery.p1.title": "Вкусовые маршруты",
+    "discovery.p1.body": "Исследуй сочетания через настроение, вкус и новое направление.",
+    "discovery.p2.title": "Идеи от сообщества",
+    "discovery.p2.body": "Смотри предложения других пользователей и находи вдохновение.",
+    "discovery.p3.title": "Обсуждения миксов",
+    "discovery.p3.body": "Делись впечатлениями и уточняй то, что хочется повторить.",
+    "discovery.shotAlt": "Реальный экран «Открытия» в приложении Mixly",
+    "labs.eyebrow": "Лаборатория",
+    "labs.title": "Собирай сочетания, которые хочется повторить",
+    "labs.lead": "Добавляй табаки, держи под рукой то, что есть дома, и сохраняй собственные рецепты в одном месте.",
+    "labs.pointsAria": "Возможности Лаборатории",
+    "labs.p1.title": "Свои рецепты",
+    "labs.p1.body": "Собирай сочетания из знакомых вкусов и сохраняй пропорции.",
+    "labs.p2.title": "Табаки дома",
+    "labs.p2.body": "Отмечай то, что уже есть на полке, чтобы выбирать быстрее.",
+    "labs.p3.title": "Удачные находки",
+    "labs.p3.body": "Возвращайся к идеям, меняй детали и пробуй снова.",
+    "labs.shotAlt": "Реальный экран Mixly с карточкой сочетания",
+    "journal.eyebrow": "Блог Mixly",
+    "journal.title": "Новые идеи, чтобы выбирать с удовольствием",
+    "journal.side": "Скоро здесь появятся материалы о вкусах, сочетаниях и привычках",
+    "journal.all": "Все статьи",
+    "journal.gridAria": "Последние статьи",
+    "blog.read": "Скоро",
+    "blog.card.base.aria": "Статья скоро появится: Как выбрать основу для нового сочетания",
+    "blog.card.base.meta": "СКОРО",
+    "blog.card.base.title": "Как выбрать основу для нового сочетания",
+    "blog.card.base.excerpt": "Скоро появится",
+    "blog.card.brands.aria": "Статья скоро появится: Как ориентироваться в линейках табака",
+    "blog.card.brands.meta": "СКОРО",
+    "blog.card.brands.title": "Как ориентироваться в линейках табака",
+    "blog.card.practice.aria": "Статья скоро появится: Как сохранять свои удачные находки",
+    "blog.card.practice.meta": "СКОРО",
+    "blog.card.practice.title": "Как сохранять свои удачные находки",
+    "testimonials.eyebrow": "Отзывы",
+    "testimonials.title": "Находить своё приятнее вместе",
+    "testimonials.lead": "Лента впечатлений от тех, кто уже добавил Mixly в свой привычный ритуал.",
+    "testimonials.railAria": "Отзывы пользователей Mixly",
+    "testimonials.starsAria": "5 из 5",
+    "testimonials.date": "июль 2026",
+    "testimonials.t1": "«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»",
+    "testimonials.t2": "«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»",
+    "testimonials.t3": "«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»",
+    "testimonials.t4": "«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»",
+    "premium.eyebrow": "Mixly Premium",
+    "premium.title": "Больше возможностей внутри Mixly",
+    "premium.lead": "Собирай подборку под себя и возвращайся к новым сочетаниям, когда захочется попробовать что-то ещё.",
+    "premium.benefitsAria": "Что открывает Mixly Premium",
+    "premium.b1.title": "Более <br>500+",
+    "premium.b1.body": "миксов в полной<br>библиотеке",
+    "premium.b2.title": "Каждую <br>неделю",
+    "premium.b2.body": "новые идеи и<br>пополнения",
+    "premium.b3.title": "Без <br>ограничений",
+    "premium.b3.body": "фильтры по вкусам,<br>брендам и крепости",
+    "premium.cta": "Попробовать Mixly",
+    "footer.app": "Приложение",
+    "footer.docs": "Документы",
+    "footer.privacy": "Конфиденциальность",
+    "footer.terms": "Условия использования",
+    "footer.eula": "Лицензия",
+    "footer.support": "Поддержка",
+    "footer.socials": "Соцсети",
+    "footer.age": "Только для взрослых 18+",
+    "footer.tagline": "Идеи для кальяна, которые хочется сохранить",
+    "blog.back": "На главную",
+    "blog.page.eyebrow": "Блог Mixly",
+    "blog.page.title": "Идеи, к которым хочется возвращаться",
+    "blog.page.lead": "Скоро здесь появятся заметки о вкусах, сочетаниях и привычках.",
+    "blog.filterAria": "Фильтр статей",
+    "blog.filter.all": "Все",
+    "blog.filter.tastes": "Вкусы",
+    "blog.filter.brands": "Бренды",
+    "blog.filter.practice": "Практика",
+    "blog.listAria": "Все статьи",
+    "blog.list.base.excerpt": "Скоро появится",
+    "blog.list.brands.excerpt": "Скоро появится",
+    "blog.list.practice.excerpt": "Скоро появится",
+    "article.back": "Все статьи"
+  },
+  "en": {
+    "error.403.lead": "Access to this page is restricted. Head home and try again.",
+    "error.403.title": "You can’t open this page",
+    "error.403.eyebrow": "Error",
+    "error.403.code": "403",
+    "error.500.lead": "That’s on us. Try again in a moment or go back to the home page.",
+    "error.500.title": "Something went wrong",
+    "error.500.eyebrow": "Error",
+    "error.500.code": "500",
+    "error.404.lead": "The link is outdated or the address has a typo. Head home and try again.",
+    "error.404.title": "This page doesn’t exist",
+    "error.404.eyebrow": "Error",
+    "error.404.code": "404",
+    "error.support": "Support",
+    "error.home": "Back to home",
+    "meta.error.403.description": "Access to this page is restricted.",
+    "meta.error.403.title": "Access denied · Mixly",
+    "meta.error.500.description": "Temporary server error.",
+    "meta.error.500.title": "Server error · Mixly",
+    "meta.error.404.description": "Page not found.",
+    "meta.error.404.title": "Page not found · Mixly",
+    "legal.tocAria": "Document sections",
+    "legal.toc": "On this page",
+    "legal.back": "Back to home",
+    "article.comingSoon": "Coming soon",
+    "meta.home.title": "Mixly: fresh ideas for your hookah",
+    "meta.home.description": "Mixly helps you find and build hookah mixes around your favorite brands, flavors, and strength.",
+    "meta.home.ogTitle": "Mixly: fresh ideas for your hookah",
+    "meta.home.ogDescription": "Find mixes for your tastes, save ideas, and build your own recipes.",
+    "meta.blog.title": "Mixly Blog",
+    "meta.blog.description": "The Mixly blog on flavors, mixes, and hookah culture.",
+    "meta.article.fallbackTitle": "Article · Mixly",
+    "brand.homeAria": "Mixly, go to home",
+    "nav.mainAria": "Primary navigation",
+    "nav.how": "How it works",
+    "nav.premium": "Premium",
+    "nav.blog": "Blog",
+    "nav.download": "Download on the App Store",
+    "nav.downloadShort": "App Store",
+    "nav.menuOpen": "Open menu",
+    "nav.menuAria": "Site menu",
+    "nav.mobileAria": "Mobile navigation",
+    "nav.socials": "Social",
+    "lang.label": "Language",
+    "dialog.close": "Close",
+    "dialog.eyebrow": "Download Mixly",
+    "dialog.title": "Open Mixly on your phone",
+    "dialog.copy": "Point your camera at the QR code or open the app store directly.",
+    "dialog.qrAlt": "QR code to download Mixly from the App Store",
+    "dialog.qrSmall": "Download on the",
+    "hero.eyebrow": "Your guide in the world of mixes",
+    "hero.title": "Ideas for hookah",
+    "hero.text": "Mixly matches mixes to your favorite brands, flavors, and comfortable strength. Save finds and discover what to try next.",
+    "hero.download": "Download on the App Store",
+    "hero.phonesAria": "Mixly app screens",
+    "hero.shotDiscoveryAlt": "Discovery screen in the Mixly app",
+    "hero.shotHomeAlt": "Mixly home screen with a mix card",
+    "intro.eyebrow": "More than a catalog",
+    "intro.title": "From the flavor you want today to your next favorite mix",
+    "intro.lead": "Mixly turns your preferences into a clear route so the next idea always fits.",
+    "intro.featuresAria": "Mixly features",
+    "intro.f1.title": "Find mixes for you",
+    "intro.f1.body": "Pick favorite brands, categories, flavors, and strength. Mixly makes the feed more relevant.",
+    "intro.f2.title": "Build your shelf",
+    "intro.f2.body": "Add tobaccos you already have at home and create your own recipes in the Lab.",
+    "intro.f3.title": "Keep the good finds",
+    "intro.f3.body": "Save ideas you like and come back to them before the next bowl.",
+    "ritual.eyebrow": "Your ritual, simpler",
+    "ritual.title": "From “what should I pack?” to a ready idea in a few taps",
+    "ritual.s1.title": "Tell us what you like",
+    "ritual.s1.body": "Choose brands, flavors, and strength that fit you.",
+    "ritual.s2.title": "Browse the feed",
+    "ritual.s2.body": "Open new mixes without random tips or endless searching.",
+    "ritual.s3.title": "Save what’s yours",
+    "ritual.s3.body": "Build a personal collection of finds and recipes in the Lab.",
+    "discovery.eyebrow": "Discovery",
+    "discovery.title": "Explore beyond the usual mixes",
+    "discovery.lead": "In Discovery you’ll find new directions, community ideas, and conversations that help you find what to try next.",
+    "discovery.pointsAria": "Discovery features",
+    "discovery.p1.title": "Flavor routes",
+    "discovery.p1.body": "Explore mixes through mood, taste, and a new direction.",
+    "discovery.p2.title": "Community ideas",
+    "discovery.p2.body": "See suggestions from other users and find inspiration.",
+    "discovery.p3.title": "Mix discussions",
+    "discovery.p3.body": "Share impressions and refine what you want to repeat.",
+    "discovery.shotAlt": "Real Discovery screen in the Mixly app",
+    "labs.eyebrow": "Lab",
+    "labs.title": "Build mixes you’ll want to repeat",
+    "labs.lead": "Add tobaccos, keep what’s at home within reach, and save your own recipes in one place.",
+    "labs.pointsAria": "Lab features",
+    "labs.p1.title": "Your recipes",
+    "labs.p1.body": "Combine familiar flavors and keep the ratios.",
+    "labs.p2.title": "Tobaccos at home",
+    "labs.p2.body": "Mark what’s already on your shelf so choosing is faster.",
+    "labs.p3.title": "Best finds",
+    "labs.p3.body": "Return to ideas, tweak details, and try again.",
+    "labs.shotAlt": "Real Mixly screen with a mix card",
+    "journal.eyebrow": "Mixly Blog",
+    "journal.title": "Fresh ideas for choosing with pleasure",
+    "journal.side": "Stories about flavors, mixes, and habits are coming soon",
+    "journal.all": "All articles",
+    "journal.gridAria": "Latest articles",
+    "blog.read": "Soon",
+    "blog.card.base.aria": "Article coming soon: How to choose a base for a new mix",
+    "blog.card.base.meta": "SOON",
+    "blog.card.base.title": "How to choose a base for a new mix",
+    "blog.card.base.excerpt": "Coming soon",
+    "blog.card.brands.aria": "Article coming soon: How to navigate tobacco lines",
+    "blog.card.brands.meta": "SOON",
+    "blog.card.brands.title": "How to navigate tobacco lines",
+    "blog.card.practice.aria": "Article coming soon: How to keep your best finds",
+    "blog.card.practice.meta": "SOON",
+    "blog.card.practice.title": "How to keep your best finds",
+    "testimonials.eyebrow": "Reviews",
+    "testimonials.title": "Finding yours is better together",
+    "testimonials.lead": "Impressions from people who already made Mixly part of their ritual.",
+    "testimonials.railAria": "Mixly user reviews",
+    "testimonials.starsAria": "5 out of 5",
+    "testimonials.date": "July 2026",
+    "testimonials.t1": "“I used to keep good mixes in notes. Now everything I want to repeat lives in one place.”",
+    "testimonials.t2": "“It’s nice to start from the flavor I want right now instead of hunting mixes across the internet.”",
+    "testimonials.t3": "“Filters and the Lab really help when I want something new from what I already have at home.”",
+    "testimonials.t4": "“I don’t have to remember last time. Good ideas stay within reach.”",
+    "premium.eyebrow": "Mixly Premium",
+    "premium.title": "More inside Mixly",
+    "premium.lead": "Build a feed that fits you and come back to new mixes whenever you want to try something else.",
+    "premium.benefitsAria": "What Mixly Premium unlocks",
+    "premium.b1.title": "Over <br>500+",
+    "premium.b1.body": "mixes in the full<br>library",
+    "premium.b2.title": "Every <br>week",
+    "premium.b2.body": "new ideas and<br>additions",
+    "premium.b3.title": "No <br>limits",
+    "premium.b3.body": "filters by flavor,<br>brand, and strength",
+    "premium.cta": "Try Mixly",
+    "footer.app": "App",
+    "footer.docs": "Legal",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Terms of Use",
+    "footer.eula": "License",
+    "footer.support": "Support",
+    "footer.socials": "Social",
+    "footer.age": "Adults only 18+",
+    "footer.tagline": "Hookah ideas worth keeping",
+    "blog.back": "Home",
+    "blog.page.eyebrow": "Mixly Blog",
+    "blog.page.title": "Ideas you’ll want to return to",
+    "blog.page.lead": "Notes on flavors, mixes, and habits are coming soon.",
+    "blog.filterAria": "Article filter",
+    "blog.filter.all": "All",
+    "blog.filter.tastes": "Tastes",
+    "blog.filter.brands": "Brands",
+    "blog.filter.practice": "Practice",
+    "blog.listAria": "All articles",
+    "blog.list.base.excerpt": "Coming soon",
+    "blog.list.brands.excerpt": "Coming soon",
+    "blog.list.practice.excerpt": "Coming soon",
+    "article.back": "All articles"
+  },
+  "de": {
+    "error.403.lead": "Der Zugriff ist eingeschränkt. Geh zur Startseite und versuche es erneut.",
+    "error.403.title": "Kein Zugriff auf diese Seite",
+    "error.403.eyebrow": "Fehler",
+    "error.403.code": "403",
+    "error.500.lead": "Das liegt an uns. Bitte versuche es gleich noch einmal oder gehe zur Startseite.",
+    "error.500.title": "Etwas ist schiefgelaufen",
+    "error.500.eyebrow": "Fehler",
+    "error.500.code": "500",
+    "error.404.lead": "Der Link ist veraltet oder die Adresse enthält einen Tippfehler. Geh zur Startseite und versuche es erneut.",
+    "error.404.title": "Diese Seite gibt es nicht",
+    "error.404.eyebrow": "Fehler",
+    "error.404.code": "404",
+    "error.support": "Support",
+    "error.home": "Zur Startseite",
+    "meta.error.403.description": "Der Zugriff auf diese Seite ist eingeschränkt.",
+    "meta.error.403.title": "Zugriff verweigert · Mixly",
+    "meta.error.500.description": "Vorübergehender Serverfehler.",
+    "meta.error.500.title": "Serverfehler · Mixly",
+    "meta.error.404.description": "Seite nicht gefunden.",
+    "meta.error.404.title": "Seite nicht gefunden · Mixly",
+    "legal.tocAria": "Abschnitte des Dokuments",
+    "legal.toc": "Auf dieser Seite",
+    "legal.back": "Zur Startseite",
+    "article.comingSoon": "Demnächst verfügbar",
+    "meta.home.title": "Mixly: neue Ideen für deine Shisha",
+    "meta.home.description": "Mixly hilft dir, Shisha-Mischungen nach Lieblingsmarken, Geschmack und Stärke zu finden und zu bauen.",
+    "meta.home.ogTitle": "Mixly: neue Ideen für deine Shisha",
+    "meta.home.ogDescription": "Finde Mischungen zu deinem Geschmack, speichere Ideen und baue eigene Rezepte.",
+    "meta.blog.title": "Mixly Blog",
+    "meta.blog.description": "Der Mixly-Blog über Geschmack, Mischungen und Shisha-Kultur.",
+    "meta.article.fallbackTitle": "Artikel · Mixly",
+    "brand.homeAria": "Mixly, zur Startseite",
+    "nav.mainAria": "Hauptnavigation",
+    "nav.how": "So funktioniert’s",
+    "nav.premium": "Premium",
+    "nav.blog": "Blog",
+    "nav.download": "Im App Store laden",
+    "nav.downloadShort": "App Store",
+    "nav.menuOpen": "Menü öffnen",
+    "nav.menuAria": "Seitenmenü",
+    "nav.mobileAria": "Mobile Navigation",
+    "nav.socials": "Social",
+    "lang.label": "Sprache",
+    "dialog.close": "Schließen",
+    "dialog.eyebrow": "Mixly laden",
+    "dialog.title": "Öffne Mixly auf deinem Telefon",
+    "dialog.copy": "Richte die Kamera auf den QR-Code oder öffne den Store direkt.",
+    "dialog.qrAlt": "QR-Code zum Laden von Mixly im App Store",
+    "dialog.qrSmall": "Laden im",
+    "hero.eyebrow": "Dein Guide in der Welt der Mischungen",
+    "hero.title": "Ideen für die Shisha",
+    "hero.text": "Mixly findet Mischungen zu Lieblingsmarken, Geschmack und angenehmer Stärke. Speichere Funde und entdecke die nächste Kombination.",
+    "hero.download": "Im App Store laden",
+    "hero.phonesAria": "Mixly App-Screens",
+    "hero.shotDiscoveryAlt": "Discovery-Screen in der Mixly-App",
+    "hero.shotHomeAlt": "Mixly-Startscreen mit Mischungskarte",
+    "intro.eyebrow": "Mehr als ein Katalog",
+    "intro.title": "Vom Geschmack, den du heute willst, zur nächsten Lieblingsmischung",
+    "intro.lead": "Mixly macht aus deinen Vorlieben eine klare Route – damit die nächste Idee passt.",
+    "intro.featuresAria": "Mixly-Funktionen",
+    "intro.f1.title": "Mischungen für dich finden",
+    "intro.f1.body": "Wähle Marken, Kategorien, Geschmack und Stärke. Mixly macht die Auswahl treffender.",
+    "intro.f2.title": "Dein Regal aufbauen",
+    "intro.f2.body": "Füge Tabake hinzu, die du zu Hause hast, und erstelle eigene Rezepte im Labor.",
+    "intro.f3.title": "Gute Funde behalten",
+    "intro.f3.body": "Speichere Ideen und komm vor der nächsten Bowl darauf zurück.",
+    "ritual.eyebrow": "Dein Ritual, einfacher",
+    "ritual.title": "Von „was soll ich packen?“ zur fertigen Idee in wenigen Tipps",
+    "ritual.s1.title": "Sag, was du magst",
+    "ritual.s1.body": "Wähle Marken, Geschmack und Stärke, die zu dir passen.",
+    "ritual.s2.title": "Durch die Auswahl streichen",
+    "ritual.s2.body": "Öffne neue Mischungen ohne Zufallstipps und langes Suchen.",
+    "ritual.s3.title": "Das Deine speichern",
+    "ritual.s3.body": "Baue eine persönliche Sammlung aus Funden und Rezepten im Labor.",
+    "discovery.eyebrow": "Discovery",
+    "discovery.title": "Mehr entdecken als die üblichen Mischungen",
+    "discovery.lead": "In Discovery findest du neue Richtungen, Community-Ideen und Gespräche, die zur nächsten Mischung führen.",
+    "discovery.pointsAria": "Discovery-Funktionen",
+    "discovery.p1.title": "Geschmacksrouten",
+    "discovery.p1.body": "Erkunde Mischungen über Stimmung, Geschmack und neue Richtung.",
+    "discovery.p2.title": "Ideen der Community",
+    "discovery.p2.body": "Sieh Vorschläge anderer Nutzer und finde Inspiration.",
+    "discovery.p3.title": "Mischungs-Diskussionen",
+    "discovery.p3.body": "Teile Eindrücke und schärfe, was du wiederholen willst.",
+    "discovery.shotAlt": "Echter Discovery-Screen in der Mixly-App",
+    "labs.eyebrow": "Labor",
+    "labs.title": "Mischungen bauen, die du wiederholen willst",
+    "labs.lead": "Füge Tabake hinzu, halte griffbereit, was zu Hause ist, und speichere eigene Rezepte an einem Ort.",
+    "labs.pointsAria": "Labor-Funktionen",
+    "labs.p1.title": "Eigene Rezepte",
+    "labs.p1.body": "Kombiniere bekannte Aromen und halte die Proportionen fest.",
+    "labs.p2.title": "Tabake zu Hause",
+    "labs.p2.body": "Markiere, was schon im Regal steht – so geht die Wahl schneller.",
+    "labs.p3.title": "Gute Funde",
+    "labs.p3.body": "Komm zu Ideen zurück, ändere Details und probiere erneut.",
+    "labs.shotAlt": "Echter Mixly-Screen mit Mischungskarte",
+    "journal.eyebrow": "Mixly Blog",
+    "journal.title": "Neue Ideen, die die Auswahl leichter machen",
+    "journal.side": "Bald erscheinen hier Beiträge über Aromen, Kombis und Gewohnheiten",
+    "journal.all": "Alle Artikel",
+    "journal.gridAria": "Neueste Artikel",
+    "blog.read": "Bald",
+    "blog.card.base.aria": "Beitrag folgt demnächst: Wie du eine Basis für eine neue Kombi wählst",
+    "blog.card.base.meta": "DEMNÄCHST",
+    "blog.card.base.title": "Wie du eine Basis für eine neue Mischung wählst",
+    "blog.card.base.excerpt": "Demnächst",
+    "blog.card.brands.aria": "Beitrag folgt demnächst: Wie du dich in Tabaklinien zurechtfindest",
+    "blog.card.brands.meta": "DEMNÄCHST",
+    "blog.card.brands.title": "Wie du dich in Tabaklinien zurechtfindest",
+    "blog.card.practice.aria": "Beitrag folgt demnächst: Wie du gelungene Funde festhältst",
+    "blog.card.practice.meta": "DEMNÄCHST",
+    "blog.card.practice.title": "Wie du gelungene Funde festhältst",
+    "testimonials.eyebrow": "Stimmen",
+    "testimonials.title": "Das Eigene findet sich besser gemeinsam",
+    "testimonials.lead": "Eindrücke von Menschen, die Mixly schon in ihr Ritual aufgenommen haben.",
+    "testimonials.railAria": "Mixly-Nutzerstimmen",
+    "testimonials.starsAria": "5 von 5",
+    "testimonials.date": "Juli 2026",
+    "testimonials.t1": "„Früher habe ich gute Mischungen in Notizen gehalten. Jetzt ist alles, was ich wiederholen will, an einem Ort.“",
+    "testimonials.t2": "„Praktisch, vom Geschmack zu starten, den ich jetzt will – statt Mischungen im ganzen Internet zu suchen.“",
+    "testimonials.t3": "„Filter und Labor helfen besonders, wenn ich aus dem, was schon zu Hause ist, etwas Neues bauen will.“",
+    "testimonials.t4": "„Ich muss mich nicht erinnern, was letztes Mal war. Gute Ideen bleiben griffbereit.“",
+    "premium.eyebrow": "Mixly Premium",
+    "premium.title": "Mehr Möglichkeiten in Mixly",
+    "premium.lead": "Baue eine Auswahl für dich und komm zu neuen Mischungen zurück, wenn du etwas anderes ausprobieren willst.",
+    "premium.benefitsAria": "Was Mixly Premium freischaltet",
+    "premium.b1.title": "Über <br>500+",
+    "premium.b1.body": "Mischungen in der<br>vollen Bibliothek",
+    "premium.b2.title": "Jede <br>Woche",
+    "premium.b2.body": "neue Ideen und<br>Ergänzungen",
+    "premium.b3.title": "Ohne <br>Limits",
+    "premium.b3.body": "Filter nach Geschmack,<br>Marke und Stärke",
+    "premium.cta": "Mixly ausprobieren",
+    "footer.app": "App",
+    "footer.docs": "Rechtliches",
+    "footer.privacy": "Datenschutz",
+    "footer.terms": "Nutzungsbedingungen",
+    "footer.eula": "Lizenz",
+    "footer.support": "Support",
+    "footer.socials": "Social",
+    "footer.age": "Nur für Erwachsene 18+",
+    "footer.tagline": "Shisha-Ideen, die man behalten will",
+    "blog.back": "Zur Startseite",
+    "blog.page.eyebrow": "Mixly Blog",
+    "blog.page.title": "Ideen, zu denen man zurückkehrt",
+    "blog.page.lead": "Bald erscheinen hier Notizen über Aromen, Kombis und Gewohnheiten.",
+    "blog.filterAria": "Artikelfilter",
+    "blog.filter.all": "Alle",
+    "blog.filter.tastes": "Geschmack",
+    "blog.filter.brands": "Marken",
+    "blog.filter.practice": "Praxis",
+    "blog.listAria": "Alle Artikel",
+    "blog.list.base.excerpt": "Demnächst",
+    "blog.list.brands.excerpt": "Demnächst",
+    "blog.list.practice.excerpt": "Demnächst",
+    "article.back": "Alle Artikel"
+  }
+};
+var ARTICLES = {
+  "ru": {
+    "base": {
+      "meta": "СКОРО",
+      "title": "Как выбрать основу для нового сочетания",
+      "lead": "Материал готовится к публикации.",
+      "comingSoon": true
+    },
+    "brands": {
+      "meta": "СКОРО",
+      "title": "Как ориентироваться в линейках табака",
+      "lead": "Материал готовится к публикации.",
+      "comingSoon": true
+    },
+    "practice": {
+      "meta": "СКОРО",
+      "title": "Как сохранять свои удачные находки",
+      "lead": "Материал готовится к публикации.",
+      "comingSoon": true
+    }
+  },
+  "en": {
+    "base": {
+      "meta": "SOON",
+      "title": "How to choose a base for a new mix",
+      "lead": "This piece is being prepared for publication.",
+      "comingSoon": true
+    },
+    "brands": {
+      "meta": "SOON",
+      "title": "How to navigate tobacco lines",
+      "lead": "This piece is being prepared for publication.",
+      "comingSoon": true
+    },
+    "practice": {
+      "meta": "SOON",
+      "title": "How to keep your best finds",
+      "lead": "This piece is being prepared for publication.",
+      "comingSoon": true
+    }
+  },
+  "de": {
+    "base": {
+      "meta": "DEMNÄCHST",
+      "title": "Wie du eine Basis für eine neue Kombi wählst",
+      "lead": "Dieser Beitrag wird gerade vorbereitet.",
+      "comingSoon": true
+    },
+    "brands": {
+      "meta": "DEMNÄCHST",
+      "title": "Wie du dich in Tabaklinien zurechtfindest",
+      "lead": "Dieser Beitrag wird gerade vorbereitet.",
+      "comingSoon": true
+    },
+    "practice": {
+      "meta": "DEMNÄCHST",
+      "title": "Wie du gelungene Funde festhältst",
+      "lead": "Dieser Beitrag wird gerade vorbereitet.",
+      "comingSoon": true
+    }
+  }
+};
+
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'mixly-lang';
+  var LABELS = { ru: 'RU', en: 'EN', de: 'DE' };
+  var SUPPORTED = ['ru', 'en', 'de'];
+  var currentLang = 'en';
+
+  function detectLocale() {
+    try {
+      var stored = localStorage.getItem(STORAGE_KEY);
+      if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
+    } catch (e) {}
+    var candidates = [];
+    try {
+      if (navigator.languages && navigator.languages.length) {
+        candidates = Array.prototype.slice.call(navigator.languages);
+      } else if (navigator.language) {
+        candidates = [navigator.language];
+      }
+    } catch (e2) {}
+    for (var i = 0; i < candidates.length; i++) {
+      var code = String(candidates[i] || '').toLowerCase();
+      if (code.indexOf('ru') === 0) return 'ru';
+      if (code.indexOf('de') === 0) return 'de';
+    }
+    return 'en';
+  }
+
+  function t(lang, key) {
+    var pack = STRINGS[lang] || STRINGS.en;
+    if (pack[key] != null) return pack[key];
+    if (STRINGS.en[key] != null) return STRINGS.en[key];
+    return '';
+  }
+
+  function applyMeta(lang) {
+    var path = (location.pathname || '').split('/').pop() || 'index.html';
+    if (path === '' || path === 'index.html' || path === './') {
+      document.title = t(lang, 'meta.home.title');
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute('content', t(lang, 'meta.home.description'));
+      var ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', t(lang, 'meta.home.ogTitle'));
+      var ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', t(lang, 'meta.home.ogDescription'));
+      var ld = document.querySelector('script[type="application/ld+json"]');
+      if (ld) {
+        try {
+          var data = JSON.parse(ld.textContent);
+          data.inLanguage = lang;
+          data.description = t(lang, 'meta.home.description');
+          ld.textContent = JSON.stringify(data);
+        } catch (e3) {}
+      }
+    } else if (path === 'blog.html') {
+      document.title = t(lang, 'meta.blog.title');
+      var blogDesc = document.querySelector('meta[name="description"]');
+      if (blogDesc) blogDesc.setAttribute('content', t(lang, 'meta.blog.description'));
+    } else if (path === '404.html' || path === '500.html' || path === '403.html') {
+      var code = path.replace('.html', '');
+      document.title = t(lang, 'meta.error.' + code + '.title');
+      var errDesc = document.querySelector('meta[name="description"]');
+      if (errDesc) errDesc.setAttribute('content', t(lang, 'meta.error.' + code + '.description'));
+    }
+  }
+
+  var SHOT_FILES = {
+    'shot.main1': 'main_1.png',
+    'shot.main2': 'main_2.png',
+    'shot.discovery': 'Discovery.png',
+    'shot.lab': 'Lab.png'
+  };
+
+  function shotSrc(lang, key) {
+    var file = SHOT_FILES[key];
+    if (!file) return '';
+    var folder = String(lang || 'en').toUpperCase();
+    return './images_for_web/' + folder + '/' + file;
+  }
+
+  function applyImages(lang) {
+    document.querySelectorAll('[data-i18n-src]').forEach(function (el) {
+      var next = shotSrc(lang, el.getAttribute('data-i18n-src'));
+      if (next && el.getAttribute('src') !== next) el.setAttribute('src', next);
+    });
+  }
+
+  function applySocialLinks(lang) {
+    var showThreads = lang === 'ru';
+    document.querySelectorAll('[data-social-threads]').forEach(function (el) {
+      el.hidden = !showThreads;
+      if (showThreads) el.removeAttribute('aria-hidden');
+      else el.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  function applyNodes(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      var value = t(lang, key);
+      if (el.hasAttribute('data-i18n-html')) el.innerHTML = value;
+      else el.textContent = value;
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      el.setAttribute('aria-label', t(lang, el.getAttribute('data-i18n-aria')));
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+      el.setAttribute('alt', t(lang, el.getAttribute('data-i18n-alt')));
+    });
+    applyImages(lang);
+    applySocialLinks(lang);
+  }
+
+  function syncSwitchers(lang) {
+    document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
+      var toggle = root.querySelector('.lang-switch-toggle');
+      if (toggle) {
+        toggle.textContent = LABELS[lang] || lang.toUpperCase();
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+      root.querySelectorAll('[data-lang]').forEach(function (btn) {
+        var active = btn.getAttribute('data-lang') === lang;
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        btn.classList.toggle('is-active', active);
+      });
+      var menu = root.querySelector('.lang-switch-menu');
+      if (menu) menu.hidden = true;
+      root.classList.remove('is-open');
+    });
+  }
+
+  function renderArticle(lang) {
+    var metaEl = document.querySelector('#article-meta');
+    var titleEl = document.querySelector('#article-title');
+    var leadEl = document.querySelector('#article-lead');
+    var contentEl = document.querySelector('#article-content');
+    if (!metaEl || !titleEl || !leadEl || !contentEl) return;
+
+    var slug = new URLSearchParams(location.search).get('slug') || 'base';
+    var pack = (ARTICLES[lang] || ARTICLES.en || {})[slug] || (ARTICLES.en || {}).base || (ARTICLES.ru || {}).base;
+    if (!pack) return;
+
+    document.title = pack.title + ' · Mixly';
+    metaEl.textContent = pack.meta;
+    titleEl.textContent = pack.title;
+    leadEl.textContent = pack.lead;
+    contentEl.textContent = t(lang, 'article.comingSoon') || 'Coming soon';
+  }
+
+  function applyLocale(lang, persist) {
+    if (SUPPORTED.indexOf(lang) === -1) lang = 'en';
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    if (persist !== false) {
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e4) {}
+    }
+    applyMeta(lang);
+    applyNodes(lang);
+    syncSwitchers(lang);
+    renderArticle(lang);
+    document.dispatchEvent(new CustomEvent('mixly:locale', { detail: { lang: lang } }));
+  }
+
+  function closeAllMenus(except) {
+    document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
+      if (except && root === except) return;
+      root.classList.remove('is-open');
+      var menu = root.querySelector('.lang-switch-menu');
+      if (menu) menu.hidden = true;
+      var toggle = root.querySelector('.lang-switch-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function bindSwitchers() {
+    document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
+      if (root.getAttribute('data-bound') === '1') return;
+      root.setAttribute('data-bound', '1');
+      var toggle = root.querySelector('.lang-switch-toggle');
+      var menu = root.querySelector('.lang-switch-menu');
+      if (toggle && menu) {
+        toggle.addEventListener('click', function (event) {
+          event.stopPropagation();
+          var open = !root.classList.contains('is-open');
+          closeAllMenus();
+          if (open) {
+            root.classList.add('is-open');
+            menu.hidden = false;
+            toggle.setAttribute('aria-expanded', 'true');
+          }
+        });
+      }
+      root.querySelectorAll('[data-lang]').forEach(function (btn) {
+        btn.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          applyLocale(btn.getAttribute('data-lang'), true);
+          closeAllMenus();
+        });
+      });
+    });
+
+    document.addEventListener('click', function () { closeAllMenus(); });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeAllMenus();
+    });
+  }
+
+  function init() {
+    bindSwitchers();
+    applyLocale(detectLocale(), false);
+  }
+
+  window.MixlyI18n = {
+    detectLocale: detectLocale,
+    applyLocale: applyLocale,
+    renderArticle: renderArticle,
+    getLang: function () { return currentLang; },
+    t: function (key) { return t(currentLang, key); },
+    articles: ARTICLES,
+    strings: STRINGS
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

@@ -1,0 +1,6 @@
+# Optional nginx snippet for Mixly static hosting.
+# Include inside the server { } block that serves the website/ root.
+
+error_page 403 /403.html;
+error_page 404 /404.html;
+error_page 500 502 503 504 /500.html;
