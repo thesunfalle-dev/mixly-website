@@ -37,7 +37,7 @@ own configuration and agreement.
 | `store_click` | A visitor activates an App Store or Google Play link | `store` (`app_store` or `google_play`), `placement` |
 | `language_change` | A visitor selects a different display language | `from_locale`, `to_locale`, `placement` |
 | `blog_open` | A visitor opens the blog from a site link | `placement` |
-| `article_open` | A visitor opens a published article | `article_slug` only after the article system has stable public slugs |
+| `article_open` | A visitor opens a published article | `article_slug` from the validated public article slug |
 
 `placement` is limited to a controlled vocabulary maintained in code, such as
 `header`, `hero`, `footer`, `blog_card`, or `article_cta`.
