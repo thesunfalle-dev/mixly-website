@@ -1,0 +1,12 @@
+{
+  "name": "mixly-website",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check-site.mjs",
+    "check:external": "node scripts/check-site.mjs --external",
+    "check:release": "npm run check && npm run check:external"
+  },
+  "devDependencies": {
+    "wrangler": "^4.113.0"
+  }
+}

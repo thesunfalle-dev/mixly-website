@@ -3,6 +3,7 @@
 
   var DOC_META = {
     privacy: { file: 'privacy.html' },
+    cookies: { file: 'cookies.html' },
     terms: { file: 'terms.html' },
     eula: { file: 'eula.html' },
     support: { file: 'support.html' }

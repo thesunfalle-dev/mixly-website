@@ -47,11 +47,12 @@
     <link rel="stylesheet" href="./styles.css" />
     <script>
       try {
-        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
         if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          document.documentElement.classList.add('is-veiled', 'veil-instant', 'page-arrived', 'content-pending', 'hover-lock', 'scroll-pinned');
+          // The outgoing page already fades before navigation. Never hide the
+          // arriving page while assets decode — it makes the hero look broken.
+          document.documentElement.classList.add('page-arrived', 'hover-lock');
           window.scrollTo(0, 0);
-          window.setTimeout(() => document.documentElement.classList.remove('content-pending', 'is-veiled', 'veil-instant'), 3200);
           const folder = (() => {
             try {
               const stored = localStorage.getItem('mixly-lang');
@@ -72,8 +73,11 @@
         }
       } catch (_) {}
     </script>
+    <script src="https://browser.sentry-cdn.com/10.42.0/bundle.min.js" crossorigin="anonymous"></script>
+    <script src="./monitoring.js" defer></script>
     <script src="./page-nav.js" defer></script>
     <script src="./i18n.js" defer></script>
+    <script src="./analytics.js" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -93,9 +97,10 @@
         mixly
       </a>
       <nav data-i18n-aria="nav.mainAria">
-        <a href="#how-it-works" data-i18n="nav.how">Как это работает</a>
-        <a href="#premium" data-i18n="nav.premium">Premium</a>
-        <a href="#journal" data-i18n="nav.blog">Блог</a>
+        <a href="#how-it-works" data-i18n="nav.about">О приложении</a>
+        <a href="#features" data-i18n="nav.features">Возможности</a>
+        <a href="#changelog" data-i18n="nav.updates">Обновления</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
       </nav>
       <div class="header-actions">
         <button class="header-cta" type="button" data-download-open><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></button>
@@ -114,9 +119,10 @@
     </header>
     <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
       <nav data-i18n-aria="nav.mobileAria">
-        <a href="#how-it-works" data-i18n="nav.how">Как это работает</a>
-        <a href="#premium" data-i18n="nav.premium">Premium</a>
-        <a href="#journal" data-i18n="nav.blog">Блог</a>
+        <a href="#how-it-works" data-i18n="nav.about">О приложении</a>
+        <a href="#features" data-i18n="nav.features">Возможности</a>
+        <a href="#changelog" data-i18n="nav.updates">Обновления</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
       </nav>
       <div class="mobile-menu-socials">
         <p data-i18n="nav.socials">Соцсети</p>
@@ -170,10 +176,10 @@
 
         <div class="hero-phones reveal-item" data-i18n-aria="hero.phonesAria">
           <figure class="app-shot hero-shot hero-shot-back">
-            <img src="./images_for_web/RU/main_2.png" width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="async" />
+            <img width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="async" fetchpriority="high" />
           </figure>
           <figure class="app-shot hero-shot hero-shot-front">
-            <img src="./images_for_web/RU/main_1.png" width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="async" fetchpriority="high" />
+            <img width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="async" fetchpriority="high" />
           </figure>
         </div>
       </section>
@@ -219,7 +225,7 @@
         </ol>
       </section>
 
-      <section class="discovery section reveal" aria-labelledby="discovery-title">
+      <section class="discovery section reveal" id="features" aria-labelledby="discovery-title">
         <div class="discovery-copy">
           <p class="eyebrow" data-i18n="discovery.eyebrow">Открытия</p>
           <h2 id="discovery-title" data-i18n="discovery.title">Открывай больше, чем привычные сочетания</h2>
@@ -256,6 +262,58 @@
           <figure class="app-shot labs-shot">
             <img src="./images_for_web/RU/Lab.png" width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" />
           </figure>
+        </div>
+      </section>
+
+      <section class="changelog section reveal" id="changelog" aria-labelledby="changelog-title">
+        <div class="changelog-heading">
+          <div>
+            <p class="eyebrow" data-i18n="changelog.eyebrow">Что нового</p>
+            <h2 id="changelog-title" data-i18n="changelog.title">История обновлений Mixly</h2>
+          </div>
+          <p data-i18n="changelog.lead">Собрали изменения, которые делают поиск, сохранение и обмен миксами удобнее.</p>
+        </div>
+        <div class="changelog-list" data-i18n-aria="changelog.listAria">
+          <details class="changelog-release" open>
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v105.version">Версия 1.0.5</strong><span data-i18n="changelog.v105.summary">Быстрее начинай знакомство с Mixly.</span></span>
+              <time datetime="2026-07-14" data-i18n="changelog.v105.date">14 июля</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v105.1">Обновили онбординг, чтобы начать было проще и быстрее.</li><li data-i18n="changelog.v105.2">Улучшили навигацию онбординга, сохранение предпочтений и переходы между экранами.</li><li data-i18n="changelog.v105.3">Исправили мелкие ошибки и повысили стабильность приложения.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v104.version">Версия 1.0.4</strong><span data-i18n="changelog.v104.summary">Стало проще начать, открывать миксы и делиться ими.</span></span>
+              <time datetime="2026-07-13" data-i18n="changelog.v104.date">13 июля</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v104.1">Добавили создание профиля через «Войти с Apple».</li><li data-i18n="changelog.v104.2">Улучшили онбординг, чтобы быстрее настроить предпочтения.</li><li data-i18n="changelog.v104.3">Сделали персонализацию миксов точнее под твой вкус.</li><li data-i18n="changelog.v104.4">Обновили карточки для более наглядного обмена миксами.</li><li data-i18n="changelog.v104.5">Улучшили «Открытия»: миксы сообщества, реакции, отзывы и стабильность карточек.</li><li data-i18n="changelog.v104.6">Исправили ошибки и повысили общую стабильность приложения.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v103.version">Версия 1.0.3</strong><span data-i18n="changelog.v103.summary">Улучшили обмен, «Открытия» и стабильность.</span></span>
+              <time datetime="2026-06-10" data-i18n="changelog.v103.date">10 июня</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v103.1">Сделали карточки для обмена миксами понятнее и нагляднее.</li><li data-i18n="changelog.v103.2">Теперь карточками проще делиться с друзьями.</li><li data-i18n="changelog.v103.3">Добавили в «Открытия» миксы сообщества, реакции и отзывы.</li><li data-i18n="changelog.v103.4">Сделали карточки в «Открытиях» стабильнее и единообразнее.</li><li data-i18n="changelog.v103.5">Исправили ошибки и улучшили общую стабильность приложения.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v102.version">Версия 1.0.2</strong><span data-i18n="changelog.v102.summary">Открывать и делиться миксами стало проще.</span></span>
+              <time datetime="2026-05-29" data-i18n="changelog.v102.date">29 мая</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v102.1">Добавили «Открытия» — раздел с миксами сообщества, реакциями и отзывами.</li><li data-i18n="changelog.v102.2">Улучшили обмен миксами и диплинки, чтобы переходы по общим миксам работали плавнее.</li><li data-i18n="changelog.v102.3">Обновили инструменты Лаборатории для создания и управления своими миксами.</li><li data-i18n="changelog.v102.4">Улучшили названия, описания и локализацию миксов.</li><li data-i18n="changelog.v102.5">Исправили ошибки и повысили стабильность приложения.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v101.version">Версия 1.0.1</strong><span data-i18n="changelog.v101.summary">Новая функция: Лаборатория.</span></span>
+              <time datetime="2026-05-11" data-i18n="changelog.v101.date">11 мая</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v101.1">Добавили Лабораторию: создай домашнюю коллекцию табаков и сохраняй собственные миксы.</li><li data-i18n="changelog.v101.2">Улучшили стабильность и производительность приложения.</li></ul></div>
+          </details>
         </div>
       </section>
 
@@ -307,16 +365,16 @@
         <div class="testimonials-rail" data-i18n-aria="testimonials.railAria">
           <div class="testimonials-track">
             <div class="testimonials-group">
-              <article class="testimonial-card testimonial-card-violet"><header><span><strong>Мария</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
-              <article class="testimonial-card testimonial-card-lime"><header><span><strong>Денис</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
-              <article class="testimonial-card"><header><span><strong>Алексей</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
-              <article class="testimonial-card testimonial-card-peach"><header><span><strong>Елена</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Мария</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong data-i18n="testimonials.n2">Денис</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
+              <article class="testimonial-card"><header><span><strong data-i18n="testimonials.n3">Алексей</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong data-i18n="testimonials.n4">Елена</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
             </div>
             <div class="testimonials-group" aria-hidden="true">
-              <article class="testimonial-card testimonial-card-violet"><header><span><strong>Мария</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
-              <article class="testimonial-card testimonial-card-lime"><header><span><strong>Денис</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
-              <article class="testimonial-card"><header><span><strong>Алексей</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
-              <article class="testimonial-card testimonial-card-peach"><header><span><strong>Елена</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Мария</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong data-i18n="testimonials.n2">Денис</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
+              <article class="testimonial-card"><header><span><strong data-i18n="testimonials.n3">Алексей</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong data-i18n="testimonials.n4">Елена</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
             </div>
           </div>
         </div>
@@ -324,7 +382,7 @@
 
       <section class="premium section reveal" id="premium" aria-labelledby="premium-title">
         <div class="premium-copy">
-          <p class="eyebrow" data-i18n="premium.eyebrow">Mixly Premium</p>
+          <p class="eyebrow" data-i18n="premium.eyebrow">Больше Mixly</p>
           <h2 id="premium-title" data-i18n="premium.title">Больше возможностей внутри Mixly</h2>
           <p data-i18n="premium.lead">Собирай подборку под себя и возвращайся к новым сочетаниям, когда захочется попробовать что-то ещё.</p>
         </div>
@@ -345,8 +403,8 @@
           <p>Mixly app © 2026</p>
         </div>
         <div class="footer-links">
-          <div><p data-i18n="footer.app">Приложение</p><a href="#how-it-works" data-i18n="nav.how">Как это работает</a><a href="#premium" data-i18n="nav.premium">Premium</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
-          <div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div>
+          <div><p data-i18n="footer.app">Приложение</p><a href="#how-it-works" data-i18n="nav.about">О приложении</a><a href="#features" data-i18n="nav.features">Возможности</a><a href="#changelog" data-i18n="nav.updates">Обновления</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
+          <div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./cookies.html" data-i18n="footer.cookies">Cookies и аналитика</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div>
           <div><p data-i18n="footer.socials">Соцсети</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div>
         </div>
       </div>
@@ -360,38 +418,88 @@
       document.querySelectorAll('.reveal').forEach((section) => revealObserver.observe(section));
 
       const downloadDialog = document.querySelector('.download-dialog');
+      let downloadDialogOpener = null;
       document.querySelectorAll('[data-download-open]').forEach((button) =>
-        button.addEventListener('click', () => downloadDialog.showModal())
+        button.addEventListener('click', () => {
+          downloadDialogOpener = button;
+          downloadDialog.showModal();
+        })
       );
       document.querySelector('[data-download-close]').addEventListener('click', () => downloadDialog.close());
       downloadDialog.addEventListener('click', (event) => {
         if (event.target === downloadDialog) downloadDialog.close();
       });
-
-      const siteHeader = document.querySelector('.site-header');
-      let previousScrollY = window.scrollY;
-      let headerFramePending = false;
-
-      const updateHeaderVisibility = () => {
-        const currentScrollY = window.scrollY;
-        const scrollingDown = currentScrollY > previousScrollY + 4;
-        const scrollingUp = currentScrollY < previousScrollY - 4;
-
-        if (currentScrollY < 80 || scrollingUp) siteHeader.classList.remove('is-hidden');
-        if (currentScrollY > 80 && scrollingDown) siteHeader.classList.add('is-hidden');
-
-        previousScrollY = currentScrollY;
-        headerFramePending = false;
-      };
-
-      window.addEventListener('scroll', () => {
-        if (!headerFramePending) {
-          headerFramePending = true;
-          requestAnimationFrame(updateHeaderVisibility);
-        }
-      }, { passive: true });
+      downloadDialog.addEventListener('close', () => {
+        downloadDialogOpener?.focus();
+        downloadDialogOpener = null;
+      });
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      document.querySelectorAll('.changelog-release').forEach((release) => {
+        const summary = release.querySelector('summary');
+        const body = release.querySelector('.changelog-release-body');
+        const transitionMs = 420;
+        const easing = 'cubic-bezier(.16, 1, .3, 1)';
+
+        const finish = () => {
+          body.style.height = '';
+          body.style.opacity = '';
+          body.style.transform = '';
+          release.classList.remove('is-closing');
+          delete release.dataset.transitioning;
+        };
+
+        summary.addEventListener('click', (event) => {
+          event.preventDefault();
+          if (release.dataset.transitioning === 'true') return;
+
+          release.dataset.transitioning = 'true';
+          if (reduceMotion || !body.animate) {
+            release.open = !release.open;
+            finish();
+            return;
+          }
+
+          if (release.open) {
+            const height = body.getBoundingClientRect().height;
+            release.classList.add('is-closing');
+            body.style.height = `${height}px`;
+            body.style.opacity = '1';
+            body.style.transform = 'translateY(0)';
+            requestAnimationFrame(() => {
+              const animation = body.animate(
+                [
+                  { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
+                  { height: '0px', opacity: 0, transform: 'translateY(-10px)' },
+                ],
+                { duration: transitionMs, easing, fill: 'forwards' }
+              );
+              animation.onfinish = () => {
+              release.open = false;
+                finish();
+              };
+            });
+          } else {
+            release.open = true;
+            body.style.height = '0px';
+            body.style.opacity = '0';
+            body.style.transform = 'translateY(-10px)';
+            requestAnimationFrame(() => {
+              const height = body.scrollHeight;
+              const animation = body.animate(
+                [
+                  { height: '0px', opacity: 0, transform: 'translateY(-10px)' },
+                  { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
+                ],
+                { duration: transitionMs, easing, fill: 'forwards' }
+              );
+              animation.onfinish = finish;
+            });
+          }
+        });
+      });
+
       const testimonialsRail = document.querySelector('.testimonials-rail');
       const testimonialsTrack = testimonialsRail?.querySelector('.testimonials-track');
 
