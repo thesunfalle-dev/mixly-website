@@ -11,9 +11,16 @@ const errors = [];
 const checkExternal = process.argv.includes('--external');
 const externalUrls = new Set();
 
-const files = readdirSync(root)
-  .filter((file) => extname(file) === '.html')
-  .sort();
+function listHtmlFiles(directory, prefix = '') {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const relative = `${prefix}${entry.name}`;
+    if (entry.isDirectory() && !['node_modules', '.git'].includes(entry.name)) {
+      return listHtmlFiles(resolve(directory, entry.name), `${relative}/`);
+    }
+    return entry.isFile() && extname(entry.name) === '.html' ? [relative] : [];
+  });
+}
+const files = listHtmlFiles(root).sort();
 const pages = new Map(files.map((file) => [file, readFileSync(resolve(root, file), 'utf8')]));
 
 const i18nSource = readFileSync(resolve(root, 'i18n.js'), 'utf8');
@@ -78,7 +85,8 @@ for (const [file, source] of pages) {
     if (/^\/\//.test(link) || /^(?:data|mailto|tel|javascript):/i.test(link)) continue;
 
     const target = new URL(link, `${publicOrigin}/${file}`);
-    const targetFile = localFileFor(target);
+    let targetFile = localFileFor(target);
+    if (!pages.has(targetFile) && pages.has(`${targetFile}/index.html`)) targetFile = `${targetFile}/index.html`;
     if (!pages.has(targetFile) && !existsSync(resolve(root, targetFile))) {
       report(file, `local link does not exist: ${link}`);
       continue;
@@ -107,8 +115,11 @@ for (const [file, source] of pages) {
   if (!noindex) {
     const canonical = source.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
     if (!canonical) report(file, 'missing canonical URL');
-    else if (canonical !== `${publicOrigin}/${file === 'index.html' ? '' : file}`) {
-      report(file, `canonical does not match its public URL: ${canonical}`);
+    else {
+      const expectedPath = file === 'index.html' ? '' : file.endsWith('/index.html') ? file.slice(0, -'/index.html'.length) : file;
+      if (canonical !== `${publicOrigin}/${expectedPath}`) {
+        report(file, `canonical does not match its public URL: ${canonical}`);
+      }
     }
   }
 }
@@ -147,7 +158,8 @@ for (const location of [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match)
     report('sitemap.xml', `URL uses an unexpected origin: ${location}`);
     continue;
   }
-  const targetFile = localFileFor(new URL(location));
+  let targetFile = localFileFor(new URL(location));
+  if (!pages.has(targetFile) && pages.has(`${targetFile}/index.html`)) targetFile = `${targetFile}/index.html`;
   if (!pages.has(targetFile)) report('sitemap.xml', `URL does not point to a page: ${location}`);
   if (['article.html', '403.html', '404.html', '500.html'].includes(targetFile)) {
     report('sitemap.xml', `non-indexable page is included: ${location}`);

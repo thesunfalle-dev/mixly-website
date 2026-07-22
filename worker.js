@@ -9,7 +9,16 @@ const SECURITY_HEADERS = {
 
 export default {
   async fetch(request, env) {
-    const response = await env.ASSETS.fetch(request);
+    const url = new URL(request.url);
+    const articlePaths = {
+      '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana': '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
+      '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',
+      '/de/blog/wie-man-shisha-tabak-richtig-mischt': '/de/blog/wie-man-shisha-tabak-richtig-mischt/index.html',
+    };
+    const assetRequest = articlePaths[url.pathname]
+      ? new Request(new URL(articlePaths[url.pathname], url), request)
+      : request;
+    const response = await env.ASSETS.fetch(assetRequest);
     const headers = new Headers(response.headers);
 
     for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
