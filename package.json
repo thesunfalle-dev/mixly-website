@@ -7,6 +7,8 @@
     "generate:legal": "node scripts/render-legal.mjs",
     "generate:article-shell": "node scripts/render-static-article-shell.mjs",
     "generate:article-seo": "node scripts/enrich-article-seo.mjs",
+    "optimize:blog-images": "node scripts/optimize-blog-images.mjs",
+    "qa:smoke": "node scripts/qa-smoke.mjs",
     "check:external": "node scripts/check-site.mjs --external",
     "check:release": "npm run check && npm run check:external"
   },

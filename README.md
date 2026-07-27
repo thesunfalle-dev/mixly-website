@@ -39,9 +39,10 @@ cd website && python3 -m http.server 4173
 
 ```sh
 npm run check
+npm run qa:smoke                 # smoke production routes (MIX-16)
 ```
 
-`npm run check` проверяет локальные ссылки и якоря, наличие ключей во всех словарях RU / EN / DE, canonical URL и состав sitemap. `npm run check:external` дополнительно проверяет финальный HTTP-ответ внешних ссылок. `npm run check:release` запускает оба шага; его ненулевой код завершения должен останавливать production deployment.
+`npm run check` проверяет локальные ссылки и якоря, наличие ключей во всех словарях RU / EN / DE, canonical URL и состав sitemap. `npm run check:external` дополнительно проверяет финальный HTTP-ответ внешних ссылок. `npm run check:release` запускает оба шага; его ненулевой код завершения должен останавливать production deployment. Launch checklist: `docs/launch-checklist.md`. Performance notes: `docs/performance-notes.md`.
 
 ## Публикация
 

@@ -31,6 +31,16 @@ export default {
       headers.set(name, value);
     }
 
+    const pathname = new URL(request.url).pathname;
+    // Long-cache fingerprinted-like static media/fonts; keep HTML revalidatable.
+    if (/\.(?:webp|png|jpe?g|gif|svg|woff2|ico)$/i.test(pathname)) {
+      headers.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
+    } else if (/\.(?:css|js)$/i.test(pathname)) {
+      headers.set('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+    } else if (/\.html?$/i.test(pathname) || pathname === '/' || !pathname.includes('.')) {
+      headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    }
+
     if (new URL(request.url).hostname.endsWith('.workers.dev')) {
       headers.set('X-Robots-Tag', 'noindex, nofollow');
     }

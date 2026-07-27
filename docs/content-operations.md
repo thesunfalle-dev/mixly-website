@@ -64,7 +64,7 @@ Cloudflare хранит предыдущие Worker versions — это rollback
 # посмотреть файл из известного commit
 git show HEAD:en/blog/how-to-mix-hookah-tobacco/index.html | head
 # восстановить один asset в отдельной ветке
-git restore --source HEAD~1 -- assets/blog/kak-pravilno-smeshivat-tabak-hero.png
+git restore --source HEAD~1 -- assets/blog/kak-pravilno-smeshivat-tabak-hero.webp
 npm run check
 ```
 

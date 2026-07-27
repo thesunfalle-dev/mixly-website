@@ -370,6 +370,21 @@ for (const file of localizedArticles) {
   if (/<!doctype html>\s*<script/i.test(source)) {
     report(file, 'scripts must not appear before the root <html> element');
   }
+  if (/assets\/blog\/kak-pravilno-smeshivat-tabak-[^"']+\.png/.test(source)) {
+    report(file, 'article cluster images must use optimized WebP assets, not multi‑MB PNG');
+  }
+}
+
+for (const name of [
+  'assets/blog/kak-pravilno-smeshivat-tabak-hero.webp',
+  'assets/blog/kak-pravilno-smeshivat-tabak-pairings.webp',
+  'assets/blog/kak-pravilno-smeshivat-tabak-proportions.webp',
+]) {
+  if (!existsSync(resolve(root, name))) report(name, 'optimized WebP asset is missing');
+}
+
+if (!/Cache-Control/.test(readFileSync(resolve(root, 'worker.js'), 'utf8'))) {
+  report('worker.js', 'must set Cache-Control for static assets and HTML');
 }
 
 if (errors.length) {

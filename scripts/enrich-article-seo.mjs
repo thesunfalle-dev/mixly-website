@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://get-mixly.app';
-const defaultImage = `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.png`;
+const defaultImage = `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.webp`;
 
 const CLUSTERS = [
   {
@@ -32,7 +32,7 @@ const CLUSTERS = [
       en: 'How to mix hookah tobacco: simple ratios, flavor pairings, beginner tips, and common mistakes.',
       de: 'Shisha-Tabak richtig mischen: einfache Verhältnisse, Geschmackskombinationen, Tipps für Einsteiger und typische Fehler.',
     },
-    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.png`,
+    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.webp`,
   },
   {
     id: 'mix-ratios',
@@ -51,7 +51,7 @@ const CLUSTERS = [
       en: 'How to mix hookah tobacco in the right ratio: simple 50/50, 70/30, 80/20 and three-flavor examples.',
       de: 'Shisha-Tabak richtig mischen: einfache Verhältnisse wie 50/50, 70/30, 80/20 und drei Aromen.',
     },
-    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-proportions.png`,
+    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-proportions.webp`,
   },
   {
     id: 'mix-flavors',
