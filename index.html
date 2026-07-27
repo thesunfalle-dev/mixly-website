@@ -34,6 +34,13 @@
     <script>
       try {
         const initialLocale = (() => {
+          // URL is the source of truth for the open page (matches MixlyI18n.detectLocale).
+          try {
+            const pathMatch = String(location.pathname || '').match(/^\/(en|de|ru)(?=\/|$)/);
+            if (pathMatch) return pathMatch[1];
+            // Unprefixed public routes are RU.
+            if (!/^\/(en|de)(?=\/|$)/.test(location.pathname || '')) return 'ru';
+          } catch (_) {}
           try {
             const stored = localStorage.getItem('mixly-lang');
             if (stored === 'ru' || stored === 'en' || stored === 'de') return stored;

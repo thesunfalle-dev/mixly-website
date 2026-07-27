@@ -7,6 +7,7 @@
     "generate:legal": "node scripts/render-legal.mjs",
     "generate:article-shell": "node scripts/render-static-article-shell.mjs",
     "generate:article-seo": "node scripts/enrich-article-seo.mjs",
+    "generate:article-meta": "node scripts/update-article-meta.mjs",
     "generate:locale-routes": "node scripts/render-locale-routes.mjs",
     "optimize:blog-images": "node scripts/optimize-blog-images.mjs",
     "qa:smoke": "node scripts/qa-smoke.mjs",

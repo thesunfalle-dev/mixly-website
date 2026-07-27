@@ -275,6 +275,34 @@ for (const file of ['index.html', 'blog.html']) {
   }
 }
 
+// URL is the source of truth: unprefixed routes are RU, never localStorage-first.
+if (!/return 'ru'/.test(i18nSource) || !/Unprefixed public routes are the RU locale/.test(i18nSource)) {
+  report('i18n.js', 'localeFromPath must treat unprefixed public routes as RU (URL over localStorage)');
+}
+if (/function detectLocale\(\) \{[\s\S]*?localStorage\.getItem\(STORAGE_KEY\)/.test(i18nSource)
+  && !/function preferredLocale\(\)/.test(i18nSource)) {
+  report('i18n.js', 'detectLocale must not prefer localStorage over the open URL');
+}
+
+const blogLeadForbidden = [
+  'Скоро здесь появятся',
+  'Coming soon',
+  'are coming soon',
+  'Bald erscheinen',
+];
+for (const file of ['blog.html', 'en/blog.html', 'de/blog.html']) {
+  const source = pages.get(file) || '';
+  for (const phrase of blogLeadForbidden) {
+    if (source.includes(phrase)) report(file, `blog lead still looks empty/upcoming: ${phrase}`);
+  }
+  if (!/data-i18n="blog\.page\.lead"/.test(source)) {
+    report(file, 'blog page must keep a localized lead paragraph');
+  }
+}
+if ((dictionaries.ru['blog.page.lead'] || '').includes('Скоро')) {
+  report('i18n.js', 'RU blog.page.lead must not imply the blog is empty');
+}
+
 for (const file of files.filter((file) => /^(ru|en|de)\/blog\//.test(file))) {
   const source = pages.get(file);
   if (!source.includes('/article-toc.js')) report(file, 'localized article must load the shared article runtime');
@@ -283,6 +311,45 @@ for (const file of files.filter((file) => /^(ru|en|de)\/blog\//.test(file))) {
   if (!source.includes('data-shell-static="true"')) report(file, 'localized article must include the shared header before scripts run');
   if (!source.includes('class="article-related"')) report(file, 'localized article must include related articles before scripts run');
   if (!source.includes('class="footer-main"')) report(file, 'localized article must include the full footer before scripts run');
+  if (!source.includes('data-premium-block')) {
+    report(file, 'article must include More Mixly promo in initial HTML');
+  }
+  if (!source.includes('data-reading-minutes=')) {
+    report(file, 'article meta must expose build-time reading minutes derived from body text');
+  } else {
+    const minutes = Number(source.match(/data-reading-minutes="(\d+)"/)?.[1] || 0);
+    const words = Number(source.match(/data-reading-words="(\d+)"/)?.[1] || 0);
+    const bodyMatch = source.match(/class="article-page-content">([\s\S]*?)<\/div>\s*<section class="article-related"/);
+    if (!bodyMatch) {
+      report(file, 'could not isolate article body for reading-time verification');
+    } else {
+      const text = bodyMatch[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      const counted = text.split(/\s+/).filter(Boolean).length;
+      if (Math.abs(counted - words) > 2) {
+        report(file, `reading-time word count mismatch (stored ${words}, body ${counted})`);
+      }
+      const lang = file.slice(0, 2);
+      const wpm = lang === 'en' ? 210 : 190;
+      const expected = Math.max(1, Math.round(counted / wpm));
+      if (minutes !== expected) {
+        report(file, `reading minutes ${minutes} do not match body word count (${counted} words → ${expected} min)`);
+      }
+    }
+  }
+  // Related cards must stay in the same locale and never include the current path.
+  const selfPath = `/${file.replace(/\/index\.html$/, '')}`;
+  const relatedBlock = source.match(/class="article-related"[\s\S]*?<\/section>/)?.[0] || '';
+  if (relatedBlock.includes(selfPath)) {
+    report(file, 'related articles must not include the current article');
+  }
+  if (/article\.html\?slug=/.test(relatedBlock)) {
+    report(file, 'related articles must not use query-based article URLs');
+  }
+  const lang = file.slice(0, 2);
+  const wrongLocale = lang === 'ru' ? /href="\/(?:en|de)\// : lang === 'en' ? /href="\/(?:ru|de)\// : /href="\/(?:ru|en)\//;
+  if (wrongLocale.test(relatedBlock)) {
+    report(file, 'related articles must not mix locales');
+  }
 }
 if (!existsSync(resolve(root, 'static-article-shell.js'))) report('static-article-shell.js', 'shared static article shell is missing');
 if (!readFileSync(resolve(root, 'static-article-shell.js'), 'utf8').includes('window.MixlyArticleShell')) {

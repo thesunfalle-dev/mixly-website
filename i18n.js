@@ -181,7 +181,7 @@ var STRINGS = {
     "blog.back": "На главную",
     "blog.page.eyebrow": "Блог Mixly",
     "blog.page.title": "Идеи, к которым хочется возвращаться",
-    "blog.page.lead": "Скоро здесь появятся заметки о вкусах, сочетаниях и привычках.",
+    "blog.page.lead": "Практичные материалы о вкусах, сочетаниях и приготовлении миксов.",
     "blog.filterAria": "Фильтр статей",
     "blog.filter.all": "Все",
     "blog.filter.tastes": "Вкусы",
@@ -374,7 +374,7 @@ var STRINGS = {
     "blog.back": "Home",
     "blog.page.eyebrow": "Mixly Blog",
     "blog.page.title": "Ideas you’ll want to return to",
-    "blog.page.lead": "Notes on flavors, mixes, and habits are coming soon.",
+    "blog.page.lead": "Practical notes on flavors, pairings, and how to build better mixes.",
     "blog.filterAria": "Article filter",
     "blog.filter.all": "All",
     "blog.filter.tastes": "Tastes",
@@ -567,7 +567,7 @@ var STRINGS = {
     "blog.back": "Zur Startseite",
     "blog.page.eyebrow": "Mixly Blog",
     "blog.page.title": "Ideen, zu denen man zurückkehrt",
-    "blog.page.lead": "Bald erscheinen hier Notizen über Aromen, Kombis und Gewohnheiten.",
+    "blog.page.lead": "Praktische Texte zu Aromen, Kombinationen und gelungenen Mischungen.",
     "blog.filterAria": "Artikelfilter",
     "blog.filter.all": "Alle",
     "blog.filter.tastes": "Geschmack",
@@ -679,7 +679,10 @@ var ARTICLES = {
   function localeFromPath(pathname) {
     var path = normalizePathname(pathname || location.pathname);
     var match = path.match(/^\/(ru|en|de)(?=\/|$)/);
-    return match ? match[1] : null;
+    if (match) return match[1];
+    // Unprefixed public routes are the RU locale (/, /blog, /privacy, …).
+    // Do not fall back to localStorage for these — URL is the source of truth.
+    return 'ru';
   }
 
   function pathForLocale(lang, pathname) {
@@ -728,8 +731,11 @@ var ARTICLES = {
   }
 
   function detectLocale() {
-    var fromPath = localeFromPath(location.pathname);
-    if (fromPath) return fromPath;
+    // Path always wins once a public page is open.
+    return localeFromPath(location.pathname) || 'ru';
+  }
+
+  function preferredLocale() {
     try {
       var stored = localStorage.getItem(STORAGE_KEY);
       if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
@@ -942,18 +948,22 @@ var ARTICLES = {
         });
       }
       function chooseLocale(nextLang) {
-        var nextPath = pathForLocale(nextLang, location.pathname);
+        // Language switch should land on the matching page at the top, not keep an old section hash.
+        var nextPath = pathForLocale(nextLang, location.pathname).replace(/#.*$/, '');
         try { localStorage.setItem(STORAGE_KEY, nextLang); } catch (ePersist) {}
-        var current = normalizePathname(location.pathname) + location.search + location.hash;
-        if (current !== nextPath) {
+        var current = normalizePathname(location.pathname) + location.search;
+        var nextNoHash = nextPath.split('#')[0];
+        if (current !== nextNoHash) {
+          var target = new URL(nextNoHash, location.origin);
           if (window.MixlyPageNav && typeof window.MixlyPageNav.navigate === 'function') {
-            window.MixlyPageNav.navigate(new URL(nextPath, location.origin));
+            window.MixlyPageNav.navigate(target);
           } else {
-            location.assign(nextPath);
+            location.assign(target.pathname + target.search);
           }
           return;
         }
         applyLocale(nextLang, true);
+        window.scrollTo(0, 0);
       }
 
       root.querySelectorAll('[data-lang]').forEach(function (btn) {
@@ -1003,6 +1013,7 @@ var ARTICLES = {
 
   window.MixlyI18n = {
     detectLocale: detectLocale,
+    preferredLocale: preferredLocale,
     applyLocale: applyLocale,
     bindSwitchers: bindSwitchers,
     pathForLocale: pathForLocale,
