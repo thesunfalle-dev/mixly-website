@@ -85,6 +85,8 @@
       toc.style.maxHeight = '';
       toc.style.overflowY = '';
       toc.style.bottom = '';
+      toc.style.visibility = '';
+      toc.style.pointerEvents = '';
       if (spacer && spacer.isConnected) {
         spacer.style.display = 'none';
         spacer.style.height = '';
@@ -93,6 +95,8 @@
     };
 
     const measureColumn = () => {
+      toc.style.visibility = '';
+      toc.style.pointerEvents = '';
       toc.style.position = 'static';
       toc.style.top = '';
       toc.style.left = '';
@@ -118,38 +122,44 @@
         return;
       }
 
-      const footer = document.querySelector('.site-footer');
-      const layout = document.querySelector('.article-layout');
-      const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
-      const layoutBottom = layout ? layout.getBoundingClientRect().bottom : footerTop;
-      // Also respect related/premium blocks after the article layout.
-      const related = document.querySelector('.article-related, [data-premium-block]');
-      const relatedTop = related ? related.getBoundingClientRect().top : footerTop;
-      const stopLine = Math.min(footerTop, layoutBottom, relatedTop) - edgeGap;
+      // Pin only while the main article body is on screen. Related / premium /
+      // footer must not keep a floating TOC (and must not leave a clipped strip).
+      const content = document.querySelector('.article-page-content');
+      const contentBottom = content
+        ? content.getBoundingClientRect().bottom
+        : window.innerHeight;
+      const stopLine = contentBottom - edgeGap;
+      const minUseful = 180;
+      const available = stopLine - pinTop;
 
+      if (available < minUseful) {
+        toc.style.position = 'fixed';
+        toc.style.left = `${pinnedLeft}px`;
+        toc.style.width = `${pinnedWidth}px`;
+        toc.style.top = `${pinTop}px`;
+        toc.style.maxHeight = '';
+        toc.style.visibility = 'hidden';
+        toc.style.pointerEvents = 'none';
+        return;
+      }
+
+      const viewportCap = Math.max(minUseful, window.innerHeight - pinTop - edgeGap);
+      const maxHeight = Math.min(viewportCap, available);
+
+      toc.style.visibility = '';
+      toc.style.pointerEvents = '';
       toc.style.position = 'fixed';
       toc.style.left = `${pinnedLeft}px`;
       toc.style.width = `${pinnedWidth}px`;
+      toc.style.top = `${pinTop}px`;
       toc.style.bottom = 'auto';
       toc.style.overflowY = 'auto';
-
-      const viewportCap = Math.max(120, window.innerHeight - pinTop - edgeGap);
-      toc.style.maxHeight = `${viewportCap}px`;
-      let tocHeight = toc.getBoundingClientRect().height || toc.offsetHeight;
-
-      let top = pinTop;
-      if (top + tocHeight > stopLine) {
-        top = stopLine - tocHeight;
+      toc.style.maxHeight = `${Math.round(maxHeight)}px`;
+      // Avoid a mid-list "window" when height shrinks near the end of the article.
+      if (toc.scrollHeight > toc.clientHeight + 1) {
+        const maxScroll = Math.max(0, toc.scrollHeight - toc.clientHeight);
+        if (toc.scrollTop > maxScroll) toc.scrollTop = maxScroll;
       }
-      if (top < edgeGap) {
-        top = edgeGap;
-        const tightCap = Math.max(80, stopLine - top);
-        toc.style.maxHeight = `${tightCap}px`;
-        tocHeight = toc.getBoundingClientRect().height || toc.offsetHeight;
-        top = Math.min(pinTop, stopLine - tocHeight);
-        if (top < edgeGap) top = edgeGap;
-      }
-      toc.style.top = `${Math.round(top)}px`;
     };
 
     const syncLayout = () => {
