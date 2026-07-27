@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Find hookah mixes by brand, flavor, and preferred strength — then save ideas and create your own."
+    />
+    <meta name="theme-color" content="#29282B" />
+    <meta property="og:title" content="Mixly: fresh ideas for your next hookah mix" />
+    <meta
+      property="og:description"
+      content="Find mixes that suit your taste, save favorites, and create your own recipes."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://get-mixly.app/assets/mixly-app-icon.png" />
+    <meta property="og:url" content="https://get-mixly.app/en/" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://get-mixly.app/en/" /><link rel="alternate" hreflang="ru" href="https://get-mixly.app/"><link rel="alternate" hreflang="en" href="https://get-mixly.app/en/"><link rel="alternate" hreflang="de" href="https://get-mixly.app/de/"><link rel="alternate" hreflang="x-default" href="https://get-mixly.app/en/">
+    <title>Mixly: fresh ideas for your next hookah mix</title>
+    <style>
+      html { background: #29282b; }
+    </style>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="/styles.css" /><link rel="expect" href="#content">
+    <link rel="preload" href="/assets/Montserrat_400Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_600SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_700Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/i18n.js" as="script" fetchpriority="high" />
+    <script>
+      try {
+        const initialLocale = (() => {
+          try {
+            const stored = localStorage.getItem('mixly-lang');
+            if (stored === 'ru' || stored === 'en' || stored === 'de') return stored;
+          } catch (_) {}
+          const languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          for (const language of languages) {
+            const code = String(language || '').toLowerCase();
+            if (code.indexOf('ru') === 0) return 'ru';
+            if (code.indexOf('de') === 0) return 'de';
+          }
+          return 'en';
+        })();
+        window.__mixlyInitialLocale = initialLocale;
+        window.__mixlySetLocalizedImage = (image) => {
+          const files = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.png', 'shot.lab': 'Lab.png' };
+          const file = files[image && image.getAttribute('data-i18n-src')];
+          if (file) image.src = `./images_for_web/${initialLocale.toUpperCase()}/${file}`;
+        };
+        const imageFolder = initialLocale.toUpperCase();
+        [`./images_for_web/${imageFolder}/main_1.webp`, `./images_for_web/${imageFolder}/main_2.webp`].forEach((href) => {
+          const preload = document.createElement('link');
+          preload.rel = 'preload';
+          preload.as = 'image';
+          preload.href = href;
+          document.head.appendChild(preload);
+        });
+
+        if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+      } catch (_) {}
+    </script>
+    <script src="/monitoring.js" defer></script>
+    <script src="/page-nav.js" defer></script>
+    <script src="/premium-block.js" defer></script>
+    <script src="/analytics.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://get-mixly.app/#organization",
+            "name": "Mixly",
+            "url": "https://get-mixly.app/",
+            "logo": "https://get-mixly.app/assets/mixly-app-icon.png",
+            "sameAs": [
+              "https://apps.apple.com/app/id6762792005",
+              "https://www.instagram.com/get_mixly/",
+              "https://www.threads.com/@get_mixly"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://get-mixly.app/#website",
+            "url": "https://get-mixly.app/",
+            "name": "Mixly",
+            "description": "Mixly — hookah / shisha mix app: find, save and build flavor combinations.",
+            "publisher": { "@id": "https://get-mixly.app/#organization" },
+            "inLanguage": ["ru", "en", "de"]
+          },
+          {
+            "@type": "MobileApplication",
+            "@id": "https://get-mixly.app/#app",
+            "name": "Mixly",
+            "url": "https://get-mixly.app/",
+            "downloadUrl": "https://apps.apple.com/app/id6762792005",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "iOS",
+            "description": "Mixly hookah mix app: discover shisha flavor combinations, save mixes and build your own recipes.",
+            "image": "https://get-mixly.app/assets/mixly-app-icon.png",
+            "publisher": { "@id": "https://get-mixly.app/#organization" },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand brand-app" href="/en/" data-i18n-aria="brand.homeAria" aria-label="Mixly, go to home">
+        mixly
+      </a>
+      <nav data-i18n-aria="nav.mainAria" aria-label="Primary navigation">
+        <a href="#how-it-works" data-i18n="nav.about">About the app</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#changelog" data-i18n="nav.updates">Updates</a>
+        <a href="/en/blog.html" data-i18n="nav.blog">Blog</a>
+      </nav>
+      <div class="header-actions">
+        <button class="header-cta" type="button" data-download-open><span class="cta-full" data-i18n="nav.download">Download on the App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></button>
+        <div class="lang-switch" data-lang-switch>
+          <button type="button" class="lang-switch-toggle" aria-expanded="false" data-i18n-aria="lang.label" aria-label="Language">EN</button>
+          <ul class="lang-switch-menu" hidden role="radiogroup" data-i18n-aria="lang.label" aria-label="Language">
+            <li><button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button></li>
+            <li><button type="button" data-lang="en" role="radio" aria-checked="true">EN</button></li>
+            <li><button type="button" data-lang="de" role="radio" aria-checked="false">DE</button></li>
+          </ul>
+        </div>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true" aria-label="Site menu">
+      <nav data-i18n-aria="nav.mobileAria" aria-label="Mobile navigation">
+        <a href="#how-it-works" data-i18n="nav.about">About the app</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#changelog" data-i18n="nav.updates">Updates</a>
+        <a href="/en/blog.html" data-i18n="nav.blog">Blog</a>
+      </nav>
+      <div class="mobile-menu-socials">
+        <p data-i18n="nav.socials">Social media</p>
+        <div class="mobile-menu-social-links">
+          <a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a>
+          <a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a>
+        </div>
+      </div>
+      <div class="mobile-menu-lang">
+        <div class="lang-switch lang-switch-mobile" data-lang-switch>
+          <div class="lang-switch-segment" role="radiogroup" data-i18n-aria="lang.label" aria-label="Language">
+            <button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button>
+            <button type="button" data-lang="en" role="radio" aria-checked="true">EN</button>
+            <button type="button" data-lang="de" role="radio" aria-checked="false">DE</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <dialog class="download-dialog" aria-labelledby="download-dialog-title">
+      <button class="dialog-close" type="button" data-i18n-aria="dialog.close" data-download-close aria-label="Close">×</button>
+      <div class="dialog-icon"><img src="/assets/mixly-app-icon.png" width="56" height="56" alt="Mixly app icon" /></div>
+      <p class="eyebrow" data-i18n="dialog.eyebrow">Download Mixly</p>
+      <h2 id="download-dialog-title" data-i18n="dialog.title">Open Mixly on your phone</h2>
+      <p class="dialog-copy" data-i18n="dialog.copy">Point your camera at the QR code or open the app store directly.</p>
+      <div class="qr-options">
+        <a class="qr-option" href="https://apps.apple.com/app/id6762792005" rel="noopener">
+          <img src="/assets/qr-ios.svg" data-i18n-alt="dialog.qrAlt" alt="QR code to download Mixly from the App Store" />
+          <span><small data-i18n="dialog.qrSmall">Download on the</small>App Store</span>
+        </a>
+      </div>
+    </dialog>
+    <main id="content">
+      <section class="hero reveal" aria-labelledby="hero-title">
+        <div class="hero-orbits" aria-hidden="true">
+          <i class="hero-orbit hero-orbit-pink"></i>
+          <i class="hero-orbit hero-orbit-purple"></i>
+          <i class="hero-orbit hero-orbit-lime"></i>
+          <i class="hero-orbit hero-orbit-peach"></i>
+        </div>
+        <div class="hero-copy reveal-item">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Your guide to better mixes</p>
+          <h1 id="hero-title" data-i18n="hero.title">Ideas for your next hookah mix</h1>
+          <p class="hero-text" data-i18n="hero.text">Mixly finds mixes by your favorite brands, flavors, and preferred strength. Save the ones you like and discover what to try next.</p>
+          <div class="hero-actions">
+            <a class="button button-primary hero-download" href="https://apps.apple.com/app/id6762792005" rel="noopener"><svg class="hero-download-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M16.37 12.31c-.03-2.28 1.86-3.39 1.94-3.44-1.06-1.55-2.7-1.76-3.28-1.78-1.38-.15-2.72.83-3.43.83-.72 0-1.8-.82-2.97-.79-1.51.02-2.93.9-3.71 2.25-1.62 2.8-.41 6.91 1.14 9.18.78 1.11 1.69 2.35 2.88 2.3 1.16-.05 1.59-.74 2.99-.74 1.38 0 1.78.74 3 .71 1.25-.02 2.04-1.12 2.79-2.24.91-1.28 1.27-2.54 1.29-2.61-.03-.01-2.44-.93-2.46-3.97ZM14.14 5.68c.63-.79 1.06-1.87.94-2.96-.91.04-2.05.63-2.71 1.4-.59.68-1.11 1.8-.98 2.85 1.02.08 2.07-.52 2.75-1.29Z"/></svg><span data-i18n="hero.download">Download on the App Store</span></a>
+          </div>
+        </div>
+
+        <div class="hero-phones reveal-item" data-i18n-aria="hero.phonesAria" aria-label="Mixly app screens">
+          <figure class="app-shot hero-shot hero-shot-back">
+            <img width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Discovery screen in the Mixly app" decoding="sync" fetchpriority="high" src="/images_for_web/EN/main_2.webp">
+          </figure>
+          <figure class="app-shot hero-shot hero-shot-front">
+            <img width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Mixly home screen with a mix card" decoding="sync" fetchpriority="high" src="/images_for_web/EN/main_1.webp">
+          </figure>
+        </div>
+        <script>
+          (function () {
+            document.querySelectorAll('.hero [data-i18n-src]').forEach(function (image) {
+              window.__mixlySetLocalizedImage(image);
+            });
+          })();
+        </script>
+      </section>
+
+      <section class="intro section reveal" id="how-it-works" aria-labelledby="intro-title">
+        <div class="intro-copy">
+          <div>
+            <p class="eyebrow" data-i18n="intro.eyebrow">More than a catalog</p>
+            <h2 id="intro-title" data-i18n="intro.title">From the flavor you want today to your next favorite mix</h2>
+          </div>
+          <p class="section-lead" data-i18n="intro.lead">Mixly turns your preferences into a clear path to the next mix that feels right.</p>
+        </div>
+        <div class="intro-features" data-i18n-aria="intro.featuresAria" aria-label="Mixly features">
+          <article class="intro-feature">
+          <p class="feature-number">01</p>
+          <h3 data-i18n="intro.f1.title">Find mixes that fit</h3>
+          <p data-i18n="intro.f1.body">Choose your favorite brands, categories, flavors, and strength. Mixly makes each recommendation more relevant.</p>
+          </article>
+          <article class="intro-feature">
+          <p class="feature-number">02</p>
+          <h3 data-i18n="intro.f2.title">Build your shelf</h3>
+          <p data-i18n="intro.f2.body">Add tobaccos you already have at home and create your own recipes in the Lab.</p>
+          </article>
+          <article class="intro-feature">
+          <p class="feature-number">03</p>
+          <h3 data-i18n="intro.f3.title">Save the mixes you love</h3>
+          <p data-i18n="intro.f3.body">Save ideas you like and return to them when you’re packing your next bowl.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="ritual section reveal" aria-labelledby="ritual-title">
+        <div class="ritual-heading">
+          <p class="eyebrow" data-i18n="ritual.eyebrow">Your ritual, simpler</p>
+          <h2 id="ritual-title" data-i18n="ritual.title">From “what should I pack?” to a ready idea in a few taps</h2>
+        </div>
+        <ol class="ritual-list">
+          <li><span>01</span><div><h3 data-i18n="ritual.s1.title">Tell us what you like</h3><p data-i18n="ritual.s1.body">Choose brands, flavors, and strength that fit you.</p></div></li>
+          <li><span>02</span><div><h3 data-i18n="ritual.s2.title">Browse the feed</h3><p data-i18n="ritual.s2.body">Discover new mixes without random suggestions or endless searching.</p></div></li>
+          <li><span>03</span><div><h3 data-i18n="ritual.s3.title">Save your favorites</h3><p data-i18n="ritual.s3.body">Build a personal collection of finds and recipes in the Lab.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="discovery section reveal" id="features" aria-labelledby="discovery-title">
+        <div class="discovery-copy">
+          <p class="eyebrow" data-i18n="discovery.eyebrow">Discovery</p>
+          <h2 id="discovery-title" data-i18n="discovery.title">Explore beyond the usual mixes</h2>
+          <p class="discovery-lead" data-i18n="discovery.lead">Discovery brings together new directions, community ideas, and conversations to inspire your next mix.</p>
+          <ul class="discovery-points" data-i18n-aria="discovery.pointsAria" aria-label="Discovery features">
+            <li><span>01</span><div><h3 data-i18n="discovery.p1.title">Flavor routes</h3><p data-i18n="discovery.p1.body">Explore mixes through mood, taste, and a new direction.</p></div></li>
+            <li><span>02</span><div><h3 data-i18n="discovery.p2.title">Community ideas</h3><p data-i18n="discovery.p2.body">See suggestions from other users and find inspiration.</p></div></li>
+            <li><span>03</span><div><h3 data-i18n="discovery.p3.title">Mix discussions</h3><p data-i18n="discovery.p3.body">Share your thoughts and fine-tune mixes you want to make again.</p></div></li>
+          </ul>
+        </div>
+        <div class="discovery-visual">
+          <div class="discovery-orbit discovery-orbit-purple" aria-hidden="true"></div>
+          <div class="discovery-orbit discovery-orbit-lime" aria-hidden="true"></div>
+          <figure class="app-shot discovery-shot">
+            <img width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Real Discovery screen in the Mixly app" loading="lazy" decoding="async" src="/images_for_web/EN/Discovery.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
+          </figure>
+        </div>
+      </section>
+
+      <section class="labs section reveal" aria-labelledby="labs-title">
+        <div class="labs-copy">
+          <p class="eyebrow" data-i18n="labs.eyebrow">Lab</p>
+          <h2 id="labs-title" data-i18n="labs.title">Build mixes you’ll want to repeat</h2>
+          <p class="labs-lead" data-i18n="labs.lead">Add the tobaccos you have at home and keep your own recipes in one place.</p>
+          <ul class="labs-points" data-i18n-aria="labs.pointsAria" aria-label="Lab features">
+            <li><span>01</span><div><h3 data-i18n="labs.p1.title">Your recipes</h3><p data-i18n="labs.p1.body">Combine familiar flavors and keep the ratios.</p></div></li>
+            <li><span>02</span><div><h3 data-i18n="labs.p2.title">Tobaccos at home</h3><p data-i18n="labs.p2.body">Mark what’s already on your shelf to narrow down your choices faster.</p></div></li>
+            <li><span>03</span><div><h3 data-i18n="labs.p3.title">Best finds</h3><p data-i18n="labs.p3.body">Return to ideas, tweak details, and try again.</p></div></li>
+          </ul>
+        </div>
+        <div class="labs-visual">
+          <div class="labs-orbit labs-orbit-lime" aria-hidden="true"></div>
+          <div class="labs-orbit labs-orbit-peach" aria-hidden="true"></div>
+          <figure class="app-shot labs-shot">
+            <img width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Real Mixly screen with a mix card" loading="lazy" decoding="async" src="/images_for_web/EN/Lab.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
+          </figure>
+        </div>
+      </section>
+
+      <section class="changelog section reveal" id="changelog" aria-labelledby="changelog-title">
+        <div class="changelog-heading">
+          <div>
+            <p class="eyebrow" data-i18n="changelog.eyebrow">What's new</p>
+            <h2 id="changelog-title" data-i18n="changelog.title">Mixly update history</h2>
+          </div>
+          <p data-i18n="changelog.lead">The changes that make discovering, saving, and sharing mixes easier.</p>
+        </div>
+        <div class="changelog-list" data-i18n-aria="changelog.listAria" aria-label="Mixly update history">
+          <details class="changelog-release" open>
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v105.version">Version 1.0.5</strong><span data-i18n="changelog.v105.summary">A faster start with Mixly.</span></span>
+              <time datetime="2026-07-14" data-i18n="changelog.v105.date">July 14</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v105.1">Refreshed onboarding for a faster start.</li><li data-i18n="changelog.v105.2">Improved onboarding navigation, saved preferences, and screen transitions.</li><li data-i18n="changelog.v105.3">Fixed minor bugs and made stability improvements for a smoother experience.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v104.version">Version 1.0.4</strong><span data-i18n="changelog.v104.summary">An easier way to get started, discover mixes, and share them.</span></span>
+              <time datetime="2026-07-13" data-i18n="changelog.v104.date">July 13</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v104.1">Added profile creation with Sign in with Apple.</li><li data-i18n="changelog.v104.2">Improved onboarding to help you set up your preferences faster.</li><li data-i18n="changelog.v104.3">Improved mix personalization for recommendations that better match your taste.</li><li data-i18n="changelog.v104.4">Refined mix sharing with cleaner, more visual share cards.</li><li data-i18n="changelog.v104.5">Improved Discovery with community mixes, reactions, reviews, and more stable cards.</li><li data-i18n="changelog.v104.6">Fixed several bugs and improved overall app stability.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v103.version">Version 1.0.3</strong><span data-i18n="changelog.v103.summary">Improved sharing, Discovery, and overall stability.</span></span>
+              <time datetime="2026-06-10" data-i18n="changelog.v103.date">June 10</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v103.1">Improved mix sharing with cleaner, more visual share cards.</li><li data-i18n="changelog.v103.2">Made share cards easier to send to friends.</li><li data-i18n="changelog.v103.3">Improved Discovery with community mixes, reactions, and reviews.</li><li data-i18n="changelog.v103.4">Made Discovery cards more stable and consistent.</li><li data-i18n="changelog.v103.5">Fixed several bugs and improved overall app stability.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v102.version">Version 1.0.2</strong><span data-i18n="changelog.v102.summary">Discovering and sharing mixes is now easier.</span></span>
+              <time datetime="2026-05-29" data-i18n="changelog.v102.date">May 29</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v102.1">Added Discovery, a new community section with reactions and reviews.</li><li data-i18n="changelog.v102.2">Improved mix sharing and deep links, so opening shared mixes feels smoother.</li><li data-i18n="changelog.v102.3">Updated Labs tools for creating and managing your own mixes.</li><li data-i18n="changelog.v102.4">Improved mix names, descriptions, and localization.</li><li data-i18n="changelog.v102.5">Fixed bugs and made the app more stable.</li></ul></div>
+          </details>
+          <details class="changelog-release">
+            <summary>
+              <span class="changelog-release-title"><strong data-i18n="changelog.v101.version">Version 1.0.1</strong><span data-i18n="changelog.v101.summary">New feature — Lab.</span></span>
+              <time datetime="2026-05-11" data-i18n="changelog.v101.date">May 11</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body"><ul><li data-i18n="changelog.v101.1">New feature — Lab. Create your home lab, add your own tobaccos, and save custom mixes.</li><li data-i18n="changelog.v101.2">Improved overall stability and performance.</li></ul></div>
+          </details>
+        </div>
+      </section>
+
+      <section class="journal section reveal" id="journal" aria-labelledby="journal-title">
+        <div class="blog-preview-heading">
+          <div>
+            <p class="eyebrow" data-i18n="journal.eyebrow">Mixly Blog</p>
+            <h2 id="journal-title" data-i18n="journal.title">Fresh ideas for your next mix</h2>
+          </div>
+          <div class="blog-preview-action">
+            <p data-i18n="journal.side">Practical guides to flavors, pairings, and better mixing habits</p>
+            <a class="button blog-all-link" href="/en/blog.html"><span data-i18n="journal.all">All articles</span> <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="blog-preview-grid" data-i18n-aria="journal.gridAria" aria-label="Latest articles">
+          <article class="blog-featured">
+            <a class="blog-card-link" href="/en/blog/how-to-mix-hookah-tobacco" data-i18n-href="blog.card.first.href" data-i18n-aria="blog.card.first.aria" aria-label="How to mix hookah tobacco">
+              <p class="article-meta" data-i18n="blog.card.first.meta">PRACTICE · 7 MIN</p>
+              <h3 data-i18n="blog.card.first.title">How to mix hookah tobacco</h3>
+              <p class="article-excerpt" data-i18n="blog.card.first.excerpt">Core ratios, flavor pairings, and a clear method for your first mix.</p>
+              <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+          <article class="blog-featured">
+            <a class="blog-card-link" href="/en/blog/hookah-tobacco-mixing-ratios" data-i18n-href="blog.card.ratios.href" data-i18n-aria="blog.card.ratios.aria" aria-label="Hookah tobacco mixing ratios">
+              <p class="article-meta" data-i18n="blog.card.ratios.meta">PRACTICE · 8 MIN</p>
+              <h3 data-i18n="blog.card.ratios.title">Hookah Tobacco Mixing Ratios</h3>
+              <p class="article-excerpt" data-i18n="blog.card.ratios.excerpt">When to use 50/50, 70/30 and 60/30/10 without overdoing a strong accent.</p>
+              <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+          <article class="blog-featured">
+            <a class="blog-card-link" href="/en/blog/hookah-flavor-combinations" data-i18n-href="blog.card.combinations.href" data-i18n-aria="blog.card.combinations.aria" aria-label="Hookah flavor combinations: what goes well together">
+              <p class="article-meta" data-i18n="blog.card.combinations.meta">PRACTICE · 9 MIN</p>
+              <h3 data-i18n="blog.card.combinations.title">Hookah Flavor Combinations: What Goes Well Together</h3>
+              <p class="article-excerpt" data-i18n="blog.card.combinations.excerpt">How to combine fruit, berries, citrus, fresh and dessert profiles.</p>
+              <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="testimonials reveal" aria-labelledby="testimonials-title">
+        <div class="testimonials-heading">
+          <p class="eyebrow testimonials-kicker" data-i18n="testimonials.eyebrow">Reviews</p>
+          <h2 id="testimonials-title" data-i18n="testimonials.title">Better mixes start with shared ideas</h2>
+          <p data-i18n="testimonials.lead">Notes from people who have made Mixly part of their ritual.</p>
+        </div>
+        <div class="testimonials-rail" data-i18n-aria="testimonials.railAria" aria-label="Mixly user reviews">
+          <div class="testimonials-track">
+            <div class="testimonials-group">
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Maria</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 out of 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t1">“I used to keep good mixes in notes. Now everything I want to repeat lives in one place.”</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong data-i18n="testimonials.n2">Dennis</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 out of 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t2">“It’s nice to start from the flavor I want right now instead of hunting mixes across the internet.”</blockquote></article>
+              <article class="testimonial-card"><header><span><strong data-i18n="testimonials.n3">Alex</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 out of 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t3">“Filters and the Lab really help when I want something new from what I already have at home.”</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong data-i18n="testimonials.n4">Elena</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 out of 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t4">“I don’t have to remember what worked last time. My best ideas are always within reach.”</blockquote></article>
+            </div>
+            <div class="testimonials-group" aria-hidden="true">
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Maria</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t1">“I used to keep good mixes in notes. Now everything I want to repeat lives in one place.”</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong data-i18n="testimonials.n2">Dennis</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t2">“It’s nice to start from the flavor I want right now instead of hunting mixes across the internet.”</blockquote></article>
+              <article class="testimonial-card"><header><span><strong data-i18n="testimonials.n3">Alex</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t3">“Filters and the Lab really help when I want something new from what I already have at home.”</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong data-i18n="testimonials.n4">Elena</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">July 2026</time></header><blockquote data-i18n="testimonials.t4">“I don’t have to remember what worked last time. My best ideas are always within reach.”</blockquote></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div data-premium-block></div>
+
+    </main>
+
+    <footer class="site-footer reveal">
+      <div class="footer-main">
+        <div class="footer-brand-block">
+          <a class="brand-app footer-brand" href="/en/" data-i18n-aria="brand.homeAria" aria-label="Mixly, go to home">mixly</a>
+          <p>Mixly app © 2026</p>
+        </div>
+        <div class="footer-links">
+          <div><p data-i18n="footer.app">App</p><a href="#how-it-works" data-i18n="nav.about">About the app</a><a href="#features" data-i18n="nav.features">Features</a><a href="#changelog" data-i18n="nav.updates">Updates</a><a href="/en/blog.html" data-i18n="nav.blog">Blog</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
+          <div><p data-i18n="footer.docs">Legal</p><a href="/en/privacy.html" data-i18n="footer.privacy">Privacy</a><a href="/en/cookies.html" data-i18n="footer.cookies">Cookies & analytics</a><a href="/en/terms.html" data-i18n="footer.terms">Terms of Use</a><a href="/en/eula.html" data-i18n="footer.eula">License</a><a href="/en/support.html" data-i18n="footer.support">Support</a></div>
+          <div><p data-i18n="footer.socials">Social media</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><p data-i18n="footer.age">Adults only 18+</p><p data-i18n="footer.tagline">Hookah ideas worth keeping</p></div>
+    </footer>
+    <script>
+      const downloadDialog = document.querySelector('.download-dialog');
+      let downloadDialogOpener = null;
+      document.querySelectorAll('[data-download-open]').forEach((button) =>
+        button.addEventListener('click', () => {
+          downloadDialogOpener = button;
+          downloadDialog.showModal();
+        })
+      );
+      document.querySelector('[data-download-close]').addEventListener('click', () => downloadDialog.close());
+      downloadDialog.addEventListener('click', (event) => {
+        if (event.target === downloadDialog) downloadDialog.close();
+      });
+      downloadDialog.addEventListener('close', () => {
+        downloadDialogOpener?.focus();
+        downloadDialogOpener = null;
+      });
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      document.querySelectorAll('.changelog-release').forEach((release) => {
+        const summary = release.querySelector('summary');
+        const body = release.querySelector('.changelog-release-body');
+        if (!summary || !body) return;
+        const transitionMs = 420;
+        const easing = 'cubic-bezier(.16, 1, .3, 1)';
+
+        const clearInline = () => {
+          body.style.height = '';
+          body.style.opacity = '';
+          body.style.transform = '';
+          body.style.overflow = '';
+        };
+
+        const finish = () => {
+          clearInline();
+          release.classList.remove('is-closing');
+          delete release.dataset.transitioning;
+        };
+
+        summary.addEventListener('click', (event) => {
+          event.preventDefault();
+          if (release.dataset.transitioning === 'true') return;
+
+          release.dataset.transitioning = 'true';
+          if (reduceMotion || !body.animate) {
+            release.open = !release.open;
+            finish();
+            return;
+          }
+
+          if (release.open) {
+            const height = body.scrollHeight;
+            release.classList.add('is-closing');
+            body.style.overflow = 'hidden';
+            body.style.height = `${height}px`;
+            body.style.opacity = '1';
+            body.style.transform = 'translateY(0)';
+            requestAnimationFrame(() => {
+              const animation = body.animate(
+                [
+                  { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
+                  { height: '0px', opacity: 0, transform: 'translateY(-6px)' },
+                ],
+                { duration: transitionMs, easing, fill: 'forwards' }
+              );
+              animation.onfinish = () => {
+                release.open = false;
+                finish();
+              };
+            });
+            return;
+          }
+
+          // Pin closed styles before flipping `open`, otherwise the CSS [open]
+          // rules flash full height for one frame and the accordion "blinks".
+          body.style.overflow = 'hidden';
+          body.style.height = '0px';
+          body.style.opacity = '0';
+          body.style.transform = 'translateY(-6px)';
+          release.open = true;
+          const height = body.scrollHeight;
+          requestAnimationFrame(() => {
+            const animation = body.animate(
+              [
+                { height: '0px', opacity: 0, transform: 'translateY(-6px)' },
+                { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
+              ],
+              { duration: transitionMs, easing, fill: 'forwards' }
+            );
+            animation.onfinish = finish;
+          });
+        });
+      });
+
+      const testimonialsRail = document.querySelector('.testimonials-rail');
+      const testimonialsTrack = testimonialsRail?.querySelector('.testimonials-track');
+
+      if (testimonialsRail && testimonialsTrack && !reduceMotion) {
+        const testimonialsGroup = testimonialsTrack.querySelector('.testimonials-group');
+        let groupWidth = 0;
+        let offset = 0;
+        let currentSpeed = 22;
+        let targetSpeed = 22;
+        let lastFrame = performance.now();
+
+        const measureTestimonials = () => {
+          groupWidth = testimonialsGroup.getBoundingClientRect().width;
+          offset %= groupWidth || 1;
+        };
+
+        const moveTestimonials = (now) => {
+          const elapsed = Math.min(now - lastFrame, 80);
+          lastFrame = now;
+          currentSpeed += (targetSpeed - currentSpeed) * (1 - Math.exp(-elapsed / 620));
+          offset = (offset + currentSpeed * elapsed / 1000) % groupWidth;
+          testimonialsTrack.style.transform = `translate3d(${-offset}px, 0, 0)`;
+          requestAnimationFrame(moveTestimonials);
+        };
+
+        document.fonts.ready.then(() => {
+          measureTestimonials();
+          new ResizeObserver(measureTestimonials).observe(testimonialsRail);
+          requestAnimationFrame(moveTestimonials);
+        });
+
+        testimonialsRail.addEventListener('pointerenter', () => { targetSpeed = 3; });
+        testimonialsRail.addEventListener('pointerleave', () => { targetSpeed = 22; });
+      }
+    </script>
+      <script src="/i18n.js"></script>
+  </body>
+</html>

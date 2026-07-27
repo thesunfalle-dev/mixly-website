@@ -4,7 +4,19 @@
     <loc>https://get-mixly.app/</loc>
   </url>
   <url>
+    <loc>https://get-mixly.app/en/</loc>
+  </url>
+  <url>
+    <loc>https://get-mixly.app/de/</loc>
+  </url>
+  <url>
     <loc>https://get-mixly.app/blog.html</loc>
+  </url>
+  <url>
+    <loc>https://get-mixly.app/en/blog.html</loc>
+  </url>
+  <url>
+    <loc>https://get-mixly.app/de/blog.html</loc>
   </url>
   <url>
     <loc>https://get-mixly.app/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana</loc>

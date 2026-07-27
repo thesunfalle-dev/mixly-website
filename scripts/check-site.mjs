@@ -85,7 +85,12 @@ if (!/@view-transition\s*\{\s*navigation:\s*auto;/.test(stylesSource)) {
 function localFileFor(url) {
   const path = decodeURIComponent(url.pathname);
   if (path === '/') return 'index.html';
-  return path.replace(/^\//, '');
+  if (path === '/en' || path === '/en/') return 'en/index.html';
+  if (path === '/de' || path === '/de/') return 'de/index.html';
+  if (path === '/ru' || path === '/ru/') return 'index.html';
+  const relative = path.replace(/^\//, '');
+  if (relative.endsWith('/')) return `${relative}index.html`;
+  return relative;
 }
 
 for (const [locale, path] of Object.entries(publishedBlogCards)) {
@@ -192,7 +197,16 @@ for (const [file, source] of pages) {
     const canonical = source.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
     if (!canonical) report(file, 'missing canonical URL');
     else {
-      const expectedPath = file === 'index.html' ? '' : file.endsWith('/index.html') ? file.slice(0, -'/index.html'.length) : file;
+      let expectedPath =
+        file === 'index.html'
+          ? ''
+          : file === 'en/index.html'
+            ? 'en/'
+            : file === 'de/index.html'
+              ? 'de/'
+              : file.endsWith('/index.html')
+                ? file.slice(0, -'/index.html'.length)
+                : file;
       if (canonical !== `${publicOrigin}/${expectedPath}`) {
         report(file, `canonical does not match its public URL: ${canonical}`);
       }

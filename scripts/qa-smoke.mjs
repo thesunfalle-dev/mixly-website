@@ -7,8 +7,14 @@
 const origin = (process.argv[2] || 'https://get-mixly.app').replace(/\/$/, '');
 const paths = [
   '/',
+  '/en/',
+  '/de/',
   '/blog.html',
+  '/en/blog.html',
+  '/de/blog.html',
   '/privacy.html',
+  '/en/privacy.html',
+  '/de/privacy.html',
   '/cookies.html',
   '/terms.html',
   '/eula.html',
@@ -44,6 +50,15 @@ async function check(path) {
     if (!expect404 && ms > 4000) failures.push(`${path}: slow response ${ms}ms`);
     if (path === '/sitemap.xml' && !text.includes('/en/blog/how-to-mix-hookah-tobacco')) {
       failures.push('sitemap missing localized article URL');
+    }
+    if (path === '/sitemap.xml' && !text.includes('https://get-mixly.app/en/')) {
+      failures.push('sitemap missing locale-prefixed home URL');
+    }
+    if ((path === '/en/' || path === '/de/') && !/html lang="(en|de)"/.test(text)) {
+      failures.push(`${path}: missing localized html lang`);
+    }
+    if (path === '/en/privacy.html' && !/<h1 id="legal-title">[^<]+<\/h1>/.test(text)) {
+      failures.push('en privacy missing static H1');
     }
     if (path.startsWith('/en/blog/') && !text.includes('BreadcrumbList')) {
       failures.push(`${path}: missing BreadcrumbList JSON-LD`);

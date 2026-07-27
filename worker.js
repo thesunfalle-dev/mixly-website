@@ -20,6 +20,10 @@ export default {
       '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
       '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
       '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
+      '/en': '/en/index.html',
+      '/en/': '/en/index.html',
+      '/de': '/de/index.html',
+      '/de/': '/de/index.html',
     };
     const assetRequest = articlePaths[url.pathname]
       ? new Request(new URL(articlePaths[url.pathname], url), request)
