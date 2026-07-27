@@ -45,12 +45,18 @@ npm run check
 
 ## Публикация
 
-Wrangler закреплён в `package-lock.json`; перед первой проверкой установи зависимости через `npm install`. Перед публикацией запусти `npm run check:release`. Для preview загрузи версию без выката в production:
+Полный runbook: [`docs/deployment.md`](docs/deployment.md) (preview, production, rollback, secrets).
+
+Кратко:
 
 ```sh
-npm exec wrangler -- versions upload --preview-alias <branch-name> --tag <commit-sha> --message <commit-sha>
+npm install
+npm run check:release
+COMMIT=$(git rev-parse HEAD)
+npm exec wrangler -- versions upload --preview-alias <branch> --tag "$COMMIT" --message "$COMMIT"
+# smoke preview URL (*.workers.dev always noindex)
+npm exec wrangler -- versions deploy <version-id>@100 --message "$COMMIT" -y
+npm exec wrangler -- deployments list   # tag/message must match commit SHA
 ```
 
-Cloudflare вернёт URL preview на `workers.dev`; он получает HTTP `X-Robots-Tag: noindex, nofollow`. После smoke-check выкати созданную версию через `npm exec wrangler -- versions deploy <version-id>@100`. Текущую production-версию проверяй командой `npm exec wrangler -- deployments list`; её tag/message должен совпадать с commit SHA. Для возврата используй `npm exec wrangler -- rollback <version-id>`.
-
-Для CI нужен секрет `CLOUDFLARE_API_TOKEN`; не добавляй его в репозиторий, `wrangler.jsonc` или клиентский код.
+Секрет `CLOUDFLARE_API_TOKEN` — только в `.env`/CI, не в репозитории.
