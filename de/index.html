@@ -50,10 +50,11 @@
         window.__mixlySetLocalizedImage = (image) => {
           const files = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.png', 'shot.lab': 'Lab.png' };
           const file = files[image && image.getAttribute('data-i18n-src')];
-          if (file) image.src = `./images_for_web/${initialLocale.toUpperCase()}/${file}`;
+          // Root-absolute paths — relative ./ breaks under /en/ and /de/.
+          if (file) image.src = `/images_for_web/${initialLocale.toUpperCase()}/${file}`;
         };
         const imageFolder = initialLocale.toUpperCase();
-        [`./images_for_web/${imageFolder}/main_1.webp`, `./images_for_web/${imageFolder}/main_2.webp`].forEach((href) => {
+        [`/images_for_web/${imageFolder}/main_1.webp`, `/images_for_web/${imageFolder}/main_2.webp`].forEach((href) => {
           const preload = document.createElement('link');
           preload.rel = 'preload';
           preload.as = 'image';

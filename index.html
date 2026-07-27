@@ -22,15 +22,15 @@
     <style>
       html { background: #29282b; }
     </style>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
-    <link rel="icon" href="./favicon-48.png" type="image/png" sizes="48x48" />
-    <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="./styles.css" /><link rel="expect" href="#content">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="/styles.css" /><link rel="expect" href="#content">
     <link rel="preload" href="/assets/Montserrat_400Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/Montserrat_600SemiBold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/Montserrat_700Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="./i18n.js" as="script" fetchpriority="high" />
+    <link rel="preload" href="/i18n.js" as="script" fetchpriority="high" />
     <script>
       try {
         const initialLocale = (() => {
@@ -50,10 +50,11 @@
         window.__mixlySetLocalizedImage = (image) => {
           const files = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.png', 'shot.lab': 'Lab.png' };
           const file = files[image && image.getAttribute('data-i18n-src')];
-          if (file) image.src = `./images_for_web/${initialLocale.toUpperCase()}/${file}`;
+          // Root-absolute paths — relative ./ breaks under /en/ and /de/.
+          if (file) image.src = `/images_for_web/${initialLocale.toUpperCase()}/${file}`;
         };
         const imageFolder = initialLocale.toUpperCase();
-        [`./images_for_web/${imageFolder}/main_1.webp`, `./images_for_web/${imageFolder}/main_2.webp`].forEach((href) => {
+        [`/images_for_web/${imageFolder}/main_1.webp`, `/images_for_web/${imageFolder}/main_2.webp`].forEach((href) => {
           const preload = document.createElement('link');
           preload.rel = 'preload';
           preload.as = 'image';
@@ -64,10 +65,10 @@
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
       } catch (_) {}
     </script>
-    <script src="./monitoring.js" defer></script>
-    <script src="./page-nav.js" defer></script>
-    <script src="./premium-block.js" defer></script>
-    <script src="./analytics.js" defer></script>
+    <script src="/monitoring.js" defer></script>
+    <script src="/page-nav.js" defer></script>
+    <script src="/premium-block.js" defer></script>
+    <script src="/analytics.js" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -167,13 +168,13 @@
     </aside>
     <dialog class="download-dialog" aria-labelledby="download-dialog-title">
       <button class="dialog-close" type="button" data-i18n-aria="dialog.close" data-download-close aria-label="Закрыть">×</button>
-      <div class="dialog-icon"><img src="./assets/mixly-app-icon.png" width="56" height="56" alt="Mixly app icon" /></div>
+      <div class="dialog-icon"><img src="/assets/mixly-app-icon.png" width="56" height="56" alt="Mixly app icon" /></div>
       <p class="eyebrow" data-i18n="dialog.eyebrow">Скачать Mixly</p>
       <h2 id="download-dialog-title" data-i18n="dialog.title">Открой Mixly на своём телефоне</h2>
       <p class="dialog-copy" data-i18n="dialog.copy">Наведите камеру на QR-код или откройте магазин приложений напрямую.</p>
       <div class="qr-options">
         <a class="qr-option" href="https://apps.apple.com/app/id6762792005" rel="noopener">
-          <img src="./assets/qr-ios.svg" data-i18n-alt="dialog.qrAlt" alt="QR-код для загрузки Mixly в App Store" />
+          <img src="/assets/qr-ios.svg" data-i18n-alt="dialog.qrAlt" alt="QR-код для загрузки Mixly в App Store" />
           <span><small data-i18n="dialog.qrSmall">Скачать в</small>App Store</span>
         </a>
       </div>
@@ -197,10 +198,10 @@
 
         <div class="hero-phones reveal-item" data-i18n-aria="hero.phonesAria" aria-label="Экраны приложения Mixly">
           <figure class="app-shot hero-shot hero-shot-back">
-            <img width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="sync" fetchpriority="high" src="./images_for_web/RU/main_2.webp">
+            <img width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="sync" fetchpriority="high" src="/images_for_web/RU/main_2.webp">
           </figure>
           <figure class="app-shot hero-shot hero-shot-front">
-            <img width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="sync" fetchpriority="high" src="./images_for_web/RU/main_1.webp">
+            <img width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="sync" fetchpriority="high" src="/images_for_web/RU/main_1.webp">
           </figure>
         </div>
         <script>
@@ -266,7 +267,7 @@
           <div class="discovery-orbit discovery-orbit-purple" aria-hidden="true"></div>
           <div class="discovery-orbit discovery-orbit-lime" aria-hidden="true"></div>
           <figure class="app-shot discovery-shot">
-            <img width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" src="./images_for_web/RU/Discovery.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
+            <img width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" src="/images_for_web/RU/Discovery.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
           </figure>
         </div>
       </section>
@@ -286,7 +287,7 @@
           <div class="labs-orbit labs-orbit-lime" aria-hidden="true"></div>
           <div class="labs-orbit labs-orbit-peach" aria-hidden="true"></div>
           <figure class="app-shot labs-shot">
-            <img width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" src="./images_for_web/RU/Lab.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
+            <img width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" src="/images_for_web/RU/Lab.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
           </figure>
         </div>
       </section>
@@ -554,6 +555,6 @@
         testimonialsRail.addEventListener('pointerleave', () => { targetSpeed = 22; });
       }
     </script>
-      <script src="./i18n.js"></script>
+      <script src="/i18n.js"></script>
   </body>
 </html>

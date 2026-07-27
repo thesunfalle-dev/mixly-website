@@ -86,10 +86,14 @@
   };
 
   const executeInlineScripts = () => {
-    document.body.querySelectorAll('script:not([src])').forEach((script) => {
-      if (!script.textContent.trim() || script.textContent.includes('__mixlySetLocalizedImage')) return;
+    // Re-run body inline scripts after SPA body swap. Avoid Function()/eval —
+    // production CSP allows 'unsafe-inline' but not 'unsafe-eval'.
+    document.body.querySelectorAll('script:not([src])').forEach((oldScript) => {
+      if (!oldScript.textContent.trim() || oldScript.textContent.includes('__mixlySetLocalizedImage')) return;
       try {
-        Function(script.textContent)();
+        const script = document.createElement('script');
+        script.textContent = oldScript.textContent;
+        oldScript.replaceWith(script);
       } catch (error) {
         console.error('Page script failed after navigation', error);
       }
@@ -160,7 +164,12 @@
     if (push) history.pushState({}, '', url.href);
 
     // Locale is already in static first-paint markup; rebind switcher after swap.
-    if (window.MixlyI18n) window.MixlyI18n.applyLocale(window.MixlyI18n.detectLocale(), false);
+    // Body clone replaces [data-lang-switch] nodes — bindSwitchers must run again
+    // or the language menu stays dead until a full reload.
+    if (window.MixlyI18n) {
+      window.MixlyI18n.bindSwitchers?.();
+      window.MixlyI18n.applyLocale(window.MixlyI18n.detectLocale(), false);
+    }
     executeInlineScripts();
     mountArticleRuntime();
     mountOptionalBlocks();

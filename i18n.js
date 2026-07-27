@@ -811,7 +811,8 @@ var ARTICLES = {
     var file = SHOT_FILES[key];
     if (!file) return '';
     var folder = String(lang || 'en').toUpperCase();
-    return './images_for_web/' + folder + '/' + file;
+    // Root-absolute: relative ./ breaks under /en/ and /de/ locale prefixes.
+    return '/images_for_web/' + folder + '/' + file;
   }
 
   function applyImages(lang) {
@@ -916,7 +917,11 @@ var ARTICLES = {
     });
   }
 
+  var documentSwitchersBound = false;
+
   function bindSwitchers() {
+    // Idempotent: SPA body swap replaces [data-lang-switch] nodes, so this must
+    // be safe to call again after every page-nav navigation.
     document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
       if (root.getAttribute('data-bound') === '1') return;
       root.setAttribute('data-bound', '1');
@@ -982,10 +987,13 @@ var ARTICLES = {
       });
     });
 
-    document.addEventListener('click', function () { closeAllMenus(); });
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') closeAllMenus(null, true);
-    });
+    if (!documentSwitchersBound) {
+      documentSwitchersBound = true;
+      document.addEventListener('click', function () { closeAllMenus(); });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeAllMenus(null, true);
+      });
+    }
   }
 
   function init() {
@@ -996,6 +1004,7 @@ var ARTICLES = {
   window.MixlyI18n = {
     detectLocale: detectLocale,
     applyLocale: applyLocale,
+    bindSwitchers: bindSwitchers,
     pathForLocale: pathForLocale,
     localeFromPath: localeFromPath,
     renderArticle: renderArticle,

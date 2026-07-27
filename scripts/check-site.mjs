@@ -221,11 +221,17 @@ for (const [file, source] of pages) {
 
 for (const file of ['403.html', '404.html', '500.html', 'article.html', 'blog.html', 'cookies.html', 'eula.html', 'index.html', 'privacy.html', 'support.html', 'terms.html']) {
   const source = pages.get(file);
-  if (source.includes('<script src="./i18n.js" defer')) {
+  if (source.includes('<script src="./i18n.js" defer') || source.includes('<script src="/i18n.js" defer')) {
     report(file, 'localization must run before the first visible frame, not as a deferred script');
   }
-  if (!source.includes('<link rel="preload" href="./i18n.js" as="script"') || !source.includes('<script src="./i18n.js"></script>')) {
+  const preloadsI18n = source.includes('<link rel="preload" href="/i18n.js" as="script"') || source.includes('<link rel="preload" href="./i18n.js" as="script"');
+  const runsI18n = source.includes('<script src="/i18n.js"></script>') || source.includes('<script src="./i18n.js"></script>');
+  if (!preloadsI18n || !runsI18n) {
     report(file, 'must preload and run localization at the end of the parsed document');
+  }
+  // Prefer root-absolute i18n URLs so SPA locale prefixes never break the script.
+  if (source.includes('href="./i18n.js"') || source.includes('src="./i18n.js"')) {
+    report(file, 'i18n script URLs must be root-absolute (/i18n.js)');
   }
 }
 
@@ -240,8 +246,23 @@ const homePage = pages.get('index.html');
 if (!homePage.includes('window.__mixlySetLocalizedImage')) {
   report('index.html', 'localized images must be assigned before the deferred i18n runtime');
 }
-if (!/src="\.\/images_for_web\/RU\/main_[12]\.webp"/.test(homePage)) {
+if (!/src="\/images_for_web\/RU\/main_[12]\.webp"/.test(homePage)) {
   report('index.html', 'Russian first-paint markup must include Russian hero screenshots');
+}
+if (/src="\.\/images_for_web\//.test(homePage) || homePage.includes('./images_for_web/')) {
+  report('index.html', 'shot image paths must be root-absolute so /en/ and /de/ do not 404');
+}
+if (readFileSync(resolve(root, 'i18n.js'), 'utf8').includes("'./images_for_web/'") || readFileSync(resolve(root, 'i18n.js'), 'utf8').includes('"./images_for_web/"')) {
+  report('i18n.js', 'shotSrc must use root-absolute /images_for_web/ paths');
+}
+if (readFileSync(resolve(root, 'page-nav.js'), 'utf8').includes('Function(script.textContent)')) {
+  report('page-nav.js', 'SPA inline script runner must not use Function()/eval under CSP');
+}
+if (!i18nSource.includes('bindSwitchers: bindSwitchers') && !i18nSource.includes('bindSwitchers:bindSwitchers')) {
+  report('i18n.js', 'must export bindSwitchers for SPA rebind after body swap');
+}
+if (!pageNavSource.includes('bindSwitchers')) {
+  report('page-nav.js', 'SPA swap must rebind language switchers after body replace');
 }
 
 for (const file of ['index.html', 'blog.html']) {
@@ -277,7 +298,7 @@ if (!existsSync(resolve(root, 'premium-block.js'))) report('premium-block.js', '
 if (!pages.get('index.html').includes('data-premium-block')) {
   report('index.html', 'home page must mount the shared More Mixly component');
 }
-if (!pages.get('article.html').includes('./premium-block.js')) {
+if (!pages.get('article.html').includes('/premium-block.js')) {
   report('article.html', 'article template must load the shared More Mixly component');
 }
 if (!readFileSync(resolve(root, 'static-article-shell.js'), 'utf8').includes("import('/premium-block.js')")) {
