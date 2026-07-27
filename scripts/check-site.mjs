@@ -149,8 +149,26 @@ for (const location of [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match)
   }
   const targetFile = localFileFor(new URL(location));
   if (!pages.has(targetFile)) report('sitemap.xml', `URL does not point to a page: ${location}`);
-  if (['article.html', '403.html', '404.html', '500.html'].includes(targetFile)) {
+  if (['article.html', '403.html', '404.html', '500.html', 'share.html'].includes(targetFile)) {
     report('sitemap.xml', `non-indexable page is included: ${location}`);
+  }
+}
+
+const sharePage = pages.get('share.html');
+if (!sharePage) {
+  report('share.html', 'smart-link handoff page is missing');
+} else {
+  if (!/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(sharePage)) {
+    report('share.html', 'must be noindex (utility handoff page)');
+  }
+  if (!/mixly:\/\/mix\//.test(sharePage) || !/mixly:\/\/lab\?data=/.test(sharePage)) {
+    report('share.html', 'must build mix and lab deep links');
+  }
+  if (!/id6762792005/.test(sharePage) || !/com\.vladyarmakovich\.mixly/.test(sharePage)) {
+    report('share.html', 'must include App Store and Play Store fallbacks');
+  }
+  if (!/preview/.test(sharePage)) {
+    report('share.html', 'must support preview=1 to skip auto-redirect');
   }
 }
 
