@@ -316,3 +316,4 @@
 
   window.MixlyPageNav = { navigate, resetUiState, closeMobileMenu };
 })();
+
