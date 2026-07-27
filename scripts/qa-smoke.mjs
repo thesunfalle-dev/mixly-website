@@ -10,11 +10,11 @@ const paths = [
   '/en/',
   '/de/',
   '/blog.html',
-  '/en/blog.html',
-  '/de/blog.html',
+  '/en/blog',
+  '/de/blog',
   '/privacy.html',
-  '/en/privacy.html',
-  '/de/privacy.html',
+  '/en/privacy',
+  '/de/privacy',
   '/cookies.html',
   '/terms.html',
   '/eula.html',
@@ -57,7 +57,7 @@ async function check(path) {
     if ((path === '/en/' || path === '/de/') && !/html lang="(en|de)"/.test(text)) {
       failures.push(`${path}: missing localized html lang`);
     }
-    if (path === '/en/privacy.html' && !/<h1 id="legal-title">[^<]+<\/h1>/.test(text)) {
+    if (path === '/en/privacy' && !/<h1 id="legal-title">[^<]+<\/h1>/.test(text)) {
       failures.push('en privacy missing static H1');
     }
     if (path.startsWith('/en/blog/') && !text.includes('BreadcrumbList')) {

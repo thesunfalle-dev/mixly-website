@@ -20,11 +20,10 @@ export default {
       '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
       '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
       '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
-      '/en': '/en/index.html',
-      '/en/': '/en/index.html',
-      '/de': '/de/index.html',
-      '/de/': '/de/index.html',
     };
+    // Locale homes (/en/, /de/) and extensionless marketing/legal paths
+    // (/en/blog, /en/privacy, …) are served by Assets html_handling — do not
+    // rewrite them here or auto-trailing-slash will redirect-loop.
     const assetRequest = articlePaths[url.pathname]
       ? new Request(new URL(articlePaths[url.pathname], url), request)
       : request;

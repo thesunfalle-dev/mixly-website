@@ -689,6 +689,22 @@ var ARTICLES = {
     var i;
     var pair;
     var bare;
+    var extensionless = {
+      '/blog': '/blog.html',
+      '/privacy': '/privacy.html',
+      '/cookies': '/cookies.html',
+      '/terms': '/terms.html',
+      '/eula': '/eula.html',
+      '/support': '/support.html'
+    };
+    var withHtml = {
+      '/blog.html': '/blog',
+      '/privacy.html': '/privacy',
+      '/cookies.html': '/cookies',
+      '/terms.html': '/terms',
+      '/eula.html': '/eula',
+      '/support.html': '/support'
+    };
 
     for (i = 0; i < ARTICLE_LOCALE_PATHS.length; i++) {
       pair = ARTICLE_LOCALE_PATHS[i];
@@ -699,6 +715,7 @@ var ARTICLES = {
 
     bare = path.replace(/^\/(ru|en|de)(?=\/|$)/, '') || '/';
     if (bare === '/index.html') bare = '/';
+    if (extensionless[bare]) bare = extensionless[bare];
 
     if (lang === 'ru') {
       if (bare === '/') return '/' + search + hash;
@@ -706,6 +723,7 @@ var ARTICLES = {
     }
 
     if (bare === '/') return '/' + lang + '/' + search + hash;
+    if (withHtml[bare]) return '/' + lang + withHtml[bare] + search + hash;
     return '/' + lang + bare + search + hash;
   }
 

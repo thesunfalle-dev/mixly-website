@@ -107,16 +107,16 @@ function absolutizeAssets(source) {
 }
 
 function localizeInternalLinks(source, locale) {
-  // Point same-site marketing/legal links at the locale-prefixed equivalents.
+  // Assets html_handling serves extensionless paths (/en/blog → en/blog.html).
   const map = {
     'href="/"': `href="/${locale}/"`,
     'href="/#': `href="/${locale}/#`,
-    'href="/blog.html"': `href="/${locale}/blog.html"`,
-    'href="/privacy.html"': `href="/${locale}/privacy.html"`,
-    'href="/cookies.html"': `href="/${locale}/cookies.html"`,
-    'href="/terms.html"': `href="/${locale}/terms.html"`,
-    'href="/eula.html"': `href="/${locale}/eula.html"`,
-    'href="/support.html"': `href="/${locale}/support.html"`,
+    'href="/blog.html"': `href="/${locale}/blog"`,
+    'href="/privacy.html"': `href="/${locale}/privacy"`,
+    'href="/cookies.html"': `href="/${locale}/cookies"`,
+    'href="/terms.html"': `href="/${locale}/terms"`,
+    'href="/eula.html"': `href="/${locale}/eula"`,
+    'href="/support.html"': `href="/${locale}/support"`,
   };
   for (const [from, to] of Object.entries(map)) {
     source = source.split(from).join(to);
@@ -124,12 +124,15 @@ function localizeInternalLinks(source, locale) {
   return source;
 }
 
-function injectHreflang(source, pageKey) {
+function publicPath(locale, pageKey) {
   // pageKey: '' | 'blog.html' | 'privacy.html' ...
-  const selfPath = (locale) => {
-    if (locale === 'ru') return pageKey ? `/${pageKey}` : '/';
-    return pageKey ? `/${locale}/${pageKey}` : `/${locale}/`;
-  };
+  if (locale === 'ru') return pageKey ? `/${pageKey}` : '/';
+  if (!pageKey) return `/${locale}/`;
+  return `/${locale}/${pageKey.replace(/\.html$/, '')}`;
+}
+
+function injectHreflang(source, pageKey) {
+  const selfPath = (locale) => publicPath(locale, pageKey);
   const tags = ['ru', 'en', 'de']
     .map((locale) => `<link rel="alternate" hreflang="${locale}" href="${origin}${selfPath(locale)}">`)
     .join('');
