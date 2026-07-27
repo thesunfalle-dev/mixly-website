@@ -12,12 +12,6 @@
   var sectionNav = null;
   var tocModeMedia = null;
   var tocModeHandler = null;
-  var tocPinMedia = null;
-  var tocPinHandler = null;
-  var tocPinResize = null;
-  var tocPinScroll = null;
-  var tocPinFrame = 0;
-
   function detectDoc() {
     var fromAttr = document.body.getAttribute('data-legal-doc');
     if (fromAttr && DOC_META[fromAttr]) return fromAttr;
@@ -71,21 +65,6 @@
     return root[lang] || root.en || root.ru || null;
   }
 
-  function clearTocPin() {
-    if (tocPinMedia && tocPinHandler) {
-      if (tocPinMedia.removeEventListener) tocPinMedia.removeEventListener('change', tocPinHandler);
-      else if (tocPinMedia.removeListener) tocPinMedia.removeListener(tocPinHandler);
-    }
-    if (tocPinResize) window.removeEventListener('resize', tocPinResize);
-    if (tocPinScroll) window.removeEventListener('scroll', tocPinScroll);
-    if (tocPinFrame) cancelAnimationFrame(tocPinFrame);
-    tocPinMedia = null;
-    tocPinHandler = null;
-    tocPinResize = null;
-    tocPinScroll = null;
-    tocPinFrame = 0;
-  }
-
   function clearTocModeListener() {
     if (tocModeMedia && tocModeHandler) {
       if (tocModeMedia.removeEventListener) tocModeMedia.removeEventListener('change', tocModeHandler);
@@ -93,143 +72,25 @@
     }
     tocModeMedia = null;
     tocModeHandler = null;
-    clearTocPin();
   }
 
-  // Desktop sticky is unreliable with overflow-x on html/body (same as articles).
-  // Fixed pin + footer clamp: when the stop line rises, the whole TOC slides up
-  // instead of only shrinking max-height (which left it covering the footer).
   function pinDesktopToc(tocEl) {
     if (!tocEl) return;
-    clearTocPin();
-    tocPinMedia = window.matchMedia('(min-width: 981px)');
-    var pinnedLeft = 0;
-    var pinnedWidth = 0;
-    var pinTop = 96;
-    var edgeGap = 32;
-    var spacer = null;
-
-    var ensureSpacer = function () {
-      if (spacer && spacer.isConnected) return spacer;
-      spacer = tocEl.previousElementSibling;
-      if (!spacer || spacer.getAttribute('data-legal-toc-spacer') !== '1') {
-        spacer = document.createElement('div');
-        spacer.setAttribute('data-legal-toc-spacer', '1');
-        spacer.setAttribute('aria-hidden', 'true');
-        tocEl.parentNode.insertBefore(spacer, tocEl);
+    var run = function () {
+      if (window.MixlyTocPin && typeof window.MixlyTocPin.pin === 'function') {
+        window.MixlyTocPin.pin(tocEl, {
+          layoutSelector: '.legal-layout',
+          spacerAttr: 'data-toc-spacer'
+        });
+        return true;
       }
-      return spacer;
+      return false;
     };
-
-    var clearInline = function () {
-      tocEl.style.position = '';
-      tocEl.style.top = '';
-      tocEl.style.left = '';
-      tocEl.style.width = '';
-      tocEl.style.maxHeight = '';
-      tocEl.style.overflowY = '';
-      tocEl.style.bottom = '';
-      if (spacer && spacer.isConnected) {
-        spacer.style.display = 'none';
-        spacer.style.height = '';
-        spacer.style.width = '';
-      }
-    };
-
-    var measureColumn = function () {
-      // Measure in-flow so the grid column is real.
-      tocEl.style.position = 'static';
-      tocEl.style.top = '';
-      tocEl.style.left = '';
-      tocEl.style.width = '';
-      tocEl.style.maxHeight = '';
-      tocEl.style.bottom = '';
-      var slot = ensureSpacer();
-      slot.style.display = 'none';
-      var rect = tocEl.getBoundingClientRect();
-      pinnedLeft = Math.round(rect.left);
-      pinnedWidth = Math.max(160, Math.round(rect.width));
-      // Keep the grid column reserved while TOC is fixed.
-      slot.style.display = 'block';
-      slot.style.width = pinnedWidth + 'px';
-      slot.style.height = '1px';
-      slot.style.pointerEvents = 'none';
-      slot.style.visibility = 'hidden';
-    };
-
-    var applyPin = function () {
-      if (!tocEl.isConnected) return;
-      if (!tocPinMedia.matches) {
-        clearInline();
-        return;
-      }
-
-      var footer = document.querySelector('.site-footer');
-      var layout = document.querySelector('.legal-layout');
-      var footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
-      var layoutBottom = layout ? layout.getBoundingClientRect().bottom : footerTop;
-      // Hard ceiling: never paint over the footer (or past the legal grid).
-      var stopLine = Math.min(footerTop, layoutBottom) - edgeGap;
-
-      tocEl.style.position = 'fixed';
-      tocEl.style.left = pinnedLeft + 'px';
-      tocEl.style.width = pinnedWidth + 'px';
-      tocEl.style.bottom = 'auto';
-      tocEl.style.overflowY = 'auto';
-
-      // Cap height by viewport from the preferred pin top, not by stopLine first
-      // (that previously prevented the slide-up).
-      var viewportCap = Math.max(120, window.innerHeight - pinTop - edgeGap);
-      tocEl.style.maxHeight = viewportCap + 'px';
-      var tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
-
-      // Classic sticky math: stick under header, then unstick against stopLine.
-      var top = pinTop;
-      if (top + tocHeight > stopLine) {
-        top = stopLine - tocHeight;
-      }
-      if (top < edgeGap) {
-        // Viewport is shorter than TOC: pin near top and shrink to remaining space.
-        top = edgeGap;
-        var tightCap = Math.max(80, stopLine - top);
-        tocEl.style.maxHeight = tightCap + 'px';
-        tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
-        top = Math.min(pinTop, stopLine - tocHeight);
-        if (top < edgeGap) top = edgeGap;
-      }
-
-      tocEl.style.top = Math.round(top) + 'px';
-    };
-
-    var syncLayout = function () {
-      if (!tocEl.isConnected) return;
-      if (!tocPinMedia.matches) {
-        clearInline();
-        return;
-      }
-      measureColumn();
-      applyPin();
-    };
-
-    var onScroll = function () {
-      if (tocPinFrame) return;
-      tocPinFrame = requestAnimationFrame(function () {
-        tocPinFrame = 0;
-        applyPin();
-      });
-    };
-
-    tocPinHandler = syncLayout;
-    tocPinResize = syncLayout;
-    tocPinScroll = onScroll;
-    syncLayout();
-    if (tocPinMedia.addEventListener) tocPinMedia.addEventListener('change', tocPinHandler);
-    else if (tocPinMedia.addListener) tocPinMedia.addListener(tocPinHandler);
-    window.addEventListener('resize', tocPinResize);
-    window.addEventListener('scroll', tocPinScroll, { passive: true });
-    requestAnimationFrame(function () {
-      requestAnimationFrame(syncLayout);
-    });
+    if (run()) return;
+    var script = document.createElement('script');
+    script.src = '/toc-pin.js';
+    script.onload = function () { run(); };
+    document.head.appendChild(script);
   }
 
   function bindToc(tocNav, sections, currentEl, dropdown) {

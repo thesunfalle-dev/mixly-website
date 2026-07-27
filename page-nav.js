@@ -127,6 +127,7 @@
     const tasks = [];
     if (isArticleDoc(incoming)) {
       tasks.push(
+        loadScript('/toc-pin.js', () => Boolean(window.MixlyTocPin)),
         loadScript('/static-article-shell.js', () => Boolean(window.MixlyArticleShell)),
         loadScript('/article-toc.js', () => Boolean(window.MixlyArticleToc)),
         loadScript('/premium-block.js', () => Boolean(window.MixlyPremium)),
@@ -136,6 +137,7 @@
       tasks.push(
         loadScript('/i18n.js', () => Boolean(window.MixlyI18n)),
         loadScript('/scroll-nav.js', () => Boolean(window.MixlyScrollNav)),
+        loadScript('/toc-pin.js', () => Boolean(window.MixlyTocPin)),
         loadScript('/legal-content.js', () => Boolean(window.LEGAL_DOCS)),
         loadScript('/legal.js', () => Boolean(window.MixlyLegal)),
       );

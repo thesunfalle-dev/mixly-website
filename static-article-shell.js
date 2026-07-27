@@ -50,142 +50,23 @@
     const toc = document.querySelector('.article-toc');
     if (!toc) return;
 
-    // Avoid stacking listeners when mount() runs again after SPA navigations.
-    if (toc.dataset.tocPinBound === '1') {
-      window.dispatchEvent(new Event('resize'));
-      return;
-    }
-    toc.dataset.tocPinBound = '1';
-
-    const desktop = window.matchMedia('(min-width: 981px)');
-    const pinTop = 96;
-    const edgeGap = 32;
-    let pinnedLeft = 0;
-    let pinnedWidth = 0;
-    let spacer = null;
-    let frame = 0;
-
-    const ensureSpacer = () => {
-      if (spacer && spacer.isConnected) return spacer;
-      spacer = toc.previousElementSibling;
-      if (!spacer || spacer.getAttribute('data-article-toc-spacer') !== '1') {
-        spacer = document.createElement('div');
-        spacer.setAttribute('data-article-toc-spacer', '1');
-        spacer.setAttribute('aria-hidden', 'true');
-        toc.parentNode.insertBefore(spacer, toc);
-      }
-      return spacer;
-    };
-
-    const clearInline = () => {
-      toc.style.position = '';
-      toc.style.top = '';
-      toc.style.left = '';
-      toc.style.width = '';
-      toc.style.maxHeight = '';
-      toc.style.overflowY = '';
-      toc.style.bottom = '';
-      toc.style.visibility = '';
-      toc.style.pointerEvents = '';
-      if (spacer && spacer.isConnected) {
-        spacer.style.display = 'none';
-        spacer.style.height = '';
-        spacer.style.width = '';
-      }
-    };
-
-    const measureColumn = () => {
-      toc.style.visibility = '';
-      toc.style.pointerEvents = '';
-      toc.style.position = 'static';
-      toc.style.top = '';
-      toc.style.left = '';
-      toc.style.width = '';
-      toc.style.maxHeight = '';
-      toc.style.bottom = '';
-      const slot = ensureSpacer();
-      slot.style.display = 'none';
-      const rect = toc.getBoundingClientRect();
-      pinnedLeft = Math.round(rect.left);
-      pinnedWidth = Math.max(160, Math.round(rect.width));
-      slot.style.display = 'block';
-      slot.style.width = `${pinnedWidth}px`;
-      slot.style.height = '1px';
-      slot.style.pointerEvents = 'none';
-      slot.style.visibility = 'hidden';
-    };
-
-    const applyPin = () => {
-      if (!toc.isConnected) return;
-      if (!desktop.matches) {
-        clearInline();
-        return;
-      }
-
-      // Pin only while the main article body is on screen. Related / premium /
-      // footer must not keep a floating TOC (and must not leave a clipped strip).
-      const content = document.querySelector('.article-page-content');
-      const contentBottom = content
-        ? content.getBoundingClientRect().bottom
-        : window.innerHeight;
-      const stopLine = contentBottom - edgeGap;
-      const minUseful = 180;
-      const available = stopLine - pinTop;
-
-      if (available < minUseful) {
-        toc.style.position = 'fixed';
-        toc.style.left = `${pinnedLeft}px`;
-        toc.style.width = `${pinnedWidth}px`;
-        toc.style.top = `${pinTop}px`;
-        toc.style.maxHeight = '';
-        toc.style.visibility = 'hidden';
-        toc.style.pointerEvents = 'none';
-        return;
-      }
-
-      const viewportCap = Math.max(minUseful, window.innerHeight - pinTop - edgeGap);
-      const maxHeight = Math.min(viewportCap, available);
-
-      toc.style.visibility = '';
-      toc.style.pointerEvents = '';
-      toc.style.position = 'fixed';
-      toc.style.left = `${pinnedLeft}px`;
-      toc.style.width = `${pinnedWidth}px`;
-      toc.style.top = `${pinTop}px`;
-      toc.style.bottom = 'auto';
-      toc.style.overflowY = 'auto';
-      toc.style.maxHeight = `${Math.round(maxHeight)}px`;
-      // Avoid a mid-list "window" when height shrinks near the end of the article.
-      if (toc.scrollHeight > toc.clientHeight + 1) {
-        const maxScroll = Math.max(0, toc.scrollHeight - toc.clientHeight);
-        if (toc.scrollTop > maxScroll) toc.scrollTop = maxScroll;
-      }
-    };
-
-    const syncLayout = () => {
-      if (!toc.isConnected) return;
-      if (!desktop.matches) {
-        clearInline();
-        return;
-      }
-      measureColumn();
-      applyPin();
-    };
-
-    const onScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        applyPin();
+    const pin = () => {
+      if (!window.MixlyTocPin || typeof window.MixlyTocPin.pin !== 'function') return false;
+      // Same flow as legal docs: fixed pin + slide up against layout/footer.
+      window.MixlyTocPin.pin(toc, {
+        layoutSelector: '.article-layout',
+        spacerAttr: 'data-toc-spacer',
       });
+      return true;
     };
 
-    syncLayout();
-    window.addEventListener('resize', syncLayout);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    if (desktop.addEventListener) desktop.addEventListener('change', syncLayout);
-    else desktop.addListener(syncLayout);
-    requestAnimationFrame(() => requestAnimationFrame(syncLayout));
+    if (pin()) return;
+    // toc-pin.js may still be loading after SPA navigation.
+    import('/toc-pin.js')
+      .then(() => {
+        pin();
+      })
+      .catch(() => {});
   }
 
   function addRelatedArticles(article, lang) {
