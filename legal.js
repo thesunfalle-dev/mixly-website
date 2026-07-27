@@ -97,7 +97,8 @@
   }
 
   // Desktop sticky is unreliable with overflow-x on html/body (same as articles).
-  // Pin the TOC after measuring its grid slot, and clamp so it never covers the footer.
+  // Fixed pin + footer clamp: when the stop line rises, the whole TOC slides up
+  // instead of only shrinking max-height (which left it covering the footer).
   function pinDesktopToc(tocEl) {
     if (!tocEl) return;
     clearTocPin();
@@ -105,7 +106,20 @@
     var pinnedLeft = 0;
     var pinnedWidth = 0;
     var pinTop = 96;
-    var footerGap = 28;
+    var edgeGap = 32;
+    var spacer = null;
+
+    var ensureSpacer = function () {
+      if (spacer && spacer.isConnected) return spacer;
+      spacer = tocEl.previousElementSibling;
+      if (!spacer || spacer.getAttribute('data-legal-toc-spacer') !== '1') {
+        spacer = document.createElement('div');
+        spacer.setAttribute('data-legal-toc-spacer', '1');
+        spacer.setAttribute('aria-hidden', 'true');
+        tocEl.parentNode.insertBefore(spacer, tocEl);
+      }
+      return spacer;
+    };
 
     var clearInline = function () {
       tocEl.style.position = '';
@@ -114,13 +128,33 @@
       tocEl.style.width = '';
       tocEl.style.maxHeight = '';
       tocEl.style.overflowY = '';
+      tocEl.style.bottom = '';
+      if (spacer && spacer.isConnected) {
+        spacer.style.display = 'none';
+        spacer.style.height = '';
+        spacer.style.width = '';
+      }
     };
 
     var measureColumn = function () {
-      clearInline();
+      // Measure in-flow so the grid column is real.
+      tocEl.style.position = 'static';
+      tocEl.style.top = '';
+      tocEl.style.left = '';
+      tocEl.style.width = '';
+      tocEl.style.maxHeight = '';
+      tocEl.style.bottom = '';
+      var slot = ensureSpacer();
+      slot.style.display = 'none';
       var rect = tocEl.getBoundingClientRect();
       pinnedLeft = Math.round(rect.left);
-      pinnedWidth = Math.round(rect.width);
+      pinnedWidth = Math.max(160, Math.round(rect.width));
+      // Keep the grid column reserved while TOC is fixed.
+      slot.style.display = 'block';
+      slot.style.width = pinnedWidth + 'px';
+      slot.style.height = '1px';
+      slot.style.pointerEvents = 'none';
+      slot.style.visibility = 'hidden';
     };
 
     var applyPin = function () {
@@ -134,31 +168,36 @@
       var layout = document.querySelector('.legal-layout');
       var footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
       var layoutBottom = layout ? layout.getBoundingClientRect().bottom : footerTop;
-      // Stop above whichever comes first: footer or end of legal grid.
-      var stopLine = Math.min(footerTop, layoutBottom) - footerGap;
+      // Hard ceiling: never paint over the footer (or past the legal grid).
+      var stopLine = Math.min(footerTop, layoutBottom) - edgeGap;
 
       tocEl.style.position = 'fixed';
       tocEl.style.left = pinnedLeft + 'px';
       tocEl.style.width = pinnedWidth + 'px';
+      tocEl.style.bottom = 'auto';
       tocEl.style.overflowY = 'auto';
 
-      // Prefer under the header; near the bottom, slide up so the TOC sits above the footer.
-      var top = pinTop;
-      var available = Math.max(80, stopLine - top);
-      tocEl.style.maxHeight = available + 'px';
-      var tocHeight = tocEl.offsetHeight;
+      // Cap height by viewport from the preferred pin top, not by stopLine first
+      // (that previously prevented the slide-up).
+      var viewportCap = Math.max(120, window.innerHeight - pinTop - edgeGap);
+      tocEl.style.maxHeight = viewportCap + 'px';
+      var tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
 
+      // Classic sticky math: stick under header, then unstick against stopLine.
+      var top = pinTop;
       if (top + tocHeight > stopLine) {
         top = stopLine - tocHeight;
       }
-      if (top < 16) {
-        top = 16;
-        available = Math.max(80, stopLine - top);
-        tocEl.style.maxHeight = available + 'px';
-        tocHeight = tocEl.offsetHeight;
+      if (top < edgeGap) {
+        // Viewport is shorter than TOC: pin near top and shrink to remaining space.
+        top = edgeGap;
+        var tightCap = Math.max(80, stopLine - top);
+        tocEl.style.maxHeight = tightCap + 'px';
+        tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
         top = Math.min(pinTop, stopLine - tocHeight);
-        if (top < 16) top = 16;
+        if (top < edgeGap) top = edgeGap;
       }
+
       tocEl.style.top = Math.round(top) + 'px';
     };
 
