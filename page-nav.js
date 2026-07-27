@@ -207,18 +207,6 @@
     location.assign(url.href);
   };
 
-  const ARTICLE_PREFIX = /^\/(ru|en|de)\/blog\/[^/]+\/?$/;
-
-  const normalizeNavigationUrl = (url) => {
-    const next = new URL(url.href);
-    // Articles are served at trailing-slash directory URLs. Fetch that form
-    // directly so SPA avoids a redirect hop with an empty body.
-    if (ARTICLE_PREFIX.test(next.pathname) && !next.pathname.endsWith('/')) {
-      next.pathname = `${next.pathname}/`;
-    }
-    return next;
-  };
-
   const navigate = async (url, { push = true } = {}) => {
     navGeneration += 1;
     const generation = navGeneration;
@@ -233,10 +221,9 @@
     }, PENDING_HINT_MS);
 
     const timeout = window.setTimeout(() => controller?.abort(), FETCH_TIMEOUT_MS);
-    const targetUrl = normalizeNavigationUrl(url);
 
     try {
-      const response = await fetch(targetUrl.href, {
+      const response = await fetch(url.href, {
         credentials: 'same-origin',
         headers: { Accept: 'text/html' },
         signal: controller.signal,
@@ -257,9 +244,7 @@
       }
       await preparePageRuntime(incoming);
       if (generation !== navGeneration) return;
-      // Prefer the final response URL (trailing slash) for history.
-      const finalUrl = new URL(response.url || targetUrl.href);
-      swapPage(incoming, finalUrl, push);
+      swapPage(incoming, url, push);
     } catch (error) {
       if (error.name === 'AbortError') {
         // Superseded by a newer navigation, or timed out.

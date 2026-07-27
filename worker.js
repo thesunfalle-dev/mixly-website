@@ -7,24 +7,82 @@ const SECURITY_HEADERS = {
   'Permissions-Policy': 'camera=(), geolocation=(), microphone=(), payment=()',
 };
 
-// Canonical article paths without trailing slash. Assets html_handling serves the
-// directory form with a slash; we must NOT rewrite to …/index.html or Assets
-// will 307 back to …/ and create a redirect loop through this worker.
-const ARTICLE_PATHS = new Set([
-  '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
-  '/en/blog/how-to-mix-hookah-tobacco',
-  '/de/blog/wie-man-shisha-tabak-richtig-mischt',
-  '/ru/blog/sochetaniya-vkusov-dlya-kalyana',
-  '/en/blog/hookah-flavor-combinations',
-  '/de/blog/shisha-geschmackskombinationen',
-  '/ru/blog/proportsii-tabaka-dlya-kalyana',
-  '/en/blog/hookah-tobacco-mixing-ratios',
-  '/de/blog/shisha-tabak-mischverhaeltnisse',
-]);
+// html_handling is "none" so Assets never issues pretty-URL redirects that loop
+// through this worker. Map public URLs → real asset files here instead.
+const STATIC_REWRITES = {
+  '/': '/index.html',
+  '/en': '/en/index.html',
+  '/en/': '/en/index.html',
+  '/de': '/de/index.html',
+  '/de/': '/de/index.html',
+  '/blog': '/blog.html',
+  '/blog/': '/blog.html',
+  '/en/blog': '/en/blog.html',
+  '/en/blog/': '/en/blog.html',
+  '/de/blog': '/de/blog.html',
+  '/de/blog/': '/de/blog.html',
+  '/privacy': '/privacy.html',
+  '/privacy/': '/privacy.html',
+  '/en/privacy': '/en/privacy.html',
+  '/en/privacy/': '/en/privacy.html',
+  '/de/privacy': '/de/privacy.html',
+  '/de/privacy/': '/de/privacy.html',
+  '/cookies': '/cookies.html',
+  '/cookies/': '/cookies.html',
+  '/en/cookies': '/en/cookies.html',
+  '/en/cookies/': '/en/cookies.html',
+  '/de/cookies': '/de/cookies.html',
+  '/de/cookies/': '/de/cookies.html',
+  '/terms': '/terms.html',
+  '/terms/': '/terms.html',
+  '/en/terms': '/en/terms.html',
+  '/en/terms/': '/en/terms.html',
+  '/de/terms': '/de/terms.html',
+  '/de/terms/': '/de/terms.html',
+  '/eula': '/eula.html',
+  '/eula/': '/eula.html',
+  '/en/eula': '/en/eula.html',
+  '/en/eula/': '/en/eula.html',
+  '/de/eula': '/de/eula.html',
+  '/de/eula/': '/de/eula.html',
+  '/support': '/support.html',
+  '/support/': '/support.html',
+  '/en/support': '/en/support.html',
+  '/en/support/': '/en/support.html',
+  '/de/support': '/de/support.html',
+  '/de/support/': '/de/support.html',
+  '/share': '/share.html',
+  '/share/': '/share.html',
+};
+
+const ARTICLE_REWRITES = {
+  '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana':
+    '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
+  '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',
+  '/de/blog/wie-man-shisha-tabak-richtig-mischt':
+    '/de/blog/wie-man-shisha-tabak-richtig-mischt/index.html',
+  '/ru/blog/sochetaniya-vkusov-dlya-kalyana': '/ru/blog/sochetaniya-vkusov-dlya-kalyana/index.html',
+  '/en/blog/hookah-flavor-combinations': '/en/blog/hookah-flavor-combinations/index.html',
+  '/de/blog/shisha-geschmackskombinationen': '/de/blog/shisha-geschmackskombinationen/index.html',
+  '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
+  '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
+  '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
+};
 
 function barePath(pathname) {
   if (!pathname || pathname === '/') return '/';
   return pathname.replace(/\/+$/, '') || '/';
+}
+
+function resolveAssetPath(pathname) {
+  if (STATIC_REWRITES[pathname]) return STATIC_REWRITES[pathname];
+  const bare = barePath(pathname);
+  if (STATIC_REWRITES[bare]) return STATIC_REWRITES[bare];
+  if (ARTICLE_REWRITES[bare]) return ARTICLE_REWRITES[bare];
+  if (pathname.endsWith('/') && ARTICLE_REWRITES[barePath(pathname)]) {
+    return ARTICLE_REWRITES[barePath(pathname)];
+  }
+  return null;
 }
 
 function withSecurityHeaders(response, requestUrl) {
@@ -56,22 +114,12 @@ function withSecurityHeaders(response, requestUrl) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const bare = barePath(url.pathname);
+    const assetPath = resolveAssetPath(url.pathname);
+    const assetRequest = assetPath
+      ? new Request(new URL(assetPath, url), request)
+      : request;
 
-    // One-hop normalize for published articles: /path → /path/
-    // Then let Assets serve the directory index (200). Do not fetch …/index.html
-    // under html_handling=auto-trailing-slash — that 307s back to /path/ forever.
-    if (ARTICLE_PATHS.has(bare)) {
-      if (!url.pathname.endsWith('/')) {
-        url.pathname = `${bare}/`;
-        const redirect = Response.redirect(url.toString(), 308);
-        return withSecurityHeaders(redirect, url);
-      }
-    }
-
-    // Locale homes (/en/, /de/) and extensionless marketing/legal paths
-    // (/en/blog, /en/privacy, …) are served by Assets html_handling.
-    const response = await env.ASSETS.fetch(request);
+    const response = await env.ASSETS.fetch(assetRequest);
     return withSecurityHeaders(response, url);
   },
 };

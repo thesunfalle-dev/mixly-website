@@ -365,11 +365,12 @@ if (!pageNavSource.includes('legal.js') || !pageNavSource.includes('scroll-nav.j
   report('page-nav.js', 'SPA navigation to legal pages must load legal + scroll-nav runtimes');
 }
 const workerSource = readFileSync(resolve(root, 'worker.js'), 'utf8');
-if (!workerSource.includes('ARTICLE_PATHS') || workerSource.includes("'/index.html'")) {
-  report('worker.js', 'must normalize articles without rewriting to index.html (avoids Assets trailing-slash loops)');
+const wranglerSource = readFileSync(resolve(root, 'wrangler.jsonc'), 'utf8');
+if (!workerSource.includes('ARTICLE_REWRITES') || !workerSource.includes('STATIC_REWRITES')) {
+  report('worker.js', 'must explicitly rewrite marketing and article paths when html_handling is none');
 }
-if (!pageNavSource.includes('normalizeNavigationUrl')) {
-  report('page-nav.js', 'SPA navigation must fetch article trailing-slash URLs');
+if (!/"html_handling"\s*:\s*"none"/.test(wranglerSource)) {
+  report('wrangler.jsonc', 'html_handling must be none to avoid Assets trailing-slash redirect loops');
 }
 if (!existsSync(resolve(root, 'premium-block.js'))) report('premium-block.js', 'shared More Mixly component is missing');
 if (!pages.get('index.html').includes('data-premium-block')) {
