@@ -120,18 +120,43 @@
     return load;
   };
 
-  const prepareArticleRuntime = async (incoming) => {
-    if (!incoming.querySelector('.article-page')) return;
-    await Promise.all([
-      loadScript('/static-article-shell.js', () => Boolean(window.MixlyArticleShell)),
-      loadScript('/article-toc.js', () => Boolean(window.MixlyArticleToc)),
-    ]);
+  const isArticleDoc = (doc) => Boolean(doc.querySelector('.article-page'));
+  const isLegalDoc = (doc) => Boolean(doc.body && doc.body.hasAttribute('data-legal-doc'));
+
+  const preparePageRuntime = async (incoming) => {
+    const tasks = [];
+    if (isArticleDoc(incoming)) {
+      tasks.push(
+        loadScript('/static-article-shell.js', () => Boolean(window.MixlyArticleShell)),
+        loadScript('/article-toc.js', () => Boolean(window.MixlyArticleToc)),
+        loadScript('/premium-block.js', () => Boolean(window.MixlyPremium)),
+      );
+    }
+    if (isLegalDoc(incoming)) {
+      tasks.push(
+        loadScript('/i18n.js', () => Boolean(window.MixlyI18n)),
+        loadScript('/scroll-nav.js', () => Boolean(window.MixlyScrollNav)),
+        loadScript('/legal-content.js', () => Boolean(window.LEGAL_DOCS)),
+        loadScript('/legal.js', () => Boolean(window.MixlyLegal)),
+      );
+    }
+    if (tasks.length) await Promise.all(tasks);
   };
 
-  const mountArticleRuntime = () => {
-    if (!document.querySelector('.article-page')) return;
-    window.MixlyArticleShell?.mount();
-    window.MixlyArticleToc?.mount();
+  const mountPageRuntime = () => {
+    if (document.querySelector('.article-page')) {
+      window.MixlyArticleShell?.mount();
+      window.MixlyArticleToc?.mount();
+      window.MixlyPremium?.mount();
+    }
+    if (document.body.hasAttribute('data-legal-doc')) {
+      const lang =
+        (window.MixlyI18n && window.MixlyI18n.getLang && window.MixlyI18n.getLang()) ||
+        document.documentElement.lang ||
+        'ru';
+      if (window.MixlyLegal?.mount) window.MixlyLegal.mount(lang);
+      else if (window.MixlyLegal?.render) window.MixlyLegal.render(lang);
+    }
   };
 
   const updateHead = (incoming) => {
@@ -171,7 +196,7 @@
       window.MixlyI18n.applyLocale(window.MixlyI18n.detectLocale(), false);
     }
     executeInlineScripts();
-    mountArticleRuntime();
+    mountPageRuntime();
     mountOptionalBlocks();
     resetUiState();
     requestAnimationFrame(() => scrollToDestination(url));
@@ -207,8 +232,16 @@
       if (!response.ok || !response.headers.get('content-type')?.includes('text/html')) {
         throw new Error('HTML page was not returned');
       }
-      const incoming = new DOMParser().parseFromString(await response.text(), 'text/html');
-      await prepareArticleRuntime(incoming);
+      const html = await response.text();
+      if (!html || html.length < 200) {
+        throw new Error('Empty HTML page was returned');
+      }
+      const incoming = new DOMParser().parseFromString(html, 'text/html');
+      // SPA must land with footer / related / TOC content present in the body.
+      if (isArticleDoc(incoming) && !incoming.querySelector('.site-footer')) {
+        throw new Error('Article shell missing footer');
+      }
+      await preparePageRuntime(incoming);
       if (generation !== navGeneration) return;
       swapPage(incoming, url, push);
     } catch (error) {

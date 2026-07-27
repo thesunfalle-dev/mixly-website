@@ -358,8 +358,14 @@ if (!readFileSync(resolve(root, 'static-article-shell.js'), 'utf8').includes('wi
 if (!readFileSync(resolve(root, 'article-toc.js'), 'utf8').includes('window.MixlyArticleToc')) {
   report('article-toc.js', 'article table of contents must be callable after an in-document navigation');
 }
-if (!pageNavSource.includes('prepareArticleRuntime') || !pageNavSource.includes('mountArticleRuntime')) {
-  report('page-nav.js', 'in-document navigation must load and mount article-only enhancements');
+if (!pageNavSource.includes('preparePageRuntime') || !pageNavSource.includes('mountPageRuntime')) {
+  report('page-nav.js', 'in-document navigation must load and mount article and legal enhancements');
+}
+if (!pageNavSource.includes('legal.js') || !pageNavSource.includes('scroll-nav.js')) {
+  report('page-nav.js', 'SPA navigation to legal pages must load legal + scroll-nav runtimes');
+}
+if (!readFileSync(resolve(root, 'worker.js'), 'utf8').includes('articleAssetPath')) {
+  report('worker.js', 'must rewrite article paths with and without trailing slash');
 }
 if (!existsSync(resolve(root, 'premium-block.js'))) report('premium-block.js', 'shared More Mixly component is missing');
 if (!pages.get('index.html').includes('data-premium-block')) {

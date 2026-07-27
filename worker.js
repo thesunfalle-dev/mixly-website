@@ -7,25 +7,38 @@ const SECURITY_HEADERS = {
   'Permissions-Policy': 'camera=(), geolocation=(), microphone=(), payment=()',
 };
 
+const ARTICLE_INDEX = {
+  '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana': '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
+  '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',
+  '/de/blog/wie-man-shisha-tabak-richtig-mischt': '/de/blog/wie-man-shisha-tabak-richtig-mischt/index.html',
+  '/ru/blog/sochetaniya-vkusov-dlya-kalyana': '/ru/blog/sochetaniya-vkusov-dlya-kalyana/index.html',
+  '/en/blog/hookah-flavor-combinations': '/en/blog/hookah-flavor-combinations/index.html',
+  '/de/blog/shisha-geschmackskombinationen': '/de/blog/shisha-geschmackskombinationen/index.html',
+  '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
+  '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
+  '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
+};
+
+function articleAssetPath(pathname) {
+  if (ARTICLE_INDEX[pathname]) return ARTICLE_INDEX[pathname];
+  if (pathname.endsWith('/')) {
+    const bare = pathname.slice(0, -1);
+    if (ARTICLE_INDEX[bare]) return ARTICLE_INDEX[bare];
+  }
+  return null;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const articlePaths = {
-      '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana': '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
-      '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',
-      '/de/blog/wie-man-shisha-tabak-richtig-mischt': '/de/blog/wie-man-shisha-tabak-richtig-mischt/index.html',
-      '/ru/blog/sochetaniya-vkusov-dlya-kalyana': '/ru/blog/sochetaniya-vkusov-dlya-kalyana/index.html',
-      '/en/blog/hookah-flavor-combinations': '/en/blog/hookah-flavor-combinations/index.html',
-      '/de/blog/shisha-geschmackskombinationen': '/de/blog/shisha-geschmackskombinationen/index.html',
-      '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
-      '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
-      '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
-    };
     // Locale homes (/en/, /de/) and extensionless marketing/legal paths
     // (/en/blog, /en/privacy, …) are served by Assets html_handling — do not
     // rewrite them here or auto-trailing-slash will redirect-loop.
-    const assetRequest = articlePaths[url.pathname]
-      ? new Request(new URL(articlePaths[url.pathname], url), request)
+    // Articles: rewrite both /path and /path/ to index.html so SPA fetch never
+    // receives an empty 307 body mid-navigation.
+    const articlePath = articleAssetPath(url.pathname);
+    const assetRequest = articlePath
+      ? new Request(new URL(articlePath, url), request)
       : request;
     const response = await env.ASSETS.fetch(assetRequest);
     const headers = new Headers(response.headers);

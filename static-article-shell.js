@@ -89,15 +89,32 @@
     content.insertAdjacentHTML('beforeend', `<section class="article-related" aria-labelledby="article-related-title"><h2 id="article-related-title">${copy.title}</h2><div class="article-related-grid" aria-label="${copy.aria}">${cards}</div></section>`);
   }
 
-  function init() {
+  function enhanceArticlePage() {
+    if (!document.querySelector('.article-page')) return;
+    const lang = document.documentElement.lang || 'en';
+    const article = currentArticle();
+    // Static articles already include related + premium + TOC markup. Still
+    // re-bind TOC geometry and ensure premium mounts after SPA body swaps.
+    normalizeToc();
+    if (article) addRelatedArticles(article, lang);
+    const mountPremium = () => window.MixlyPremium?.mount();
+    if (window.MixlyPremium) mountPremium();
+    else import('/premium-block.js').then(mountPremium).catch(() => {});
+  }
+
+  function ensureShell() {
     const lang = document.documentElement.lang || 'en';
     const copy = COPY[lang] || COPY.en;
     const article = currentArticle();
     const header = document.querySelector('.site-header');
     const footer = document.querySelector('.site-footer');
-    if (!header || !footer || header.dataset.sharedShell === 'true') return;
+    if (!header || !footer) return;
+    // Full static shells (data-shell-static) only need article enhancements.
+    if (header.dataset.shellStatic === 'true' || header.dataset.sharedShell === 'true') {
+      enhanceArticlePage();
+      return;
+    }
     header.dataset.sharedShell = 'true';
-    const premiumReady = import('/premium-block.js');
 
     let actions = header.querySelector('.header-actions');
     if (!actions) {
@@ -116,45 +133,63 @@
     const toggle = header.querySelector('.mobile-menu-toggle');
     const switchToggle = header.querySelector('.lang-switch-toggle');
     const switchMenu = header.querySelector('.lang-switch-menu');
-    toggle.addEventListener('click', () => {
-      const open = toggle.getAttribute('aria-expanded') !== 'true';
-      toggle.setAttribute('aria-expanded', String(open));
-      menu.classList.toggle('is-open', open);
-      menu.setAttribute('aria-hidden', String(!open));
-      document.body.classList.toggle('mobile-menu-open', open);
-    });
-    switchToggle.addEventListener('click', () => {
-      const open = switchToggle.getAttribute('aria-expanded') !== 'true';
-      switchToggle.setAttribute('aria-expanded', String(open));
-      switchMenu.hidden = !open;
-    });
-    document.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-lang]');
-      if (button && article && article.paths[button.dataset.lang]) window.location.assign(article.paths[button.dataset.lang]);
-      if (!event.target.closest('[data-static-lang-switch]') && !switchMenu.hidden) {
-        switchToggle.setAttribute('aria-expanded', 'false');
-        switchMenu.hidden = true;
-      }
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
-      if (toggle.getAttribute('aria-expanded') === 'true') toggle.click();
-      if (!switchMenu.hidden) {
-        switchToggle.setAttribute('aria-expanded', 'false');
-        switchMenu.hidden = true;
-        switchToggle.focus();
-      }
-    });
-
-    if (article) {
-      normalizeToc();
-      addRelatedArticles(article, lang);
+    if (toggle && menu && toggle.dataset.shellBound !== '1') {
+      toggle.dataset.shellBound = '1';
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        menu.classList.toggle('is-open', open);
+        menu.setAttribute('aria-hidden', String(!open));
+        document.body.classList.toggle('mobile-menu-open', open);
+      });
+    }
+    if (switchToggle && switchMenu && switchToggle.dataset.shellBound !== '1') {
+      switchToggle.dataset.shellBound = '1';
+      switchToggle.addEventListener('click', () => {
+        const open = switchToggle.getAttribute('aria-expanded') !== 'true';
+        switchToggle.setAttribute('aria-expanded', String(open));
+        switchMenu.hidden = !open;
+      });
+    }
+    if (!document.documentElement.dataset.shellLangBound) {
+      document.documentElement.dataset.shellLangBound = '1';
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-lang]');
+        const current = currentArticle();
+        if (button && current && current.paths[button.dataset.lang]) {
+          window.location.assign(current.paths[button.dataset.lang]);
+        }
+        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
+        if (openMenu && !event.target.closest('[data-static-lang-switch]')) {
+          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
+          if (tgl) tgl.setAttribute('aria-expanded', 'false');
+          openMenu.hidden = true;
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        const toggleBtn = document.querySelector('.mobile-menu-toggle[aria-expanded="true"]');
+        if (toggleBtn) toggleBtn.click();
+        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
+        if (openMenu) {
+          openMenu.hidden = true;
+          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
+          if (tgl) {
+            tgl.setAttribute('aria-expanded', 'false');
+            tgl.focus();
+          }
+        }
+      });
     }
 
-    premiumReady.then(() => window.MixlyPremium?.mount());
+    enhanceArticlePage();
   }
 
-  window.MixlyArticleShell = { mount: init };
+  function init() {
+    ensureShell();
+  }
+
+  window.MixlyArticleShell = { mount: init, enhance: enhanceArticlePage };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

@@ -239,15 +239,26 @@
     bindToc(tocNav, sectionNodes, tocCurrent, dropdown);
   }
 
-  function init() {
+  var localeBound = false;
+
+  function mount(lang) {
     if (!document.body.hasAttribute('data-legal-doc')) return;
+    if (!localeBound) {
+      localeBound = true;
+      document.addEventListener('mixly:locale', function (event) {
+        renderLegal((event.detail && event.detail.lang) || 'en');
+      });
+    }
+    var nextLang =
+      lang ||
+      (window.MixlyI18n && window.MixlyI18n.getLang && window.MixlyI18n.getLang()) ||
+      document.documentElement.lang ||
+      'ru';
+    renderLegal(nextLang);
+  }
 
-    document.addEventListener('mixly:locale', function (event) {
-      renderLegal((event.detail && event.detail.lang) || 'en');
-    });
-
-    var lang = (window.MixlyI18n && window.MixlyI18n.getLang && window.MixlyI18n.getLang()) || 'ru';
-    renderLegal(lang);
+  function init() {
+    mount();
   }
 
   if (document.readyState === 'loading') {
@@ -256,5 +267,5 @@
     init();
   }
 
-  window.MixlyLegal = { render: renderLegal, detectDoc: detectDoc };
+  window.MixlyLegal = { render: renderLegal, detectDoc: detectDoc, mount: mount };
 })();
