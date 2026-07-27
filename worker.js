@@ -39,7 +39,9 @@ export default {
     if (/\.(?:webp|png|jpe?g|gif|svg|woff2|ico)$/i.test(pathname)) {
       headers.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
     } else if (/\.(?:css|js)$/i.test(pathname)) {
-      headers.set('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+      // Unfingerprinted shared scripts (i18n.js, page-nav.js, …). Keep short so
+      // SPA fixes reach clients without waiting a day for max-age expiry.
+      headers.set('Cache-Control', 'public, max-age=300, must-revalidate');
     } else if (/\.html?$/i.test(pathname) || pathname === '/' || !pathname.includes('.')) {
       headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
     }
