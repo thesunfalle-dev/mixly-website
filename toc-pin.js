@@ -2,9 +2,11 @@
   'use strict';
 
   /**
-   * Desktop TOC pin shared by legal docs and articles.
-   * Fixed under the header; slides up against layout bottom + footer so it
-   * never covers page chrome at the end.
+   * Shared desktop TOC pin for legal docs and articles.
+   * Same flow everywhere:
+   * 1) stick under the header while the layout is on screen
+   * 2) slide up with the layout/footer stop line (classic sticky unstick)
+   * 3) fully hide once the block has left the viewport — never leave a clipped strip
    */
   function pinDesktopToc(tocEl, options) {
     if (!tocEl || tocEl.dataset.tocPinBound === '1') {
@@ -56,6 +58,17 @@
       }
     };
 
+    const hideFixed = () => {
+      // Keep layout column reserved, but do not paint a clipped remnant.
+      tocEl.style.position = 'fixed';
+      tocEl.style.left = `${pinnedLeft}px`;
+      tocEl.style.width = `${pinnedWidth}px`;
+      tocEl.style.top = `${pinTop}px`;
+      tocEl.style.maxHeight = '';
+      tocEl.style.visibility = 'hidden';
+      tocEl.style.pointerEvents = 'none';
+    };
+
     const measureColumn = () => {
       tocEl.style.visibility = '';
       tocEl.style.pointerEvents = '';
@@ -88,8 +101,13 @@
       const layout = document.querySelector(layoutSelector);
       const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
       const layoutBottom = layout ? layout.getBoundingClientRect().bottom : footerTop;
-      // Same stop rule as legal docs: end of grid column / footer, not mid-page hide hacks.
       const stopLine = Math.min(footerTop, layoutBottom) - edgeGap;
+
+      // Layout already left the sticky band — same as sticky finished and scrolled away.
+      if (layoutBottom <= pinTop) {
+        hideFixed();
+        return;
+      }
 
       tocEl.style.visibility = '';
       tocEl.style.pointerEvents = '';
@@ -99,22 +117,21 @@
       tocEl.style.bottom = 'auto';
       tocEl.style.overflowY = 'auto';
 
-      const viewportCap = Math.max(120, window.innerHeight - pinTop - edgeGap);
+      // Height only capped by viewport while stuck — never crush into a 40–80px strip.
+      const viewportCap = Math.max(160, window.innerHeight - pinTop - edgeGap);
       tocEl.style.maxHeight = `${viewportCap}px`;
-      let tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
+      const tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
 
-      // Classic sticky: stick under header, then unstick / slide up against stopLine.
+      // Stick under header, then slide up with the stop line (may go negative).
       let top = pinTop;
       if (top + tocHeight > stopLine) {
         top = stopLine - tocHeight;
       }
-      if (top < edgeGap) {
-        top = edgeGap;
-        const tightCap = Math.max(80, stopLine - top);
-        tocEl.style.maxHeight = `${tightCap}px`;
-        tocHeight = tocEl.getBoundingClientRect().height || tocEl.offsetHeight;
-        top = Math.min(pinTop, stopLine - tocHeight);
-        if (top < edgeGap) top = edgeGap;
+
+      // Fully above the viewport → hide (no "50/50" crumb at the top edge).
+      if (top + tocHeight <= 0) {
+        hideFixed();
+        return;
       }
 
       tocEl.style.top = `${Math.round(top)}px`;
