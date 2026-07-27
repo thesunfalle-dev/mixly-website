@@ -23,6 +23,14 @@
   navigation: auto;
 }
 
+/* Soft affordance while SPA navigation fetch is in flight (MIX-10). */
+html[data-nav-pending='1'] {
+  cursor: progress;
+}
+html[data-nav-pending='1'] body {
+  cursor: progress;
+}
+
 ::view-transition-group(root) {
   animation-duration: 180ms;
   animation-timing-function: cubic-bezier(.22, 1, .36, 1);

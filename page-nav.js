@@ -5,7 +5,34 @@
 
   let navigating = false;
   let controller = null;
+  let pendingTimer = 0;
+  let navGeneration = 0;
   const scriptLoads = new Map();
+  const FETCH_TIMEOUT_MS = 8000;
+  const PENDING_HINT_MS = 160;
+
+  const clearPendingHint = () => {
+    window.clearTimeout(pendingTimer);
+    pendingTimer = 0;
+    document.documentElement.removeAttribute('data-nav-pending');
+  };
+
+  const unlockScroll = () => {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    document.body.classList.remove('mobile-menu-open', 'hover-lock');
+    document.documentElement.classList.remove(
+      'is-veiled',
+      'content-pending',
+      'scroll-pinned',
+      'i18n-pending'
+    );
+  };
 
   const closeMobileMenu = ({ restoreFocus = false } = {}) => {
     const mobileMenu = document.querySelector('.mobile-menu');
@@ -14,26 +41,65 @@
     mobileMenu?.setAttribute('aria-hidden', 'true');
     toggle?.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('mobile-menu-open');
+    unlockScroll();
     if (restoreFocus) toggle?.focus();
+  };
+
+  const closeDialogs = () => {
+    document.querySelectorAll('dialog[open]').forEach((dialog) => {
+      try {
+        dialog.close();
+      } catch (_) {
+        dialog.removeAttribute('open');
+      }
+    });
+  };
+
+  const resetUiState = ({ restoreFocus = false } = {}) => {
+    closeMobileMenu({ restoreFocus });
+    closeDialogs();
+    unlockScroll();
+    clearPendingHint();
+  };
+
+  const normalizePath = (pathname) => {
+    if (!pathname || pathname === '/') return '/';
+    return pathname.replace(/\/index\.html$/i, '/').replace(/\/+$/, '') || '/';
   };
 
   const isPageLink = (link) => {
     if (!link || link.target === '_blank' || link.hasAttribute('download')) return false;
-    if (link.closest('dialog') || /^mailto:|^tel:|^javascript:/i.test(link.getAttribute('href') || '')) return false;
+    if (link.closest('dialog') || /^mailto:|^tel:|^javascript:/i.test(link.getAttribute('href') || '')) {
+      return false;
+    }
     const next = new URL(link.href, location.href);
     const current = new URL(location.href);
-    return next.origin === current.origin && !(next.pathname === current.pathname && next.search === current.search);
+    if (next.origin !== current.origin) return false;
+    // Same document hash navigation stays native so the browser scrolls.
+    if (
+      normalizePath(next.pathname) === normalizePath(current.pathname) &&
+      next.search === current.search
+    ) {
+      return false;
+    }
+    return true;
   };
 
   const executeInlineScripts = () => {
     document.body.querySelectorAll('script:not([src])').forEach((script) => {
       if (!script.textContent.trim() || script.textContent.includes('__mixlySetLocalizedImage')) return;
-      try { Function(script.textContent)(); } catch (error) { console.error('Page script failed after navigation', error); }
+      try {
+        Function(script.textContent)();
+      } catch (error) {
+        console.error('Page script failed after navigation', error);
+      }
     });
   };
 
   const mountOptionalBlocks = () => {
-    if (document.querySelector('[data-premium-block]') && window.MixlyPremium) window.MixlyPremium.mount();
+    if (document.querySelector('[data-premium-block]') && window.MixlyPremium) {
+      window.MixlyPremium.mount();
+    }
   };
 
   const loadScript = (src, ready) => {
@@ -77,8 +143,14 @@
   const scrollToDestination = (url) => {
     const id = url.hash ? decodeURIComponent(url.hash.slice(1)) : '';
     const target = id ? document.getElementById(id) : null;
-    if (target) target.scrollIntoView({ block: 'start' });
-    else window.scrollTo(0, 0);
+    if (target) {
+      const header = document.querySelector('.site-header');
+      const offset = header ? Math.ceil(header.getBoundingClientRect().height) + 12 : 24;
+      const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+      window.scrollTo(0, top);
+      return;
+    }
+    window.scrollTo(0, 0);
   };
 
   const swapPage = (incoming, url, push) => {
@@ -87,21 +159,34 @@
     document.documentElement.dataset.pageNavigation = 'spa';
     if (push) history.pushState({}, '', url.href);
 
-    // The language is already present in the static first-paint markup. This
-    // call only restores switcher controls after an in-document navigation.
+    // Locale is already in static first-paint markup; rebind switcher after swap.
     if (window.MixlyI18n) window.MixlyI18n.applyLocale(window.MixlyI18n.detectLocale(), false);
     executeInlineScripts();
     mountArticleRuntime();
     mountOptionalBlocks();
-    closeMobileMenu();
+    resetUiState();
     requestAnimationFrame(() => scrollToDestination(url));
   };
 
+  const hardNavigate = (url) => {
+    resetUiState();
+    location.assign(url.href);
+  };
+
   const navigate = async (url, { push = true } = {}) => {
-    if (navigating) return;
-    navigating = true;
+    navGeneration += 1;
+    const generation = navGeneration;
     controller?.abort();
     controller = new AbortController();
+    navigating = true;
+    clearPendingHint();
+    pendingTimer = window.setTimeout(() => {
+      if (generation === navGeneration) {
+        document.documentElement.setAttribute('data-nav-pending', '1');
+      }
+    }, PENDING_HINT_MS);
+
+    const timeout = window.setTimeout(() => controller?.abort(), FETCH_TIMEOUT_MS);
 
     try {
       const response = await fetch(url.href, {
@@ -109,39 +194,111 @@
         headers: { Accept: 'text/html' },
         signal: controller.signal,
       });
-      if (!response.ok || !response.headers.get('content-type')?.includes('text/html')) throw new Error('HTML page was not returned');
+      if (generation !== navGeneration) return;
+      if (!response.ok || !response.headers.get('content-type')?.includes('text/html')) {
+        throw new Error('HTML page was not returned');
+      }
       const incoming = new DOMParser().parseFromString(await response.text(), 'text/html');
       await prepareArticleRuntime(incoming);
+      if (generation !== navGeneration) return;
       swapPage(incoming, url, push);
     } catch (error) {
-      if (error.name !== 'AbortError') location.assign(url.href);
+      if (error.name === 'AbortError') {
+        // Superseded by a newer navigation, or timed out.
+        if (generation === navGeneration) hardNavigate(url);
+        return;
+      }
+      if (generation === navGeneration) hardNavigate(url);
     } finally {
-      navigating = false;
+      window.clearTimeout(timeout);
+      if (generation === navGeneration) {
+        navigating = false;
+        clearPendingHint();
+      }
     }
   };
 
-  document.addEventListener('click', (event) => {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const toggle = event.target.closest('[data-mobile-menu-open], .mobile-menu-toggle');
-    if (toggle) {
-      const menu = document.querySelector('#mobile-menu');
-      if (!menu) return;
-      event.preventDefault();
-      const open = toggle.getAttribute('aria-expanded') !== 'true';
-      toggle.setAttribute('aria-expanded', String(open));
-      menu.classList.toggle('is-open', open);
-      menu.setAttribute('aria-hidden', String(!open));
-      document.body.classList.toggle('mobile-menu-open', open);
-      return;
+  const prefetch = (url) => {
+    try {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = url.href;
+      link.as = 'document';
+      // Replace prior prefetch tip if any.
+      document.querySelectorAll('link[data-mixly-prefetch]').forEach((node) => node.remove());
+      link.setAttribute('data-mixly-prefetch', '1');
+      document.head.appendChild(link);
+    } catch (_) {
+      /* ignore */
     }
+  };
 
-    const link = event.target.closest('a[href]');
-    if (!isPageLink(link)) return;
-    event.preventDefault();
-    navigate(new URL(link.href, location.href));
-  }, true);
+  document.addEventListener(
+    'click',
+    (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
 
-  window.addEventListener('popstate', () => navigate(new URL(location.href), { push: false }));
-  window.addEventListener('pageshow', () => closeMobileMenu());
-  window.MixlyPageNav = { navigate };
+      const toggle = event.target.closest('[data-mobile-menu-open], .mobile-menu-toggle');
+      if (toggle) {
+        const menu = document.querySelector('#mobile-menu');
+        if (!menu) return;
+        event.preventDefault();
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        menu.classList.toggle('is-open', open);
+        menu.setAttribute('aria-hidden', String(!open));
+        document.body.classList.toggle('mobile-menu-open', open);
+        if (!open) unlockScroll();
+        return;
+      }
+
+      // Close control inside the menu (if present).
+      if (event.target.closest('.mobile-menu-close')) {
+        event.preventDefault();
+        closeMobileMenu({ restoreFocus: true });
+        return;
+      }
+
+      const link = event.target.closest('a[href]');
+      if (!link) return;
+
+      // Always unlock scroll / close overlay before following a link from the
+      // hamburger or while the menu scroll-lock is active — including same-page hashes.
+      if (link.closest('.mobile-menu') || document.body.classList.contains('mobile-menu-open')) {
+        closeMobileMenu();
+      }
+
+      if (!isPageLink(link)) return;
+      event.preventDefault();
+      // Close again for footer links that never opened the menu, just in case.
+      resetUiState();
+      navigate(new URL(link.href, location.href));
+    },
+    true
+  );
+
+  document.addEventListener(
+    'pointerenter',
+    (event) => {
+      const link = event.target.closest?.('a[href]');
+      if (!isPageLink(link)) return;
+      if (!link.closest('.site-footer, .mobile-menu, .site-header')) return;
+      prefetch(new URL(link.href, location.href));
+    },
+    true
+  );
+
+  window.addEventListener('popstate', () => {
+    resetUiState();
+    navigate(new URL(location.href), { push: false });
+  });
+  window.addEventListener('pageshow', () => resetUiState());
+  window.addEventListener('pagehide', () => resetUiState());
+
+  // Fail-open: never leave a leftover scroll lock from older builds / bfcache.
+  resetUiState();
+
+  window.MixlyPageNav = { navigate, resetUiState, closeMobileMenu };
 })();

@@ -55,6 +55,15 @@ function report(file, message) {
 if (/sessionStorage/.test(pageNavSource)) {
   report('page-nav.js', 'navigation must not persist transition state between pages');
 }
+if (!/resetUiState/.test(pageNavSource) || !/closeMobileMenu/.test(pageNavSource)) {
+  report('page-nav.js', 'must expose fail-open UI reset that closes the mobile menu');
+}
+if (!/FETCH_TIMEOUT_MS|AbortController/.test(pageNavSource)) {
+  report('page-nav.js', 'must time out stuck SPA fetches and fall back to hard navigation');
+}
+if (!/mobile-menu-open/.test(pageNavSource) || !/unlockScroll|overflow/.test(pageNavSource)) {
+  report('page-nav.js', 'must clear mobile-menu scroll lock before and after navigation');
+}
 if (/landing-rise|phones-arrive|visual-arrive|cta-arrive/.test(stylesSource)) {
   report('styles.css', 'first-paint entrance animations must not restart content after navigation');
 }
