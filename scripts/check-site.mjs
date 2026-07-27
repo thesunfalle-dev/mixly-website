@@ -24,6 +24,8 @@ const files = listHtmlFiles(root).sort();
 const pages = new Map(files.map((file) => [file, readFileSync(resolve(root, file), 'utf8')]));
 
 const i18nSource = readFileSync(resolve(root, 'i18n.js'), 'utf8');
+const pageNavSource = readFileSync(resolve(root, 'page-nav.js'), 'utf8');
+const stylesSource = readFileSync(resolve(root, 'styles.css'), 'utf8');
 const dictionaryContext = {
   window: {},
   document: {
@@ -40,15 +42,44 @@ const shotFiles = Object.fromEntries(
   [...shotBlock.matchAll(/'([^']+)': '([^']+)'/g)]
     .map((match) => [match[1], match[2]]),
 );
+const publishedBlogCards = {
+  ru: '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
+  en: '/en/blog/how-to-mix-hookah-tobacco',
+  de: '/de/blog/wie-man-shisha-tabak-richtig-mischt',
+};
 
 function report(file, message) {
   errors.push(`${file}: ${message}`);
+}
+
+if (/sessionStorage/.test(pageNavSource)) {
+  report('page-nav.js', 'navigation must not persist transition state between pages');
+}
+if (/landing-rise|phones-arrive|visual-arrive|cta-arrive/.test(stylesSource)) {
+  report('styles.css', 'first-paint entrance animations must not restart content after navigation');
+}
+if (!/@view-transition\s*\{\s*navigation:\s*auto;/.test(stylesSource)) {
+  report('styles.css', 'same-origin documents must opt in to native view transitions');
 }
 
 function localFileFor(url) {
   const path = decodeURIComponent(url.pathname);
   if (path === '/') return 'index.html';
   return path.replace(/^\//, '');
+}
+
+for (const [locale, path] of Object.entries(publishedBlogCards)) {
+  if (dictionaries[locale]['blog.card.first.href'] !== path) {
+    report('i18n.js', `published ${locale} blog-card URL is incorrect`);
+  }
+  const targetFile = `${path.slice(1)}/index.html`;
+  const target = pages.get(targetFile);
+  if (!target) {
+    report('i18n.js', `published ${locale} blog-card URL has no local page: ${path}`);
+  } else if (/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(target)) {
+    report('i18n.js', `published ${locale} blog-card URL is not indexable: ${path}`);
+  }
+  if (checkExternal) externalUrls.add(`${publicOrigin}${path}`);
 }
 
 for (const [locale, entries] of Object.entries(dictionaries)) {
@@ -64,9 +95,34 @@ function idsIn(source) {
   return new Set([...source.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
 }
 
+for (const file of ['privacy.html', 'cookies.html', 'terms.html', 'eula.html', 'support.html']) {
+  const source = pages.get(file);
+  if (!/<h1 id="legal-title">\s*[^<\s][\s\S]*?<\/h1>/.test(source)) {
+    report(file, 'static legal fallback is missing its H1');
+  }
+  const body = source.match(/<div class="legal-body" id="legal-body">([\s\S]*?)<\/div>/)?.[1] ?? '';
+  if (!/<section id="[^"]+" class="legal-section">/.test(body)) {
+    report(file, 'static legal fallback is missing document sections');
+  }
+  if (!/<aside class="legal-toc" id="legal-toc"[\s\S]*?<a href="#[^"]+">/.test(source)) {
+    report(file, 'static legal fallback is missing table-of-contents anchors');
+  }
+}
+
 for (const [file, source] of pages) {
+  // Utility handoff pages stay out of the marketing shell / view-transition contract.
+  if (file !== 'share.html' && !source.includes('<link rel="expect" href="#content">')) {
+    report(file, 'must identify its main content for a consistent navigation snapshot');
+  }
+  if (/\bi18n-pending\b/.test(source)) {
+    report(file, 'must not hide the document while localization initializes');
+  }
+  if (/sessionStorage\.getItem\(['"]mixly-page-veil['"]\)/.test(source)) {
+    report(file, 'must not restore the retired page-veil transition');
+  }
+
   const translationKeys = [
-    ...source.matchAll(/\bdata-i18n(?:-(?:aria|alt))?="([^"]+)"/g),
+    ...source.matchAll(/\bdata-i18n(?:-(?:aria|alt|href))?="([^"]+)"/g),
   ].map((match) => match[1]);
 
   for (const key of translationKeys) {
@@ -124,6 +180,71 @@ for (const [file, source] of pages) {
   }
 }
 
+for (const file of ['403.html', '404.html', '500.html', 'article.html', 'blog.html', 'cookies.html', 'eula.html', 'index.html', 'privacy.html', 'support.html', 'terms.html']) {
+  const source = pages.get(file);
+  if (source.includes('<script src="./i18n.js" defer')) {
+    report(file, 'localization must run before the first visible frame, not as a deferred script');
+  }
+  if (!source.includes('<link rel="preload" href="./i18n.js" as="script"') || !source.includes('<script src="./i18n.js"></script>')) {
+    report(file, 'must preload and run localization at the end of the parsed document');
+  }
+}
+
+for (const file of ['403.html', '404.html', '500.html', 'article.html', 'blog.html', 'cookies.html', 'eula.html', 'index.html', 'privacy.html', 'support.html', 'terms.html']) {
+  const source = pages.get(file);
+  if (!source.startsWith('<!doctype html>\n<html lang="ru">')) {
+    report(file, 'default first-paint markup must match the Russian fallback locale');
+  }
+}
+
+const homePage = pages.get('index.html');
+if (!homePage.includes('window.__mixlySetLocalizedImage')) {
+  report('index.html', 'localized images must be assigned before the deferred i18n runtime');
+}
+if (!/src="\.\/images_for_web\/RU\/main_[12]\.webp"/.test(homePage)) {
+  report('index.html', 'Russian first-paint markup must include Russian hero screenshots');
+}
+
+for (const file of ['index.html', 'blog.html']) {
+  const source = pages.get(file);
+  if (/article\.html\?slug=(?:base|brands|practice)/.test(source)) {
+    report(file, 'public blog cards must not link to unpublished article templates');
+  }
+  if (!/data-i18n-href="blog\.card\.first\.href"/.test(source)) {
+    report(file, 'published article card must use a localized URL');
+  }
+}
+
+for (const file of files.filter((file) => /^(ru|en|de)\/blog\//.test(file))) {
+  const source = pages.get(file);
+  if (!source.includes('/article-toc.js')) report(file, 'localized article must load the shared article runtime');
+  if (!source.includes('/page-nav.js')) report(file, 'localized article must keep internal navigation in the current document');
+  if (!source.includes('/static-article-shell.js')) report(file, 'localized article must load the shared shell before first paint');
+  if (!source.includes('data-shell-static="true"')) report(file, 'localized article must include the shared header before scripts run');
+  if (!source.includes('class="article-related"')) report(file, 'localized article must include related articles before scripts run');
+  if (!source.includes('class="footer-main"')) report(file, 'localized article must include the full footer before scripts run');
+}
+if (!existsSync(resolve(root, 'static-article-shell.js'))) report('static-article-shell.js', 'shared static article shell is missing');
+if (!readFileSync(resolve(root, 'static-article-shell.js'), 'utf8').includes('window.MixlyArticleShell')) {
+  report('static-article-shell.js', 'shared article shell must be callable after an in-document navigation');
+}
+if (!readFileSync(resolve(root, 'article-toc.js'), 'utf8').includes('window.MixlyArticleToc')) {
+  report('article-toc.js', 'article table of contents must be callable after an in-document navigation');
+}
+if (!pageNavSource.includes('prepareArticleRuntime') || !pageNavSource.includes('mountArticleRuntime')) {
+  report('page-nav.js', 'in-document navigation must load and mount article-only enhancements');
+}
+if (!existsSync(resolve(root, 'premium-block.js'))) report('premium-block.js', 'shared More Mixly component is missing');
+if (!pages.get('index.html').includes('data-premium-block')) {
+  report('index.html', 'home page must mount the shared More Mixly component');
+}
+if (!pages.get('article.html').includes('./premium-block.js')) {
+  report('article.html', 'article template must load the shared More Mixly component');
+}
+if (!readFileSync(resolve(root, 'static-article-shell.js'), 'utf8').includes("import('/premium-block.js')")) {
+  report('static-article-shell.js', 'published articles must load the shared More Mixly component');
+}
+
 if (checkExternal) {
   for (const url of externalUrls) {
     try {
@@ -161,7 +282,18 @@ for (const location of [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match)
   let targetFile = localFileFor(new URL(location));
   if (!pages.has(targetFile) && pages.has(`${targetFile}/index.html`)) targetFile = `${targetFile}/index.html`;
   if (!pages.has(targetFile)) report('sitemap.xml', `URL does not point to a page: ${location}`);
-  if (['article.html', '403.html', '404.html', '500.html', 'share.html'].includes(targetFile)) {
+  if ([
+    'article.html',
+    '403.html',
+    '404.html',
+    '500.html',
+    'share.html',
+    'privacy.html',
+    'cookies.html',
+    'terms.html',
+    'eula.html',
+    'support.html',
+  ].includes(targetFile)) {
     report('sitemap.xml', `non-indexable page is included: ${location}`);
   }
 }

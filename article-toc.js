@@ -68,14 +68,15 @@
     }
 
     var desktopToc = window.matchMedia('(min-width: 981px)');
-    function syncTocMode() { dropdown.open = desktopToc.matches; }
+    function syncTocMode() {
+      dropdown.open = desktopToc.matches;
+      summary.tabIndex = desktopToc.matches ? -1 : 0;
+      if (desktopToc.matches) summary.setAttribute('aria-hidden', 'true');
+      else summary.removeAttribute('aria-hidden');
+    }
     syncTocMode();
     if (desktopToc.addEventListener) desktopToc.addEventListener('change', syncTocMode);
     else if (desktopToc.addListener) desktopToc.addListener(syncTocMode);
-
-    summary.addEventListener('click', function (event) {
-      if (desktopToc.matches) event.preventDefault();
-    });
 
     function updateActiveSection() {
       var anchorLine = 120;
@@ -100,6 +101,7 @@
     bindImageLightbox();
   }
 
+  window.MixlyArticleToc = { mount: init };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

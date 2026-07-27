@@ -1,91 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Mixly License Agreement" />
+    <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#29282B" />
     <link rel="canonical" href="https://get-mixly.app/eula.html" />
     <title>License Agreement · Mixly</title>
     <style>
       html { background: #29282b; }
-      html.is-veiled { overflow: hidden !important; }
-      html.is-veiled::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        z-index: 2147483647;
-        pointer-events: none;
-        background: #29282b;
-        opacity: 1;
-      }
-      html.content-pending body { opacity: 0 !important; }
-      html.scroll-pinned body {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-      }
     </style>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="./favicon-48.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css" /><link rel="expect" href="#content">
+    <link rel="preload" href="/assets/Montserrat_400Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_600SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_700Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./i18n.js" as="script" fetchpriority="high" />
     <script>
       try {
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-        if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          document.documentElement.classList.add('is-veiled', 'veil-instant', 'page-arrived', 'content-pending', 'hover-lock', 'scroll-pinned');
-          window.scrollTo(0, 0);
-          window.setTimeout(() => document.documentElement.classList.remove('content-pending', 'is-veiled', 'veil-instant'), 3200);
-        }
       } catch (_) {}
     </script>
-    <script src="https://browser.sentry-cdn.com/10.42.0/bundle.min.js" crossorigin="anonymous"></script>
     <script src="./monitoring.js" defer></script>
     <script src="./legal-content.js" defer></script>
     <script src="./scroll-nav.js" defer></script>
     <script src="./page-nav.js" defer></script>
-    <script src="./i18n.js" defer></script>
     <script src="./analytics.js" defer></script>
     <script src="./legal.js" defer></script>
   </head>
   <body data-legal-doc="eula">
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria">mixly</a>
-      <nav data-i18n-aria="nav.mainAria">
-        <a href="./#how-it-works" data-i18n="nav.about">About the app</a>
-        <a href="./#features" data-i18n="nav.features">Features</a>
-        <a href="./#changelog" data-i18n="nav.updates">Updates</a>
-        <a href="./blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a>
+      <nav data-i18n-aria="nav.mainAria" aria-label="Основная навигация">
+        <a href="./#how-it-works" data-i18n="nav.about">О приложении</a>
+        <a href="./#features" data-i18n="nav.features">Возможности</a>
+        <a href="./#changelog" data-i18n="nav.updates">Обновления</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
       </nav>
       <div class="header-actions">
-        <a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full" data-i18n="nav.download">Download on the App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></a>
+        <a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></a>
         <div class="lang-switch" data-lang-switch>
-          <button type="button" class="lang-switch-toggle" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.label">EN</button>
-          <ul class="lang-switch-menu" hidden role="listbox">
-            <li role="option"><button type="button" data-lang="ru" aria-selected="false">RU</button></li>
-            <li role="option"><button type="button" data-lang="en" aria-selected="false">EN</button></li>
-            <li role="option"><button type="button" data-lang="de" aria-selected="false">DE</button></li>
+          <button type="button" class="lang-switch-toggle" aria-expanded="false" data-i18n-aria="lang.label" aria-label="Язык">EN</button>
+          <ul class="lang-switch-menu" hidden role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <li><button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button></li>
+            <li><button type="button" data-lang="en" role="radio" aria-checked="false">EN</button></li>
+            <li><button type="button" data-lang="de" role="radio" aria-checked="false">DE</button></li>
           </ul>
         </div>
-        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open aria-label="Открыть меню">
           <span></span><span></span><span></span>
         </button>
       </div>
     </header>
-    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
-      <nav data-i18n-aria="nav.mobileAria">
-        <a href="./#how-it-works" data-i18n="nav.about">About the app</a>
-        <a href="./#features" data-i18n="nav.features">Features</a>
-        <a href="./#changelog" data-i18n="nav.updates">Updates</a>
-        <a href="./blog.html" data-i18n="nav.blog">Blog</a>
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true" aria-label="Меню сайта">
+      <nav data-i18n-aria="nav.mobileAria" aria-label="Мобильная навигация">
+        <a href="./#how-it-works" data-i18n="nav.about">О приложении</a>
+        <a href="./#features" data-i18n="nav.features">Возможности</a>
+        <a href="./#changelog" data-i18n="nav.updates">Обновления</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
       </nav>
       <div class="mobile-menu-socials">
-        <p data-i18n="nav.socials">Social</p>
+        <p data-i18n="nav.socials">Соцсети</p>
         <div class="mobile-menu-social-links">
           <a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a>
           <a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a>
@@ -93,39 +73,38 @@
       </div>
       <div class="mobile-menu-lang">
         <div class="lang-switch lang-switch-mobile" data-lang-switch>
-          <div class="lang-switch-segment" role="listbox" data-i18n-aria="lang.label">
-            <button type="button" data-lang="ru" role="option" aria-selected="false">RU</button>
-            <button type="button" data-lang="en" role="option" aria-selected="false">EN</button>
-            <button type="button" data-lang="de" role="option" aria-selected="false">DE</button>
+          <div class="lang-switch-segment" role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button>
+            <button type="button" data-lang="en" role="radio" aria-checked="false">EN</button>
+            <button type="button" data-lang="de" role="radio" aria-checked="false">DE</button>
           </div>
         </div>
       </div>
     </aside>
     <main class="legal-page" id="content">
-      <a class="back-home" href="./"><span aria-hidden="true">←</span> <span data-i18n="legal.back">Back to home</span></a>
+      <a class="back-home" href="./"><span aria-hidden="true">←</span> <span data-i18n="legal.back">На главную</span></a>
       <div class="legal-layout">
         <article class="legal-article">
           <header class="legal-header">
-            <p class="eyebrow" data-i18n="footer.docs">Documents</p>
-            <h1 id="legal-title"></h1>
-            <p class="legal-meta" id="legal-meta"></p>
-            <p class="legal-notice" id="legal-notice"></p>
+            <p class="eyebrow" data-i18n="footer.docs">Документы</p>
+            <h1 id="legal-title">Лицензионное соглашение</h1><p class="legal-meta" id="legal-meta">Дата вступления в силу: 8 июня 2026</p><p class="legal-notice" id="legal-notice">Настоящее Лицензионное соглашение регулирует ваше право устанавливать и использовать Mixly. Mixly — это информационное справочное приложение только для взрослых, а не маркетплейс, розничный продавец, медицинский консультант или сервис продвижения потребления.</p>
           </header>
-          <div class="legal-body" id="legal-body"></div>
+          <div class="legal-body" id="legal-body"><section id="s1" class="legal-section"><h2>1. Лицензиар</h2><p>Мобильное приложение Mixly лицензируется Индивидуальным предпринимателем ULADZISLAU YARMAKOVICH, Батуми, Грузия («Лицензиар», «Mixly», «мы», «нас» или «наш»).</p><p>Контактный email: <a href="mailto:support@get-mixly.app">support@get-mixly.app</a>.</p><p>Почтовый адрес: Грузия, г. Батуми, ул. Вахтанга Горгасали, N116-118, 11 этаж, квартира N58.</p></section><section id="s2" class="legal-section"><h2>2. Связь с другими условиями</h2><p>Настоящее Лицензионное соглашение применяется совместно с Условиями использования и Политикой конфиденциальности Mixly. Условия платформ Apple App Store, Google Play или любого другого авторизованного магазина приложений также применяются к загрузке и использованию вами Mixly.</p><p>Если императивные условия платформы противоречат настоящему Лицензионному соглашению, императивные условия платформы применяются только в объёме такого противоречия.</p></section><section id="s3" class="legal-section"><h2>3. Предоставление лицензии</h2><p>При условии соблюдения вами настоящего Лицензионного соглашения и Условий использования мы предоставляем вам ограниченную, персональную, неисключительную, непередаваемую, несублицензируемую, отзывную лицензию на установку и использование Mixly на устройствах, которыми вы владеете или которые контролируете, исключительно для вашего личного, законного информационного использования взрослым человеком.</p></section><section id="s4" class="legal-section"><h2>4. Право собственности</h2><p>Mixly предоставляется по лицензии, а не продаётся. Мы и наши лицензиары сохраняем все права, титул и интересы в отношении приложения, включая дизайн приложения, интерфейс, код, структуру каталога, логику ранжирования, тексты, графику, скомпилированные наборы данных и связанные материалы.</p><p>Названия брендов, продуктов, источников, товарные знаки, логотипы и другие идентификаторы третьих лиц, упомянутые в Mixly, остаются собственностью их соответствующих владельцев. Их появление в Mixly служит только для информационной идентификации и не подразумевает одобрения, спонсорства, авторизации, партнёрства или аффилированности.</p></section><section id="s5" class="legal-section"><h2>5. Ограничения</h2><p>Вы не должны:</p><ul><li>продавать, сдавать в аренду, во временное пользование, сублицензировать, перераспространять или коммерчески эксплуатировать Mixly либо доступ к Mixly;</li><li>копировать, изменять, переводить, адаптировать или создавать производные произведения от Mixly, кроме случаев, когда это прямо разрешено применимым законодательством;</li><li>выполнять обратную разработку, декомпиляцию или пытаться извлечь исходный код, кроме случаев, когда это прямо разрешено применимым законодательством;</li><li>удалять или изменять уведомления о правах собственности;</li><li>выполнять скрейпинг, экспорт, сбор или компиляцию существенных частей каталога или базы данных для конкурирующего продукта, коммерческого набора данных или несанкционированной производной базы данных;</li><li>использовать ботов, скрипты, краулеры или автоматизированные инструменты для доступа к Mixly или связанным бэкенд-сервисам без нашего письменного разрешения;</li><li>вмешиваться в работу, перегружать, обходить или атаковать Mixly, Supabase, сервисы хранения или связанную инфраструктуру;</li><li>манипулировать, спамить, автоматизировать или искажать community-предложения, реакции, оценки, отзывы, комментарии, share links или аналитические события;</li><li>использовать Mixly для содействия незаконной деятельности либо покупке, продаже, распространению, рекламе или неправомерному использованию регулируемых товаров.</li></ul></section><section id="s6" class="legal-section"><h2>6. Ограничение по возрасту и регулируемому контенту</h2><p>Вы можете использовать Mixly, только если вам не менее 18 лет и вам законодательно разрешено просматривать информационный контент приложения в вашей юрисдикции. Если местное законодательство требует более высокого возраста, вы должны соответствовать этому более высокому возрасту.</p><p>Предоставленная вам лицензия не разрешает использовать Mixly для продвижения, поощрения, продажи, покупки, распространения табака, никотина, алкоголя или контролируемых товаров либо содействия им.</p></section><section id="s7" class="legal-section"><h2>7. Обновления и доступность</h2><p>Мы можем предоставлять обновления, патчи, изменения или удаления функций, правил premium-доступа, предложений подписки, аналитической инструментации, функций шаринга, функций перевода, community-функций или контента каталога. Мы не обязаны предоставлять какое-либо конкретное обновление или поддерживать какую-либо функцию бессрочно.</p></section><section id="s8" class="legal-section"><h2>8. Обратная связь</h2><p>Если вы предоставляете обратную связь, предложения, отчёты об ошибках, рекомендации по каталогу, community-заявки на миксы, реакции, оценки, отзывы, комментарии или аналогичные материалы, вы предоставляете нам неисключительную, всемирную, безвозмездную, передаваемую, сублицензируемую лицензию на использование, проверку, модерацию, публикацию, адаптацию, перевод, анализ и отображение этого материала для работы, улучшения и развития Mixly без выплаты вам вознаграждения.</p></section><section id="s9" class="legal-section"><h2>9. Сторонние сервисы и контент</h2><p>Mixly может использовать сторонние сервисы, такие как Supabase, сервисы сообщений и уведомлений, Amplitude, RevenueCat, Apple App Store, Google Play, поставщики сервисов перевода, провайдеры хостинга, интеграции share-sheet и провайдеры электронной почты. Mixly также может ссылаться на исходные материалы, названия продуктов и брендов третьих лиц. Мы не несём ответственности за сторонние сервисы, сайты, продукты, системы покупок, аналитические системы, системы перевода, места назначения шаринга или контент.</p></section><section id="s10" class="legal-section"><h2>10. Отказ от гарантий</h2><p>Mixly предоставляется «как есть» и «как доступно». В максимальной степени, разрешённой законом, мы отказываемся от всех гарантий, будь то явных, подразумеваемых или предусмотренных законом, включая гарантии товарной пригодности, пригодности для конкретной цели, титула, ненарушения прав, точности, доступности и безошибочной работы.</p></section><section id="s11" class="legal-section"><h2>11. Ограничение ответственности</h2><p>В максимальной степени, разрешённой законом, мы не несём ответственности за косвенные, случайные, специальные, вытекающие, штрафные или карательные убытки, а также за потерю данных, прибыли, деловой репутации, бизнес-возможностей или иные нематериальные потери, возникающие в связи с Mixly или настоящим Лицензионным соглашением либо вытекающие из них.</p><p>Ничто в настоящем Лицензионном соглашении не ограничивает ответственность, которая не может быть ограничена согласно применимому законодательству.</p></section><section id="s12" class="legal-section"><h2>12. Прекращение</h2><p>Настоящая лицензия начинает действовать при установке или использовании Mixly и продолжается до её прекращения. Вы можете прекратить её, удалив приложение и прекратив любое использование. Мы можем прекратить или приостановить лицензию, если вы нарушаете настоящее Лицензионное соглашение, нарушаете Условия использования, создаёте юридический риск или используете приложение либо бэкенд-сервисы ненадлежащим образом.</p><p>После прекращения вы должны прекратить использование Mixly и удалить любые несанкционированные копии. Разделы, которые по своей природе должны продолжать действовать после прекращения, сохраняют силу, включая право собственности, ограничения, отказы от гарантий, ограничение ответственности и применимое право.</p></section><section id="s13" class="legal-section"><h2>13. Условия платформ</h2><p>Если вы загрузили Mixly из Apple App Store, Apple и её дочерние компании являются сторонними бенефициарами настоящего Лицензионного соглашения только в объёме, требуемом применимыми условиями Apple. Apple не несёт ответственности за предоставление обслуживания или поддержки Mixly, за исключением случаев, предусмотренных применимым законодательством.</p><p>Если вы загрузили Mixly из Google Play, условия Google Play также применяются к использованию вами приложения.</p></section><section id="s14" class="legal-section"><h2>14. Применимое право</h2><p>Настоящее Лицензионное соглашение регулируется законодательством Грузии, без учёта коллизионных норм, если только императивные нормы о защите прав потребителей в вашей юрисдикции не требуют иного.</p></section><section id="s15" class="legal-section"><h2>15. Изменения</h2><p>Мы можем обновлять настоящее Лицензионное соглашение по мере изменения Mixly или требований законодательства. Дата вступления в силу показывает, когда применяется последняя версия. Продолжение использования Mixly после изменений означает, что вы принимаете обновлённое Лицензионное соглашение.</p></section><section id="s16" class="legal-section"><h2>16. Контакты</h2><p>По вопросам о настоящем Лицензионном соглашении обращайтесь: <a href="mailto:support@get-mixly.app">support@get-mixly.app</a>.</p></section></div>
         </article>
-        <aside class="legal-toc" id="legal-toc" aria-label="On this page"></aside>
+        <aside class="legal-toc" id="legal-toc" aria-label="Содержание"><details class="legal-toc-dropdown" open><summary class="legal-toc-summary"><span class="legal-toc-label">Содержание</span><span class="legal-toc-current" id="legal-toc-current">Лицензиар</span></summary><nav class="legal-toc-nav" aria-label="Разделы документа"><a href="#s1">Лицензиар</a><a href="#s2">Связь с другими условиями</a><a href="#s3">Предоставление лицензии</a><a href="#s4">Право собственности</a><a href="#s5">Ограничения</a><a href="#s6">Ограничение по возрасту и регулируемому контенту</a><a href="#s7">Обновления и доступность</a><a href="#s8">Обратная связь</a><a href="#s9">Сторонние сервисы и контент</a><a href="#s10">Отказ от гарантий</a><a href="#s11">Ограничение ответственности</a><a href="#s12">Прекращение</a><a href="#s13">Условия платформ</a><a href="#s14">Применимое право</a><a href="#s15">Изменения</a><a href="#s16">Контакты</a></nav></details></aside>
       </div>
     </main>
     <footer class="site-footer">
       <div class="footer-main">
-        <div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria">mixly</a><p>Mixly app © 2026</p></div>
+        <div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a><p>Mixly app © 2026</p></div>
         <div class="footer-links">
-          <div><p data-i18n="footer.app">App</p><a href="./#how-it-works" data-i18n="nav.about">About the app</a><a href="./#features" data-i18n="nav.features">Features</a><a href="./#changelog" data-i18n="nav.updates">Updates</a><a href="./blog.html" data-i18n="nav.blog">Blog</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
-          <div><p data-i18n="footer.docs">Documents</p><a href="./privacy.html" data-i18n="footer.privacy">Privacy</a><a href="./cookies.html" data-i18n="footer.cookies">Cookies &amp; analytics</a><a href="./terms.html" data-i18n="footer.terms">Terms of Use</a><a href="./eula.html" data-i18n="footer.eula">License</a><a href="./support.html" data-i18n="footer.support">Support</a></div>
-          <div><p data-i18n="footer.socials">Social</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div>
+          <div><p data-i18n="footer.app">Приложение</p><a href="./#how-it-works" data-i18n="nav.about">О приложении</a><a href="./#features" data-i18n="nav.features">Возможности</a><a href="./#changelog" data-i18n="nav.updates">Обновления</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
+          <div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./cookies.html" data-i18n="footer.cookies">Cookies и аналитика</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div>
+          <div><p data-i18n="footer.socials">Соцсети</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div>
         </div>
       </div>
-      <div class="footer-bottom"><p data-i18n="footer.age">Adults only 18+</p><p data-i18n="footer.tagline">Hookah ideas worth keeping</p></div>
+      <div class="footer-bottom"><p data-i18n="footer.age">Только для взрослых 18+</p><p data-i18n="footer.tagline">Идеи для кальяна, которые хочется сохранить</p></div>
     </footer>
+      <script src="./i18n.js"></script>
   </body>
 </html>
