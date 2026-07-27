@@ -32,7 +32,7 @@ cd website && python3 -m http.server 4173
 - `sitemap.xml` содержит только индексируемые страницы; `article.html`, `share.html`, legal и страницы ошибок намеренно исключены / `noindex`.
 - Каждая индексируемая HTML-страница указывает canonical URL на `https://get-mixly.app`.
 - Локализованные статьи публикуются как отдельные URL (`/ru/blog/...`, `/en/blog/...`, `/de/blog/...`) с взаимным `hreflang`, `x-default`, Open Graph, `Article` + `BreadcrumbList` JSON-LD и видимыми breadcrumbs. Обновление: `npm run generate:article-seo`.
-- Главная и `blog.html` пока остаются single-URL с client-side locale switcher; полный префиксный роутинг `/ru|en|de/` для home/blog/legal — отдельный этап MIX-7.
+- Marketing/legal locales: RU at root (`/`, `/blog.html`, `/privacy.html`); EN/DE as `/en/…`, `/de/…` via `npm run generate:locale-routes`. Language switcher navigates between equivalent URLs.
 - На главной JSON-LD связывает `Organization`, `WebSite` и `MobileApplication` (включая App Store `downloadUrl`).
 
 ## Проверка сайта

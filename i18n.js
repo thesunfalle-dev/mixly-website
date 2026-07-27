@@ -651,7 +651,67 @@ var ARTICLES = {
   var SUPPORTED = ['ru', 'en', 'de'];
   var currentLang = 'en';
 
+  var ARTICLE_LOCALE_PATHS = [
+    {
+      ru: '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
+      en: '/en/blog/how-to-mix-hookah-tobacco',
+      de: '/de/blog/wie-man-shisha-tabak-richtig-mischt'
+    },
+    {
+      ru: '/ru/blog/proportsii-tabaka-dlya-kalyana',
+      en: '/en/blog/hookah-tobacco-mixing-ratios',
+      de: '/de/blog/shisha-tabak-mischverhaeltnisse'
+    },
+    {
+      ru: '/ru/blog/sochetaniya-vkusov-dlya-kalyana',
+      en: '/en/blog/hookah-flavor-combinations',
+      de: '/de/blog/shisha-geschmackskombinationen'
+    }
+  ];
+
+  function normalizePathname(pathname) {
+    var path = pathname || '/';
+    if (path.length > 1 && path.charAt(path.length - 1) === '/') path = path.slice(0, -1);
+    if (path === '/index.html') return '/';
+    return path || '/';
+  }
+
+  function localeFromPath(pathname) {
+    var path = normalizePathname(pathname || location.pathname);
+    var match = path.match(/^\/(ru|en|de)(?=\/|$)/);
+    return match ? match[1] : null;
+  }
+
+  function pathForLocale(lang, pathname) {
+    var path = normalizePathname(pathname || location.pathname);
+    var hash = location.hash || '';
+    var search = location.search || '';
+    var i;
+    var pair;
+    var bare;
+
+    for (i = 0; i < ARTICLE_LOCALE_PATHS.length; i++) {
+      pair = ARTICLE_LOCALE_PATHS[i];
+      if (path === pair.ru || path === pair.en || path === pair.de) {
+        return (pair[lang] || pair.en) + search + hash;
+      }
+    }
+
+    bare = path.replace(/^\/(ru|en|de)(?=\/|$)/, '') || '/';
+    if (bare === '/index.html') bare = '/';
+
+    if (lang === 'ru') {
+      if (bare === '/') return '/' + search + hash;
+      return bare + search + hash;
+    }
+
+    if (bare === '/') return '/' + lang + '/' + search + hash;
+    return '/' + lang + bare + search + hash;
+  }
+
   function detectLocale() {
+    var fromPath = localeFromPath(location.pathname);
+    if (fromPath) return fromPath;
     try {
       var stored = localStorage.getItem(STORAGE_KEY);
       if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
@@ -858,11 +918,26 @@ var ARTICLES = {
           }
         });
       }
+      function chooseLocale(nextLang) {
+        var nextPath = pathForLocale(nextLang, location.pathname);
+        try { localStorage.setItem(STORAGE_KEY, nextLang); } catch (ePersist) {}
+        var current = normalizePathname(location.pathname) + location.search + location.hash;
+        if (current !== nextPath) {
+          if (window.MixlyPageNav && typeof window.MixlyPageNav.navigate === 'function') {
+            window.MixlyPageNav.navigate(new URL(nextPath, location.origin));
+          } else {
+            location.assign(nextPath);
+          }
+          return;
+        }
+        applyLocale(nextLang, true);
+      }
+
       root.querySelectorAll('[data-lang]').forEach(function (btn) {
         btn.addEventListener('click', function (event) {
           event.preventDefault();
           event.stopPropagation();
-          applyLocale(btn.getAttribute('data-lang'), true);
+          chooseLocale(btn.getAttribute('data-lang'));
           closeAllMenus();
           if (toggle) toggle.focus();
         });
@@ -879,7 +954,7 @@ var ARTICLES = {
         else return;
 
         event.preventDefault();
-        applyLocale(buttons[nextIndex].getAttribute('data-lang'), true);
+        chooseLocale(buttons[nextIndex].getAttribute('data-lang'));
         if (menu) {
           root.classList.add('is-open');
           menu.hidden = false;
@@ -903,6 +978,8 @@ var ARTICLES = {
   window.MixlyI18n = {
     detectLocale: detectLocale,
     applyLocale: applyLocale,
+    pathForLocale: pathForLocale,
+    localeFromPath: localeFromPath,
     renderArticle: renderArticle,
     getLang: function () { return currentLang; },
     t: function (key) { return t(currentLang, key); },
