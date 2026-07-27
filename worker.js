@@ -7,66 +7,71 @@ const SECURITY_HEADERS = {
   'Permissions-Policy': 'camera=(), geolocation=(), microphone=(), payment=()',
 };
 
-const ARTICLE_INDEX = {
-  '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana': '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
-  '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',
-  '/de/blog/wie-man-shisha-tabak-richtig-mischt': '/de/blog/wie-man-shisha-tabak-richtig-mischt/index.html',
-  '/ru/blog/sochetaniya-vkusov-dlya-kalyana': '/ru/blog/sochetaniya-vkusov-dlya-kalyana/index.html',
-  '/en/blog/hookah-flavor-combinations': '/en/blog/hookah-flavor-combinations/index.html',
-  '/de/blog/shisha-geschmackskombinationen': '/de/blog/shisha-geschmackskombinationen/index.html',
-  '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
-  '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
-  '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
-};
+// Canonical article paths without trailing slash. Assets html_handling serves the
+// directory form with a slash; we must NOT rewrite to …/index.html or Assets
+// will 307 back to …/ and create a redirect loop through this worker.
+const ARTICLE_PATHS = new Set([
+  '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
+  '/en/blog/how-to-mix-hookah-tobacco',
+  '/de/blog/wie-man-shisha-tabak-richtig-mischt',
+  '/ru/blog/sochetaniya-vkusov-dlya-kalyana',
+  '/en/blog/hookah-flavor-combinations',
+  '/de/blog/shisha-geschmackskombinationen',
+  '/ru/blog/proportsii-tabaka-dlya-kalyana',
+  '/en/blog/hookah-tobacco-mixing-ratios',
+  '/de/blog/shisha-tabak-mischverhaeltnisse',
+]);
 
-function articleAssetPath(pathname) {
-  if (ARTICLE_INDEX[pathname]) return ARTICLE_INDEX[pathname];
-  if (pathname.endsWith('/')) {
-    const bare = pathname.slice(0, -1);
-    if (ARTICLE_INDEX[bare]) return ARTICLE_INDEX[bare];
+function barePath(pathname) {
+  if (!pathname || pathname === '/') return '/';
+  return pathname.replace(/\/+$/, '') || '/';
+}
+
+function withSecurityHeaders(response, requestUrl) {
+  const headers = new Headers(response.headers);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    headers.set(name, value);
   }
-  return null;
+
+  const pathname = requestUrl.pathname;
+  if (/\.(?:webp|png|jpe?g|gif|svg|woff2|ico)$/i.test(pathname)) {
+    headers.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
+  } else if (/\.(?:css|js)$/i.test(pathname)) {
+    headers.set('Cache-Control', 'public, max-age=300, must-revalidate');
+  } else if (/\.html?$/i.test(pathname) || pathname === '/' || !pathname.includes('.')) {
+    headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+  }
+
+  if (requestUrl.hostname.endsWith('.workers.dev')) {
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const bare = barePath(url.pathname);
+
+    // One-hop normalize for published articles: /path → /path/
+    // Then let Assets serve the directory index (200). Do not fetch …/index.html
+    // under html_handling=auto-trailing-slash — that 307s back to /path/ forever.
+    if (ARTICLE_PATHS.has(bare)) {
+      if (!url.pathname.endsWith('/')) {
+        url.pathname = `${bare}/`;
+        const redirect = Response.redirect(url.toString(), 308);
+        return withSecurityHeaders(redirect, url);
+      }
+    }
+
     // Locale homes (/en/, /de/) and extensionless marketing/legal paths
-    // (/en/blog, /en/privacy, …) are served by Assets html_handling — do not
-    // rewrite them here or auto-trailing-slash will redirect-loop.
-    // Articles: rewrite both /path and /path/ to index.html so SPA fetch never
-    // receives an empty 307 body mid-navigation.
-    const articlePath = articleAssetPath(url.pathname);
-    const assetRequest = articlePath
-      ? new Request(new URL(articlePath, url), request)
-      : request;
-    const response = await env.ASSETS.fetch(assetRequest);
-    const headers = new Headers(response.headers);
-
-    for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
-      headers.set(name, value);
-    }
-
-    const pathname = new URL(request.url).pathname;
-    // Long-cache fingerprinted-like static media/fonts; keep HTML revalidatable.
-    if (/\.(?:webp|png|jpe?g|gif|svg|woff2|ico)$/i.test(pathname)) {
-      headers.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
-    } else if (/\.(?:css|js)$/i.test(pathname)) {
-      // Unfingerprinted shared scripts (i18n.js, page-nav.js, …). Keep short so
-      // SPA fixes reach clients without waiting a day for max-age expiry.
-      headers.set('Cache-Control', 'public, max-age=300, must-revalidate');
-    } else if (/\.html?$/i.test(pathname) || pathname === '/' || !pathname.includes('.')) {
-      headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
-    }
-
-    if (new URL(request.url).hostname.endsWith('.workers.dev')) {
-      headers.set('X-Robots-Tag', 'noindex, nofollow');
-    }
-
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers,
-    });
+    // (/en/blog, /en/privacy, …) are served by Assets html_handling.
+    const response = await env.ASSETS.fetch(request);
+    return withSecurityHeaders(response, url);
   },
 };

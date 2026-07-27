@@ -364,8 +364,12 @@ if (!pageNavSource.includes('preparePageRuntime') || !pageNavSource.includes('mo
 if (!pageNavSource.includes('legal.js') || !pageNavSource.includes('scroll-nav.js')) {
   report('page-nav.js', 'SPA navigation to legal pages must load legal + scroll-nav runtimes');
 }
-if (!readFileSync(resolve(root, 'worker.js'), 'utf8').includes('articleAssetPath')) {
-  report('worker.js', 'must rewrite article paths with and without trailing slash');
+const workerSource = readFileSync(resolve(root, 'worker.js'), 'utf8');
+if (!workerSource.includes('ARTICLE_PATHS') || workerSource.includes("'/index.html'")) {
+  report('worker.js', 'must normalize articles without rewriting to index.html (avoids Assets trailing-slash loops)');
+}
+if (!pageNavSource.includes('normalizeNavigationUrl')) {
+  report('page-nav.js', 'SPA navigation must fetch article trailing-slash URLs');
 }
 if (!existsSync(resolve(root, 'premium-block.js'))) report('premium-block.js', 'shared More Mixly component is missing');
 if (!pages.get('index.html').includes('data-premium-block')) {
