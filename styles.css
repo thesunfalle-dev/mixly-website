@@ -982,10 +982,20 @@ html {
   text-underline-offset: 3px;
 }
 .legal-toc {
+  align-self: start;
+  height: fit-content;
   position: sticky;
   top: 96px;
   padding: 18px 0 18px 18px;
   border-left: 1px solid rgba(255, 255, 255, 0.12);
+  overscroll-behavior: contain;
+}
+/* Desktop: JS may upgrade sticky → fixed (pinDesktopToc); keep scrollbar tidy. */
+@media (min-width: 981px) {
+  .legal-toc {
+    max-height: calc(100vh - 112px);
+    overflow-y: auto;
+  }
 }
 .legal-toc-dropdown {
   margin: 0;

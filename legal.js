@@ -12,6 +12,9 @@
   var sectionNav = null;
   var tocModeMedia = null;
   var tocModeHandler = null;
+  var tocPinMedia = null;
+  var tocPinHandler = null;
+  var tocPinResize = null;
 
   function detectDoc() {
     var fromAttr = document.body.getAttribute('data-legal-doc');
@@ -66,6 +69,17 @@
     return root[lang] || root.en || root.ru || null;
   }
 
+  function clearTocPin() {
+    if (tocPinMedia && tocPinHandler) {
+      if (tocPinMedia.removeEventListener) tocPinMedia.removeEventListener('change', tocPinHandler);
+      else if (tocPinMedia.removeListener) tocPinMedia.removeListener(tocPinHandler);
+    }
+    if (tocPinResize) window.removeEventListener('resize', tocPinResize);
+    tocPinMedia = null;
+    tocPinHandler = null;
+    tocPinResize = null;
+  }
+
   function clearTocModeListener() {
     if (tocModeMedia && tocModeHandler) {
       if (tocModeMedia.removeEventListener) tocModeMedia.removeEventListener('change', tocModeHandler);
@@ -73,6 +87,49 @@
     }
     tocModeMedia = null;
     tocModeHandler = null;
+    clearTocPin();
+  }
+
+  // Desktop sticky is unreliable with overflow-x on html/body (same as articles).
+  // Pin the TOC column to the viewport after measuring its grid slot.
+  function pinDesktopToc(tocEl) {
+    if (!tocEl) return;
+    clearTocPin();
+    tocPinMedia = window.matchMedia('(min-width: 981px)');
+    var sync = function () {
+      if (!tocEl.isConnected) return;
+      if (!tocPinMedia.matches) {
+        tocEl.style.position = '';
+        tocEl.style.top = '';
+        tocEl.style.left = '';
+        tocEl.style.width = '';
+        tocEl.style.maxHeight = '';
+        tocEl.style.overflowY = '';
+        return;
+      }
+      tocEl.style.position = 'static';
+      tocEl.style.top = '';
+      tocEl.style.left = '';
+      tocEl.style.width = '';
+      tocEl.style.maxHeight = '';
+      tocEl.style.overflowY = '';
+      var rect = tocEl.getBoundingClientRect();
+      tocEl.style.position = 'fixed';
+      tocEl.style.top = '96px';
+      tocEl.style.left = Math.round(rect.left) + 'px';
+      tocEl.style.width = Math.round(rect.width) + 'px';
+      tocEl.style.maxHeight = 'calc(100vh - 112px)';
+      tocEl.style.overflowY = 'auto';
+    };
+    tocPinHandler = sync;
+    tocPinResize = sync;
+    sync();
+    if (tocPinMedia.addEventListener) tocPinMedia.addEventListener('change', tocPinHandler);
+    else if (tocPinMedia.addListener) tocPinMedia.addListener(tocPinHandler);
+    window.addEventListener('resize', tocPinResize);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(sync);
+    });
   }
 
   function bindToc(tocNav, sections, currentEl, dropdown) {
@@ -120,6 +177,7 @@
     else if (tocModeMedia.addListener) tocModeMedia.addListener(tocModeHandler);
 
     bindToc(tocNav, sections, tocCurrent, dropdown);
+    pinDesktopToc(tocEl);
     return true;
   }
 
@@ -237,6 +295,7 @@
     else if (tocModeMedia.addListener) tocModeMedia.addListener(tocModeHandler);
 
     bindToc(tocNav, sectionNodes, tocCurrent, dropdown);
+    pinDesktopToc(nextToc);
   }
 
   var localeBound = false;
