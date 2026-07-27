@@ -1,78 +1,73 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Mixly Cookie and Analytics Policy" />
+    <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#29282B" />
     <link rel="canonical" href="https://get-mixly.app/cookies.html" />
     <title>Cookie &amp; Analytics Policy · Mixly</title>
     <style>
       html { background: #29282b; }
-      html.is-veiled { overflow: hidden !important; }
-      html.is-veiled::before { content: ''; position: fixed; inset: 0; z-index: 2147483647; pointer-events: none; background: #29282b; opacity: 1; }
-      html.content-pending body { opacity: 0 !important; }
-      html.scroll-pinned body { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; }
     </style>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css" /><link rel="expect" href="#content">
+    <link rel="preload" href="/assets/Montserrat_400Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_600SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_700Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./i18n.js" as="script" fetchpriority="high" />
     <script>
       try {
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-        if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          document.documentElement.classList.add('is-veiled', 'veil-instant', 'page-arrived', 'content-pending', 'hover-lock', 'scroll-pinned');
-          window.scrollTo(0, 0);
-          window.setTimeout(() => document.documentElement.classList.remove('content-pending', 'is-veiled', 'veil-instant'), 3200);
-        }
       } catch (_) {}
     </script>
-    <script src="https://browser.sentry-cdn.com/10.42.0/bundle.min.js" crossorigin="anonymous"></script>
     <script src="./monitoring.js" defer></script>
     <script src="./legal-content.js" defer></script>
     <script src="./scroll-nav.js" defer></script>
     <script src="./page-nav.js" defer></script>
-    <script src="./i18n.js" defer></script>
     <script src="./analytics.js" defer></script>
     <script src="./legal.js" defer></script>
   </head>
   <body data-legal-doc="cookies">
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria">mixly</a>
-      <nav data-i18n-aria="nav.mainAria">
-        <a href="./#how-it-works" data-i18n="nav.about">About the app</a>
-        <a href="./#features" data-i18n="nav.features">Features</a>
-        <a href="./#changelog" data-i18n="nav.updates">Updates</a>
-        <a href="./blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a>
+      <nav data-i18n-aria="nav.mainAria" aria-label="Основная навигация">
+        <a href="./#how-it-works" data-i18n="nav.about">О приложении</a>
+        <a href="./#features" data-i18n="nav.features">Возможности</a>
+        <a href="./#changelog" data-i18n="nav.updates">Обновления</a>
+        <a href="./blog.html" data-i18n="nav.blog">Блог</a>
       </nav>
       <div class="header-actions">
-        <a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full" data-i18n="nav.download">Download on the App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></a>
+        <a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></a>
         <div class="lang-switch" data-lang-switch>
-          <button type="button" class="lang-switch-toggle" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.label">EN</button>
-          <ul class="lang-switch-menu" hidden role="listbox">
-            <li role="option"><button type="button" data-lang="ru" aria-selected="false">RU</button></li>
-            <li role="option"><button type="button" data-lang="en" aria-selected="false">EN</button></li>
-            <li role="option"><button type="button" data-lang="de" aria-selected="false">DE</button></li>
+          <button type="button" class="lang-switch-toggle" aria-expanded="false" data-i18n-aria="lang.label" aria-label="Язык">EN</button>
+          <ul class="lang-switch-menu" hidden role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <li><button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button></li>
+            <li><button type="button" data-lang="en" role="radio" aria-checked="false">EN</button></li>
+            <li><button type="button" data-lang="de" role="radio" aria-checked="false">DE</button></li>
           </ul>
         </div>
-        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open><span></span><span></span><span></span></button>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open aria-label="Открыть меню"><span></span><span></span><span></span></button>
       </div>
     </header>
-    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
-      <nav data-i18n-aria="nav.mobileAria">
-        <a href="./#how-it-works" data-i18n="nav.about">About the app</a><a href="./#features" data-i18n="nav.features">Features</a><a href="./#changelog" data-i18n="nav.updates">Updates</a><a href="./blog.html" data-i18n="nav.blog">Blog</a>
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true" aria-label="Меню сайта">
+      <nav data-i18n-aria="nav.mobileAria" aria-label="Мобильная навигация">
+        <a href="./#how-it-works" data-i18n="nav.about">О приложении</a><a href="./#features" data-i18n="nav.features">Возможности</a><a href="./#changelog" data-i18n="nav.updates">Обновления</a><a href="./blog.html" data-i18n="nav.blog">Блог</a>
       </nav>
-      <div class="mobile-menu-lang"><div class="lang-switch lang-switch-mobile" data-lang-switch><div class="lang-switch-segment" role="listbox" data-i18n-aria="lang.label"><button type="button" data-lang="ru" role="option" aria-selected="false">RU</button><button type="button" data-lang="en" role="option" aria-selected="false">EN</button><button type="button" data-lang="de" role="option" aria-selected="false">DE</button></div></div></div>
+      <div class="mobile-menu-lang"><div class="lang-switch lang-switch-mobile" data-lang-switch><div class="lang-switch-segment" role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык"><button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button><button type="button" data-lang="en" role="radio" aria-checked="false">EN</button><button type="button" data-lang="de" role="radio" aria-checked="false">DE</button></div></div></div>
     </aside>
     <main class="legal-page" id="content">
-      <a class="back-home" href="./"><span aria-hidden="true">←</span> <span data-i18n="legal.back">Back to home</span></a>
-      <div class="legal-layout"><article class="legal-article"><header class="legal-header"><p class="eyebrow" data-i18n="footer.docs">Legal</p><h1 id="legal-title"></h1><p class="legal-meta" id="legal-meta"></p><p class="legal-notice" id="legal-notice"></p></header><div class="legal-body" id="legal-body"></div></article><aside class="legal-toc" id="legal-toc" aria-label="On this page"></aside></div>
+      <a class="back-home" href="./"><span aria-hidden="true">←</span> <span data-i18n="legal.back">На главную</span></a>
+      <div class="legal-layout"><article class="legal-article"><header class="legal-header"><p class="eyebrow" data-i18n="footer.docs">Документы</p><h1 id="legal-title">Политика Cookies и аналитики</h1><p class="legal-meta" id="legal-meta">Дата вступления в силу: 22 июля 2026</p><p class="legal-notice" id="legal-notice">На этой странице описаны технологии хранения в браузере и управление необязательной аналитикой на сайте Mixly.</p></header><div class="legal-body" id="legal-body"><section id="s1" class="legal-section"><span id="analytics-settings"></span><h2>1. Ваш выбор</h2><p>Mixly спрашивает разрешение перед включением необязательной аналитики. Вы можете принять или отклонить её без потери доступа к сайту. Чтобы позже изменить выбор, <a href="#analytics-settings">откройте настройки аналитики</a>.</p></section><section id="s2" class="legal-section"><h2>2. Необходимое хранение в браузере</h2><p>Сайт запоминает выбранный язык, ваш выбор аналитики и однократную настройку анимации перехода между страницами в хранилище браузера. Эти значения не используются для рекламы, межсайтового трекинга или построения профиля.</p></section><section id="s3" class="legal-section"><h2>3. Необязательная аналитика</h2><p>Если вы разрешаете аналитику, мы используем сервис, чтобы понимать посещения страниц, смену языка и переходы по ссылкам на магазины приложений. Мы не записываем сессии, не используем heatmaps и не собираем действия автоматически. Подробности — в <a href="./privacy.html">Политике конфиденциальности</a>.</p></section><section id="s4" class="legal-section"><h2>4. Дополнительная информация</h2><p>Более широкое описание обработки информации приведено в <a href="./privacy.html">Политике конфиденциальности</a>. По вопросам пишите на <a href="mailto:support@get-mixly.app">support@get-mixly.app</a>.</p></section></div></article><aside class="legal-toc" id="legal-toc" aria-label="Содержание"><details class="legal-toc-dropdown" open><summary class="legal-toc-summary"><span class="legal-toc-label">Содержание</span><span class="legal-toc-current" id="legal-toc-current">Ваш выбор</span></summary><nav class="legal-toc-nav" aria-label="Разделы документа"><a href="#s1">Ваш выбор</a><a href="#s2">Необходимое хранение в браузере</a><a href="#s3">Необязательная аналитика</a><a href="#s4">Дополнительная информация</a></nav></details></aside></div>
     </main>
     <footer class="site-footer">
-      <div class="footer-main"><div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria">mixly</a><p>Mixly app © 2026</p></div><div class="footer-links"><div><p data-i18n="footer.app">App</p><a href="./#how-it-works" data-i18n="nav.about">About the app</a><a href="./#features" data-i18n="nav.features">Features</a><a href="./#changelog" data-i18n="nav.updates">Updates</a><a href="./blog.html" data-i18n="nav.blog">Blog</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div><div><p data-i18n="footer.docs">Legal</p><a href="./privacy.html" data-i18n="footer.privacy">Privacy</a><a href="./cookies.html" data-i18n="footer.cookies">Cookies &amp; analytics</a><a href="./terms.html" data-i18n="footer.terms">Terms of Use</a><a href="./eula.html" data-i18n="footer.eula">License</a><a href="./support.html" data-i18n="footer.support">Support</a></div><div><p data-i18n="footer.socials">Social</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div></div></div>
-      <div class="footer-bottom"><p data-i18n="footer.age">Adults only 18+</p><p data-i18n="footer.tagline">Hookah ideas worth keeping</p></div>
+      <div class="footer-main"><div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a><p>Mixly app © 2026</p></div><div class="footer-links"><div><p data-i18n="footer.app">Приложение</p><a href="./#how-it-works" data-i18n="nav.about">О приложении</a><a href="./#features" data-i18n="nav.features">Возможности</a><a href="./#changelog" data-i18n="nav.updates">Обновления</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div><div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./cookies.html" data-i18n="footer.cookies">Cookies и аналитика</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div><div><p data-i18n="footer.socials">Соцсети</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener" data-social-threads>Threads</a></div></div></div>
+      <div class="footer-bottom"><p data-i18n="footer.age">Только для взрослых 18+</p><p data-i18n="footer.tagline">Идеи для кальяна, которые хочется сохранить</p></div>
     </footer>
+      <script src="./i18n.js"></script>
   </body>
 </html>

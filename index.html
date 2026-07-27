@@ -21,62 +21,52 @@
     <title>Mixly: новые идеи для твоего кальяна</title>
     <style>
       html { background: #29282b; }
-      html.is-veiled { overflow: hidden !important; }
-      html.is-veiled::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        z-index: 2147483647;
-        pointer-events: none;
-        background: #29282b;
-        opacity: 1;
-      }
-      html.content-pending body { opacity: 0 !important; }
-      html.scroll-pinned body {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-      }
     </style>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="./favicon-48.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css" /><link rel="expect" href="#content">
+    <link rel="preload" href="/assets/Montserrat_400Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_600SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_700Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./i18n.js" as="script" fetchpriority="high" />
     <script>
       try {
+        const initialLocale = (() => {
+          try {
+            const stored = localStorage.getItem('mixly-lang');
+            if (stored === 'ru' || stored === 'en' || stored === 'de') return stored;
+          } catch (_) {}
+          const languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          for (const language of languages) {
+            const code = String(language || '').toLowerCase();
+            if (code.indexOf('ru') === 0) return 'ru';
+            if (code.indexOf('de') === 0) return 'de';
+          }
+          return 'en';
+        })();
+        window.__mixlyInitialLocale = initialLocale;
+        window.__mixlySetLocalizedImage = (image) => {
+          const files = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.png', 'shot.lab': 'Lab.png' };
+          const file = files[image && image.getAttribute('data-i18n-src')];
+          if (file) image.src = `./images_for_web/${initialLocale.toUpperCase()}/${file}`;
+        };
+        const imageFolder = initialLocale.toUpperCase();
+        [`./images_for_web/${imageFolder}/main_1.webp`, `./images_for_web/${imageFolder}/main_2.webp`].forEach((href) => {
+          const preload = document.createElement('link');
+          preload.rel = 'preload';
+          preload.as = 'image';
+          preload.href = href;
+          document.head.appendChild(preload);
+        });
+
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-        if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          // The outgoing page already fades before navigation. Never hide the
-          // arriving page while assets decode — it makes the hero look broken.
-          document.documentElement.classList.add('page-arrived', 'hover-lock');
-          window.scrollTo(0, 0);
-          const folder = (() => {
-            try {
-              const stored = localStorage.getItem('mixly-lang');
-              if (stored === 'ru' || stored === 'en' || stored === 'de') return stored.toUpperCase();
-            } catch (_) {}
-            const nav = String(navigator.language || 'en').toLowerCase();
-            if (nav.indexOf('ru') === 0) return 'RU';
-            if (nav.indexOf('de') === 0) return 'DE';
-            return 'EN';
-          })();
-          [`./images_for_web/${folder}/main_1.png`, `./images_for_web/${folder}/main_2.png`].forEach((href) => {
-            const preload = document.createElement('link');
-            preload.rel = 'preload';
-            preload.as = 'image';
-            preload.href = href;
-            document.head.appendChild(preload);
-          });
-        }
       } catch (_) {}
     </script>
-    <script src="https://browser.sentry-cdn.com/10.42.0/bundle.min.js" crossorigin="anonymous"></script>
     <script src="./monitoring.js" defer></script>
     <script src="./page-nav.js" defer></script>
-    <script src="./i18n.js" defer></script>
+    <script src="./premium-block.js" defer></script>
     <script src="./analytics.js" defer></script>
     <script type="application/ld+json">
       {
@@ -85,7 +75,7 @@
         "name": "Mixly",
         "applicationCategory": "LifestyleApplication",
         "operatingSystem": "iOS",
-        "description": "Приложение для поиска и создания кальянных миксов.",
+        "description": "Mixly, приложение, которое помогает находить и собирать кальянные миксы под любимые бренды, вкусы и крепость.",
         "inLanguage": "ru"
       }
     </script>
@@ -93,10 +83,10 @@
   <body>
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria">
+      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">
         mixly
       </a>
-      <nav data-i18n-aria="nav.mainAria">
+      <nav data-i18n-aria="nav.mainAria" aria-label="Основная навигация">
         <a href="#how-it-works" data-i18n="nav.about">О приложении</a>
         <a href="#features" data-i18n="nav.features">Возможности</a>
         <a href="#changelog" data-i18n="nav.updates">Обновления</a>
@@ -105,20 +95,20 @@
       <div class="header-actions">
         <button class="header-cta" type="button" data-download-open><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></button>
         <div class="lang-switch" data-lang-switch>
-          <button type="button" class="lang-switch-toggle" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.label">RU</button>
-          <ul class="lang-switch-menu" hidden role="listbox">
-            <li role="option"><button type="button" data-lang="ru" aria-selected="false">RU</button></li>
-            <li role="option"><button type="button" data-lang="en" aria-selected="false">EN</button></li>
-            <li role="option"><button type="button" data-lang="de" aria-selected="false">DE</button></li>
+          <button type="button" class="lang-switch-toggle" aria-expanded="false" data-i18n-aria="lang.label" aria-label="Язык">RU</button>
+          <ul class="lang-switch-menu" hidden role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <li><button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button></li>
+            <li><button type="button" data-lang="en" role="radio" aria-checked="false">EN</button></li>
+            <li><button type="button" data-lang="de" role="radio" aria-checked="false">DE</button></li>
           </ul>
         </div>
-        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open aria-label="Открыть меню">
           <span></span><span></span><span></span>
         </button>
       </div>
     </header>
-    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
-      <nav data-i18n-aria="nav.mobileAria">
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true" aria-label="Меню сайта">
+      <nav data-i18n-aria="nav.mobileAria" aria-label="Мобильная навигация">
         <a href="#how-it-works" data-i18n="nav.about">О приложении</a>
         <a href="#features" data-i18n="nav.features">Возможности</a>
         <a href="#changelog" data-i18n="nav.updates">Обновления</a>
@@ -133,16 +123,16 @@
       </div>
       <div class="mobile-menu-lang">
         <div class="lang-switch lang-switch-mobile" data-lang-switch>
-          <div class="lang-switch-segment" role="listbox" data-i18n-aria="lang.label">
-            <button type="button" data-lang="ru" role="option" aria-selected="false">RU</button>
-            <button type="button" data-lang="en" role="option" aria-selected="false">EN</button>
-            <button type="button" data-lang="de" role="option" aria-selected="false">DE</button>
+          <div class="lang-switch-segment" role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button>
+            <button type="button" data-lang="en" role="radio" aria-checked="false">EN</button>
+            <button type="button" data-lang="de" role="radio" aria-checked="false">DE</button>
           </div>
         </div>
       </div>
     </aside>
     <dialog class="download-dialog" aria-labelledby="download-dialog-title">
-      <button class="dialog-close" type="button" data-i18n-aria="dialog.close" data-download-close>×</button>
+      <button class="dialog-close" type="button" data-i18n-aria="dialog.close" data-download-close aria-label="Закрыть">×</button>
       <div class="dialog-icon"><img src="./assets/mixly-app-icon.png" alt="" /></div>
       <p class="eyebrow" data-i18n="dialog.eyebrow">Скачать Mixly</p>
       <h2 id="download-dialog-title" data-i18n="dialog.title">Открой Mixly на своём телефоне</h2>
@@ -165,23 +155,27 @@
         <div class="hero-copy reveal-item">
           <p class="eyebrow" data-i18n="hero.eyebrow">Твой проводник в мире миксов</p>
           <h1 id="hero-title" data-i18n="hero.title">Идеи для кальяна</h1>
-          <p class="hero-text" data-i18n="hero.text">
-            Mixly подбирает миксы по любимым брендам, вкусам и комфортной крепости. Сохраняй
-            находки и находи следующее сочетание.
-          </p>
+          <p class="hero-text" data-i18n="hero.text">Mixly подбирает миксы по любимым брендам, вкусам и комфортной крепости. Сохраняй находки и находи следующее сочетание.</p>
           <div class="hero-actions">
-            <a class="button button-primary hero-download" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span aria-hidden="true"></span> <span data-i18n="hero.download">Скачать в App Store</span></a>
+            <a class="button button-primary hero-download" href="https://apps.apple.com/app/id6762792005" rel="noopener"><svg class="hero-download-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M16.37 12.31c-.03-2.28 1.86-3.39 1.94-3.44-1.06-1.55-2.7-1.76-3.28-1.78-1.38-.15-2.72.83-3.43.83-.72 0-1.8-.82-2.97-.79-1.51.02-2.93.9-3.71 2.25-1.62 2.8-.41 6.91 1.14 9.18.78 1.11 1.69 2.35 2.88 2.3 1.16-.05 1.59-.74 2.99-.74 1.38 0 1.78.74 3 .71 1.25-.02 2.04-1.12 2.79-2.24.91-1.28 1.27-2.54 1.29-2.61-.03-.01-2.44-.93-2.46-3.97ZM14.14 5.68c.63-.79 1.06-1.87.94-2.96-.91.04-2.05.63-2.71 1.4-.59.68-1.11 1.8-.98 2.85 1.02.08 2.07-.52 2.75-1.29Z"/></svg><span data-i18n="hero.download">Скачать в App Store</span></a>
           </div>
         </div>
 
-        <div class="hero-phones reveal-item" data-i18n-aria="hero.phonesAria">
+        <div class="hero-phones reveal-item" data-i18n-aria="hero.phonesAria" aria-label="Экраны приложения Mixly">
           <figure class="app-shot hero-shot hero-shot-back">
-            <img width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="async" fetchpriority="high" />
+            <img width="414" height="900" data-i18n-src="shot.main2" data-i18n-alt="hero.shotDiscoveryAlt" alt="Экран «Открытия» в приложении Mixly" decoding="sync" fetchpriority="high" src="./images_for_web/RU/main_2.webp">
           </figure>
           <figure class="app-shot hero-shot hero-shot-front">
-            <img width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="async" fetchpriority="high" />
+            <img width="414" height="900" data-i18n-src="shot.main1" data-i18n-alt="hero.shotHomeAlt" alt="Главный экран приложения Mixly с карточкой микса" decoding="sync" fetchpriority="high" src="./images_for_web/RU/main_1.webp">
           </figure>
         </div>
+        <script>
+          (function () {
+            document.querySelectorAll('.hero [data-i18n-src]').forEach(function (image) {
+              window.__mixlySetLocalizedImage(image);
+            });
+          })();
+        </script>
       </section>
 
       <section class="intro section reveal" id="how-it-works" aria-labelledby="intro-title">
@@ -190,11 +184,9 @@
             <p class="eyebrow" data-i18n="intro.eyebrow">Не просто каталог</p>
             <h2 id="intro-title" data-i18n="intro.title">От вкуса, который хочется сегодня, до следующего любимого сочетания</h2>
           </div>
-          <p class="section-lead" data-i18n="intro.lead">
-            Mixly складывает твои предпочтения в понятный маршрут, чтобы новая идея всегда была в тему.
-          </p>
+          <p class="section-lead" data-i18n="intro.lead">Mixly складывает твои предпочтения в понятный маршрут, чтобы новая идея всегда была в тему.</p>
         </div>
-        <div class="intro-features" data-i18n-aria="intro.featuresAria">
+        <div class="intro-features" data-i18n-aria="intro.featuresAria" aria-label="Возможности Mixly">
           <article class="intro-feature">
           <p class="feature-number">01</p>
           <h3 data-i18n="intro.f1.title">Находи миксы под себя</h3>
@@ -230,7 +222,7 @@
           <p class="eyebrow" data-i18n="discovery.eyebrow">Открытия</p>
           <h2 id="discovery-title" data-i18n="discovery.title">Открывай больше, чем привычные сочетания</h2>
           <p class="discovery-lead" data-i18n="discovery.lead">В «Открытиях» появляются новые направления, идеи от сообщества и разговоры, которые помогают найти своё следующее сочетание.</p>
-          <ul class="discovery-points" data-i18n-aria="discovery.pointsAria">
+          <ul class="discovery-points" data-i18n-aria="discovery.pointsAria" aria-label="Возможности раздела «Открытия»">
             <li><span>01</span><div><h3 data-i18n="discovery.p1.title">Вкусовые маршруты</h3><p data-i18n="discovery.p1.body">Исследуй сочетания через настроение, вкус и новое направление.</p></div></li>
             <li><span>02</span><div><h3 data-i18n="discovery.p2.title">Идеи от сообщества</h3><p data-i18n="discovery.p2.body">Смотри предложения других пользователей и находи вдохновение.</p></div></li>
             <li><span>03</span><div><h3 data-i18n="discovery.p3.title">Обсуждения миксов</h3><p data-i18n="discovery.p3.body">Делись впечатлениями и уточняй то, что хочется повторить.</p></div></li>
@@ -240,7 +232,7 @@
           <div class="discovery-orbit discovery-orbit-purple" aria-hidden="true"></div>
           <div class="discovery-orbit discovery-orbit-lime" aria-hidden="true"></div>
           <figure class="app-shot discovery-shot">
-            <img src="./images_for_web/RU/Discovery.png" width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" />
+            <img width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" src="./images_for_web/RU/Discovery.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
           </figure>
         </div>
       </section>
@@ -250,7 +242,7 @@
           <p class="eyebrow" data-i18n="labs.eyebrow">Лаборатория</p>
           <h2 id="labs-title" data-i18n="labs.title">Собирай сочетания, которые хочется повторить</h2>
           <p class="labs-lead" data-i18n="labs.lead">Добавляй табаки, держи под рукой то, что есть дома, и сохраняй собственные рецепты в одном месте.</p>
-          <ul class="labs-points" data-i18n-aria="labs.pointsAria">
+          <ul class="labs-points" data-i18n-aria="labs.pointsAria" aria-label="Возможности Лаборатории">
             <li><span>01</span><div><h3 data-i18n="labs.p1.title">Свои рецепты</h3><p data-i18n="labs.p1.body">Собирай сочетания из знакомых вкусов и сохраняй пропорции.</p></div></li>
             <li><span>02</span><div><h3 data-i18n="labs.p2.title">Табаки дома</h3><p data-i18n="labs.p2.body">Отмечай то, что уже есть на полке, чтобы выбирать быстрее.</p></div></li>
             <li><span>03</span><div><h3 data-i18n="labs.p3.title">Удачные находки</h3><p data-i18n="labs.p3.body">Возвращайся к идеям, меняй детали и пробуй снова.</p></div></li>
@@ -260,7 +252,7 @@
           <div class="labs-orbit labs-orbit-lime" aria-hidden="true"></div>
           <div class="labs-orbit labs-orbit-peach" aria-hidden="true"></div>
           <figure class="app-shot labs-shot">
-            <img src="./images_for_web/RU/Lab.png" width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" />
+            <img width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" src="./images_for_web/RU/Lab.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
           </figure>
         </div>
       </section>
@@ -273,7 +265,7 @@
           </div>
           <p data-i18n="changelog.lead">Собрали изменения, которые делают поиск, сохранение и обмен миксами удобнее.</p>
         </div>
-        <div class="changelog-list" data-i18n-aria="changelog.listAria">
+        <div class="changelog-list" data-i18n-aria="changelog.listAria" aria-label="История обновлений Mixly">
           <details class="changelog-release" open>
             <summary>
               <span class="changelog-release-title"><strong data-i18n="changelog.v105.version">Версия 1.0.5</strong><span data-i18n="changelog.v105.summary">Быстрее начинай знакомство с Mixly.</span></span>
@@ -324,35 +316,35 @@
             <h2 id="journal-title" data-i18n="journal.title">Новые идеи, чтобы выбирать с удовольствием</h2>
           </div>
           <div class="blog-preview-action">
-            <p data-i18n="journal.side">Три последних материала о вкусах, сочетаниях и привычках, которые помогают находить своё</p>
+            <p data-i18n="journal.side">Практичные материалы о вкусах, сочетаниях и привычках</p>
             <a class="button blog-all-link" href="./blog.html"><span data-i18n="journal.all">Все статьи</span> <span aria-hidden="true">→</span></a>
           </div>
         </div>
-        <div class="blog-preview-grid" data-i18n-aria="journal.gridAria">
+        <div class="blog-preview-grid" data-i18n-aria="journal.gridAria" aria-label="Последние статьи">
           <article class="blog-featured">
-            <a class="blog-card-link" href="./article.html?slug=base" data-i18n-aria="blog.card.base.aria">
-              <p class="article-meta" data-i18n="blog.card.base.meta">ВКУСЫ · 6 МИН</p>
-              <h3 data-i18n="blog.card.base.title">Как выбрать основу для нового сочетания</h3>
-              <p class="article-excerpt" data-i18n="blog.card.base.excerpt">Разбираемся, с какого вкуса начать и как оставить в миксе место для деталей.</p>
+            <a class="blog-card-link" href="/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana" data-i18n-href="blog.card.first.href" data-i18n-aria="blog.card.first.aria" aria-label="Как правильно смешивать табак для кальяна">
+              <p class="article-meta" data-i18n="blog.card.first.meta">ПРАКТИКА · 7 МИН</p>
+              <h3 data-i18n="blog.card.first.title">Как правильно смешивать табак для кальяна</h3>
+              <p class="article-excerpt" data-i18n="blog.card.first.excerpt">Базовые пропорции, сочетания вкусов и понятный алгоритм первого микса.</p>
               <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
             </a>
           </article>
-          <div class="blog-preview-side">
-            <article>
-              <a class="blog-card-link" href="./article.html?slug=brands" data-i18n-aria="blog.card.brands.aria">
-                <p class="article-meta" data-i18n="blog.card.brands.meta">БРЕНДЫ · 4 МИН</p>
-                <h3 data-i18n="blog.card.brands.title">Как ориентироваться в линейках табака</h3>
-                <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
-              </a>
-            </article>
-            <article>
-              <a class="blog-card-link" href="./article.html?slug=practice" data-i18n-aria="blog.card.practice.aria">
-                <p class="article-meta" data-i18n="blog.card.practice.meta">ПРАКТИКА · 5 МИН</p>
-                <h3 data-i18n="blog.card.practice.title">Как сохранять свои удачные находки</h3>
-                <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
-              </a>
-            </article>
-          </div>
+          <article class="blog-featured">
+            <a class="blog-card-link" href="/ru/blog/proportsii-tabaka-dlya-kalyana" data-i18n-href="blog.card.ratios.href" data-i18n-aria="blog.card.ratios.aria" aria-label="Пропорции табака для кальяна: как смешивать вкусы">
+              <p class="article-meta" data-i18n="blog.card.ratios.meta">ПРАКТИКА · 8 МИН</p>
+              <h3 data-i18n="blog.card.ratios.title">Пропорции табака для кальяна: как смешивать вкусы</h3>
+              <p class="article-excerpt" data-i18n="blog.card.ratios.excerpt">Когда подходят 50/50, 70/30 и 60/30/10 и как не переборщить с ярким акцентом.</p>
+              <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+          <article class="blog-featured">
+            <a class="blog-card-link" href="/ru/blog/sochetaniya-vkusov-dlya-kalyana" data-i18n-href="blog.card.combinations.href" data-i18n-aria="blog.card.combinations.aria" aria-label="Сочетания вкусов для кальяна: что с чем смешивать">
+              <p class="article-meta" data-i18n="blog.card.combinations.meta">ПРАКТИКА · 9 МИН</p>
+              <h3 data-i18n="blog.card.combinations.title">Сочетания вкусов для кальяна: что с чем смешивать</h3>
+              <p class="article-excerpt" data-i18n="blog.card.combinations.excerpt">Как сочетать фрукты, ягоды, цитрусы, свежие и десертные вкусы.</p>
+              <span class="blog-card-read"><span data-i18n="blog.read">Читать</span> <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         </div>
       </section>
 
@@ -362,13 +354,13 @@
           <h2 id="testimonials-title" data-i18n="testimonials.title">Находить своё приятнее вместе</h2>
           <p data-i18n="testimonials.lead">Лента впечатлений от тех, кто уже добавил Mixly в свой привычный ритуал.</p>
         </div>
-        <div class="testimonials-rail" data-i18n-aria="testimonials.railAria">
+        <div class="testimonials-rail" data-i18n-aria="testimonials.railAria" aria-label="Отзывы пользователей Mixly">
           <div class="testimonials-track">
             <div class="testimonials-group">
-              <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Мария</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
-              <article class="testimonial-card testimonial-card-lime"><header><span><strong data-i18n="testimonials.n2">Денис</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
-              <article class="testimonial-card"><header><span><strong data-i18n="testimonials.n3">Алексей</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
-              <article class="testimonial-card testimonial-card-peach"><header><span><strong data-i18n="testimonials.n4">Елена</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
+              <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Мария</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 из 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
+              <article class="testimonial-card testimonial-card-lime"><header><span><strong data-i18n="testimonials.n2">Денис</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 из 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t2">«Удобно, что можно начать от вкуса, который хочется сейчас, а не искать микс по всему интернету»</blockquote></article>
+              <article class="testimonial-card"><header><span><strong data-i18n="testimonials.n3">Алексей</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 из 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t3">«Фильтры и Лаборатория особенно выручают, когда хочется собрать что-то новое из того, что уже есть дома»</blockquote></article>
+              <article class="testimonial-card testimonial-card-peach"><header><span><strong data-i18n="testimonials.n4">Елена</strong><span class="testimonial-stars" data-i18n-aria="testimonials.starsAria" aria-label="5 из 5">★★★★★</span></span><time datetime="2026-07-01" data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t4">«Не приходится вспоминать, что было в прошлый раз. Удачные идеи всегда под рукой»</blockquote></article>
             </div>
             <div class="testimonials-group" aria-hidden="true">
               <article class="testimonial-card testimonial-card-violet"><header><span><strong data-i18n="testimonials.n1">Мария</strong><span class="testimonial-stars">★★★★★</span></span><time data-i18n="testimonials.date">июль 2026</time></header><blockquote data-i18n="testimonials.t1">«Раньше держала удачные сочетания в заметках. Теперь всё, что хочется повторить, собрано в одном месте»</blockquote></article>
@@ -380,26 +372,14 @@
         </div>
       </section>
 
-      <section class="premium section reveal" id="premium" aria-labelledby="premium-title">
-        <div class="premium-copy">
-          <p class="eyebrow" data-i18n="premium.eyebrow">Больше Mixly</p>
-          <h2 id="premium-title" data-i18n="premium.title">Больше возможностей внутри Mixly</h2>
-          <p data-i18n="premium.lead">Собирай подборку под себя и возвращайся к новым сочетаниям, когда захочется попробовать что-то ещё.</p>
-        </div>
-        <div class="premium-benefits" data-i18n-aria="premium.benefitsAria">
-          <article><strong data-i18n="premium.b1.title" data-i18n-html>Более <br>500+</strong><p data-i18n="premium.b1.body" data-i18n-html>миксов в полной<br>библиотеке</p></article>
-          <article><strong data-i18n="premium.b2.title" data-i18n-html>Каждую <br>неделю</strong><p data-i18n="premium.b2.body" data-i18n-html>новые идеи и<br>пополнения</p></article>
-          <article><strong data-i18n="premium.b3.title" data-i18n-html>Без <br>ограничений</strong><p data-i18n="premium.b3.body" data-i18n-html>фильтры по вкусам,<br>брендам и крепости</p></article>
-        </div>
-        <a class="button button-primary premium-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span data-i18n="premium.cta">Попробовать Mixly</span> <span aria-hidden="true">→</span></a>
-      </section>
+      <div data-premium-block></div>
 
     </main>
 
     <footer class="site-footer reveal">
       <div class="footer-main">
         <div class="footer-brand-block">
-          <a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria">mixly</a>
+          <a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a>
           <p>Mixly app © 2026</p>
         </div>
         <div class="footer-links">
@@ -411,12 +391,6 @@
       <div class="footer-bottom"><p data-i18n="footer.age">Только для взрослых 18+</p><p data-i18n="footer.tagline">Идеи для кальяна, которые хочется сохранить</p></div>
     </footer>
     <script>
-      const revealObserver = new IntersectionObserver(
-        (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
-        { threshold: 0.12 }
-      );
-      document.querySelectorAll('.reveal').forEach((section) => revealObserver.observe(section));
-
       const downloadDialog = document.querySelector('.download-dialog');
       let downloadDialogOpener = null;
       document.querySelectorAll('[data-download-open]').forEach((button) =>
@@ -439,13 +413,19 @@
       document.querySelectorAll('.changelog-release').forEach((release) => {
         const summary = release.querySelector('summary');
         const body = release.querySelector('.changelog-release-body');
+        if (!summary || !body) return;
         const transitionMs = 420;
         const easing = 'cubic-bezier(.16, 1, .3, 1)';
 
-        const finish = () => {
+        const clearInline = () => {
           body.style.height = '';
           body.style.opacity = '';
           body.style.transform = '';
+          body.style.overflow = '';
+        };
+
+        const finish = () => {
+          clearInline();
           release.classList.remove('is-closing');
           delete release.dataset.transitioning;
         };
@@ -462,8 +442,9 @@
           }
 
           if (release.open) {
-            const height = body.getBoundingClientRect().height;
+            const height = body.scrollHeight;
             release.classList.add('is-closing');
+            body.style.overflow = 'hidden';
             body.style.height = `${height}px`;
             body.style.opacity = '1';
             body.style.transform = 'translateY(0)';
@@ -471,32 +452,36 @@
               const animation = body.animate(
                 [
                   { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
-                  { height: '0px', opacity: 0, transform: 'translateY(-10px)' },
+                  { height: '0px', opacity: 0, transform: 'translateY(-6px)' },
                 ],
                 { duration: transitionMs, easing, fill: 'forwards' }
               );
               animation.onfinish = () => {
-              release.open = false;
+                release.open = false;
                 finish();
               };
             });
-          } else {
-            release.open = true;
-            body.style.height = '0px';
-            body.style.opacity = '0';
-            body.style.transform = 'translateY(-10px)';
-            requestAnimationFrame(() => {
-              const height = body.scrollHeight;
-              const animation = body.animate(
-                [
-                  { height: '0px', opacity: 0, transform: 'translateY(-10px)' },
-                  { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
-                ],
-                { duration: transitionMs, easing, fill: 'forwards' }
-              );
-              animation.onfinish = finish;
-            });
+            return;
           }
+
+          // Pin closed styles before flipping `open`, otherwise the CSS [open]
+          // rules flash full height for one frame and the accordion "blinks".
+          body.style.overflow = 'hidden';
+          body.style.height = '0px';
+          body.style.opacity = '0';
+          body.style.transform = 'translateY(-6px)';
+          release.open = true;
+          const height = body.scrollHeight;
+          requestAnimationFrame(() => {
+            const animation = body.animate(
+              [
+                { height: '0px', opacity: 0, transform: 'translateY(-6px)' },
+                { height: `${height}px`, opacity: 1, transform: 'translateY(0)' },
+              ],
+              { duration: transitionMs, easing, fill: 'forwards' }
+            );
+            animation.onfinish = finish;
+          });
         });
       });
 
@@ -535,5 +520,6 @@
         testimonialsRail.addEventListener('pointerleave', () => { targetSpeed = 22; });
       }
     </script>
+      <script src="./i18n.js"></script>
   </body>
 </html>

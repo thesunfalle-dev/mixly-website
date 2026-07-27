@@ -51,9 +51,17 @@
     if (document.body.dataset.errorPage) return 'error';
     const path = location.pathname.toLowerCase();
     if (path.endsWith('/blog.html')) return 'blog';
+    if (/^\/(?:ru|en|de)\/blog\/[a-z0-9-]{1,64}\/?$/.test(path)) return 'article';
     if (path.endsWith('/article.html')) return 'article';
     if (/\/(privacy|terms|eula|support)\.html$/.test(path)) return 'legal';
     return 'home';
+  }
+
+  function articleSlug() {
+    const querySlug = new URLSearchParams(location.search).get('slug');
+    if (querySlug && /^[a-z0-9-]{1,64}$/i.test(querySlug)) return querySlug;
+    const pathMatch = location.pathname.match(/^\/(?:ru|en|de)\/blog\/([a-z0-9-]{1,64})\/?$/i);
+    return pathMatch ? pathMatch[1] : null;
   }
 
   function referrerOrigin() {
@@ -92,8 +100,8 @@
     const type = contentType();
     if (type === 'blog') capture('blog_open', { placement: 'direct' });
     if (type === 'article') {
-      const slug = new URLSearchParams(location.search).get('slug');
-      if (slug && /^[a-z0-9-]{1,64}$/i.test(slug)) {
+      const slug = articleSlug();
+      if (slug) {
         capture('article_open', { article_slug: slug, placement: 'direct' });
       }
     }
@@ -180,7 +188,7 @@
       <div class="analytics-consent-copy">
         <h2 id="analytics-consent-title" data-consent-title></h2>
         <p data-consent-body></p>
-        <a href="./privacy.html" data-consent-privacy></a>
+        <a href="/privacy.html" data-consent-privacy></a>
       </div>
       <div class="analytics-consent-actions">
         <button class="analytics-consent-reject" type="button" data-consent-reject></button>

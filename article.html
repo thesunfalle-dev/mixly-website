@@ -3,57 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Статья блога Mixly — скоро появится." />
+    <meta name="description" content="Статья блога Mixly." />
     <meta name="theme-color" content="#29282B" />
     <meta name="robots" content="noindex" />
     <title>Статья · Mixly</title>
     <style>
       html { background: #29282b; }
-      html.is-veiled { overflow: hidden !important; }
-      html.is-veiled::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        z-index: 2147483647;
-        pointer-events: none;
-        background: #29282b;
-        opacity: 1;
-      }
-      html.content-pending body { opacity: 0 !important; }
-      html.scroll-pinned body {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-      }
     </style>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="./favicon.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="./favicon-48.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css" /><link rel="expect" href="#content">
+    <link rel="preload" href="/assets/Montserrat_400Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_600SemiBold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/Montserrat_700Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./i18n.js" as="script" fetchpriority="high" />
     <script>
       try {
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-        if (sessionStorage.getItem('mixly-page-veil') === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          document.documentElement.classList.add('is-veiled', 'veil-instant', 'page-arrived', 'content-pending', 'hover-lock', 'scroll-pinned');
-          window.scrollTo(0, 0);
-          window.setTimeout(() => document.documentElement.classList.remove('content-pending', 'is-veiled', 'veil-instant'), 3200);
-        }
       } catch (_) {}
     </script>
-    <script src="https://browser.sentry-cdn.com/10.42.0/bundle.min.js" crossorigin="anonymous"></script>
     <script src="./monitoring.js" defer></script>
     <script src="./page-nav.js" defer></script>
-    <script src="./i18n.js" defer></script>
+    <script src="./premium-block.js" defer></script>
     <script src="./analytics.js" defer></script>
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria">mixly</a>
-      <nav data-i18n-aria="nav.mainAria">
+      <a class="brand brand-app" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a>
+      <nav data-i18n-aria="nav.mainAria" aria-label="Основная навигация">
         <a href="./#how-it-works" data-i18n="nav.about">О приложении</a>
         <a href="./#features" data-i18n="nav.features">Возможности</a>
         <a href="./#changelog" data-i18n="nav.updates">Обновления</a>
@@ -62,20 +42,20 @@
       <div class="header-actions">
         <a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full" data-i18n="nav.download">Скачать в App Store</span><span class="cta-short" data-i18n="nav.downloadShort">App Store</span></a>
         <div class="lang-switch" data-lang-switch>
-          <button type="button" class="lang-switch-toggle" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="lang.label">RU</button>
-          <ul class="lang-switch-menu" hidden role="listbox">
-            <li role="option"><button type="button" data-lang="ru" aria-selected="false">RU</button></li>
-            <li role="option"><button type="button" data-lang="en" aria-selected="false">EN</button></li>
-            <li role="option"><button type="button" data-lang="de" aria-selected="false">DE</button></li>
+          <button type="button" class="lang-switch-toggle" aria-expanded="false" data-i18n-aria="lang.label" aria-label="Язык">RU</button>
+          <ul class="lang-switch-menu" hidden role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <li><button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button></li>
+            <li><button type="button" data-lang="en" role="radio" aria-checked="false">EN</button></li>
+            <li><button type="button" data-lang="de" role="radio" aria-checked="false">DE</button></li>
           </ul>
         </div>
-        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open>
+        <button class="mobile-menu-toggle" type="button" data-i18n-aria="nav.menuOpen" aria-controls="mobile-menu" aria-expanded="false" data-mobile-menu-open aria-label="Открыть меню">
           <span></span><span></span><span></span>
         </button>
       </div>
     </header>
-    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true">
-      <nav data-i18n-aria="nav.mobileAria">
+    <aside class="mobile-menu" id="mobile-menu" data-i18n-aria="nav.menuAria" aria-hidden="true" aria-label="Меню сайта">
+      <nav data-i18n-aria="nav.mobileAria" aria-label="Мобильная навигация">
         <a href="./#how-it-works" data-i18n="nav.about">О приложении</a>
         <a href="./#features" data-i18n="nav.features">Возможности</a>
         <a href="./#changelog" data-i18n="nav.updates">Обновления</a>
@@ -90,10 +70,10 @@
       </div>
       <div class="mobile-menu-lang">
         <div class="lang-switch lang-switch-mobile" data-lang-switch>
-          <div class="lang-switch-segment" role="listbox" data-i18n-aria="lang.label">
-            <button type="button" data-lang="ru" role="option" aria-selected="false">RU</button>
-            <button type="button" data-lang="en" role="option" aria-selected="false">EN</button>
-            <button type="button" data-lang="de" role="option" aria-selected="false">DE</button>
+          <div class="lang-switch-segment" role="radiogroup" data-i18n-aria="lang.label" aria-label="Язык">
+            <button type="button" data-lang="ru" role="radio" aria-checked="false">RU</button>
+            <button type="button" data-lang="en" role="radio" aria-checked="false">EN</button>
+            <button type="button" data-lang="de" role="radio" aria-checked="false">DE</button>
           </div>
         </div>
       </div>
@@ -111,7 +91,7 @@
     </main>
     <footer class="site-footer">
       <div class="footer-main">
-        <div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria">mixly</a><p>Mixly app © 2026</p></div>
+        <div class="footer-brand-block"><a class="brand-app footer-brand" href="./" data-i18n-aria="brand.homeAria" aria-label="Mixly, на главную">mixly</a><p>Mixly app © 2026</p></div>
         <div class="footer-links">
           <div><p data-i18n="footer.app">Приложение</p><a href="./#how-it-works" data-i18n="nav.about">О приложении</a><a href="./#features" data-i18n="nav.features">Возможности</a><a href="./#changelog" data-i18n="nav.updates">Обновления</a><a href="./blog.html" data-i18n="nav.blog">Блог</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
           <div><p data-i18n="footer.docs">Документы</p><a href="./privacy.html" data-i18n="footer.privacy">Конфиденциальность</a><a href="./cookies.html" data-i18n="footer.cookies">Cookies и аналитика</a><a href="./terms.html" data-i18n="footer.terms">Условия использования</a><a href="./eula.html" data-i18n="footer.eula">Лицензия</a><a href="./support.html" data-i18n="footer.support">Поддержка</a></div>
@@ -120,5 +100,6 @@
       </div>
       <div class="footer-bottom"><p data-i18n="footer.age">Только для взрослых 18+</p><p data-i18n="footer.tagline">Идеи для кальяна, которые хочется сохранить</p></div>
     </footer>
+      <script src="./i18n.js"></script>
   </body>
 </html>

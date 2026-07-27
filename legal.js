@@ -156,14 +156,13 @@
     var desktopToc = window.matchMedia('(min-width: 981px)');
     var syncTocMode = function () {
       dropdown.open = desktopToc.matches;
+      summary.tabIndex = desktopToc.matches ? -1 : 0;
+      if (desktopToc.matches) summary.setAttribute('aria-hidden', 'true');
+      else summary.removeAttribute('aria-hidden');
     };
     syncTocMode();
     if (desktopToc.addEventListener) desktopToc.addEventListener('change', syncTocMode);
     else if (desktopToc.addListener) desktopToc.addListener(syncTocMode);
-
-    summary.addEventListener('click', function (event) {
-      if (desktopToc.matches) event.preventDefault();
-    });
 
     bindToc(tocNav, sectionNodes, tocCurrent, dropdown);
   }

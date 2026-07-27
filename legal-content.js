@@ -11,7 +11,7 @@ var LEGAL_DOCS = {
           "title": "1. Who operates Mixly",
           "blocks": [
             { "type": "p", "text": "Mixly is operated by Individual Entrepreneur ULADZISLAU YARMAKOVICH, Batumi, Georgia (\"Mixly\", \"we\", \"us\", or \"our\")." },
-            { "type": "p", "text": "Contact email for privacy, support, and legal requests: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Contact email for privacy, support, and legal requests: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Postal address: Georgia, Batumi City, Vakhtang Gorgasali st., N116-118, Floor 11, Apartment N58." }
           ]
         },
@@ -38,7 +38,7 @@ var LEGAL_DOCS = {
               "language-related app behavior derived from your device locale or in-app language choice."
             ] },
             { "type": "p", "text": "This information is stored on your device using local storage technology such as AsyncStorage and temporary app files. Mixly does not provide email/password registration. You may choose to sign in with Apple on iOS or Google on Android, and an iOS user may explicitly link Google to the same account. For an authenticated account, Mixly stores a private cloud copy of the listed app data in Supabase so it can be restored on another device. The cloud copy is tied to your authenticated Supabase user ID and is protected so other users cannot read it. Some local identity information, such as your generated Mixly user ID and optional nickname, may also be synced to Supabase so support and community features can work. If you choose to copy your Mixly system ID, that value is placed on your device clipboard by the operating system." },
-            { "type": "p", "text": "The Mixly website stores your selected display language in localStorage (mixly-lang) and uses sessionStorage (mixly-page-veil) only for a single page-transition animation. If you actively allow optional website analytics, Mixly loads PostHog from its US Cloud. PostHog may store its analytics state in cookies or local storage and process a pseudonymous browser identifier, page path without query parameters, display language, page type, referral origin, and interactions with App Store or Google Play links. We do not enable automatic interaction capture, heatmaps, session recording, advertising, or social-media tracking. Analytics can be refused or changed at any time through the Analytics settings link in the footer. PostHog and its infrastructure may process network metadata, including IP address, to receive events; information may be processed in the United States." }
+            { "type": "p", "text": "The Mixly website stores your selected display language in localStorage (mixly-lang). If you actively allow optional website analytics, Mixly loads PostHog from its US Cloud. PostHog may store its analytics state in cookies or local storage and process a pseudonymous browser identifier, page path without query parameters, display language, page type, referral origin, and interactions with App Store or Google Play links. We do not enable automatic interaction capture, heatmaps, session recording, advertising, or social-media tracking. Analytics can be refused or changed at any time through the Analytics settings link in the footer. PostHog and its infrastructure may process network metadata, including IP address, to receive events; information may be processed in the United States." }
           ]
         },
         {
@@ -138,7 +138,7 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "Local app data remains on your device until you delete it, clear app data, reset the app, or uninstall Mixly. If you sign in with Apple or Google, you may delete your account in the app; this deletes the authenticated account and its private cloud app-data snapshot. Signing out removes the local account data from that device after it has had an opportunity to sync." },
             { "type": "p", "text": "Support, feedback, user profile records, analytics records, subscription entitlement records, smart share-link technical logs, community suggestion records, community reaction records, and community review records are retained only as long as reasonably needed for support, app improvement, catalog improvement, moderation, analytics, subscription management, sharing functionality, security, legal, and operational purposes." },
-            { "type": "p", "text": "You may delete your own community reviews in the app where that feature is available. You may request deletion of support correspondence, user profile records, community suggestion records, or community review records, or ask privacy questions, by contacting [[a:./support.html#account-deletion]]the public account-deletion request page[[/a]] or [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]. We may need to retain some information if required for legal, security, fraud prevention, billing, dispute-resolution, or legitimate operational reasons." }
+            { "type": "p", "text": "You may delete your own community reviews in the app where that feature is available. You may request deletion of support correspondence, user profile records, community suggestion records, or community review records, or ask privacy questions, by contacting [[a:./support.html#account-deletion]]the public account-deletion request page[[/a]] or [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]. We may need to retain some information if required for legal, security, fraud prevention, billing, dispute-resolution, or legitimate operational reasons." }
           ]
         },
         {
@@ -173,7 +173,7 @@ var LEGAL_DOCS = {
           "id": "s17",
           "title": "17. Contact",
           "blocks": [
-            { "type": "p", "text": "For privacy, support, or legal questions, contact: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "For privacy, support, or legal questions, contact: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -188,7 +188,7 @@ var LEGAL_DOCS = {
           "title": "1. Кто управляет Mixly",
           "blocks": [
             { "type": "p", "text": "Оператором Mixly является Индивидуальный предприниматель ULADZISLAU YARMAKOVICH, Батуми, Грузия («Mixly», «мы», «нас» или «наш»)." },
-            { "type": "p", "text": "Контактный email для запросов по конфиденциальности, поддержке и юридическим вопросам: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Контактный email для запросов по конфиденциальности, поддержке и юридическим вопросам: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Почтовый адрес: Грузия, г. Батуми, ул. Вахтанга Горгасали, N116-118, 11 этаж, квартира N58." }
           ]
         },
@@ -215,7 +215,7 @@ var LEGAL_DOCS = {
               "поведение приложения, связанное с языком, определяемое по локали устройства или выбору языка в приложении."
             ] },
             { "type": "p", "text": "Эта информация хранится на устройстве с использованием технологий локального хранилища, таких как AsyncStorage, и временных файлов приложения. Mixly не предоставляет регистрацию по email/паролю. Вы можете войти через Apple на iOS или через Google на Android, а на iOS пользователь может явно привязать Google к тому же аккаунту. Для авторизованного аккаунта Mixly сохраняет приватную облачную копию перечисленных данных в Supabase, чтобы восстановить их на другом устройстве. Эта копия привязана к аутентифицированному Supabase user ID и недоступна другим пользователям. Часть локальной идентификационной информации, например созданный Mixly user ID и необязательный никнейм, также может синхронизироваться с Supabase для работы поддержки и community-функций. Если вы выбираете скопировать свой системный ID Mixly, это значение помещается в буфер обмена устройства средствами операционной системы." },
-            { "type": "p", "text": "Сайт Mixly хранит выбранный язык интерфейса в localStorage (mixly-lang), а sessionStorage (mixly-page-veil) использует только для однократной анимации перехода между страницами. Если вы явно разрешаете необязательную веб-аналитику, Mixly загружает PostHog из US Cloud. PostHog может хранить состояние аналитики в cookies или localStorage и обрабатывать псевдонимный идентификатор браузера, путь страницы без query-параметров, язык интерфейса, тип страницы, origin реферера и переходы по ссылкам App Store или Google Play. Мы не включаем автосбор действий, heatmaps, запись сессий, рекламу или отслеживание в соцсетях. От аналитики можно отказаться или изменить выбор в любой момент по ссылке «Настройки аналитики» в футере. PostHog и его инфраструктура могут обрабатывать сетевые метаданные, включая IP-адрес, для приёма событий; информация может обрабатываться в США." }
+            { "type": "p", "text": "Сайт Mixly хранит выбранный язык интерфейса в localStorage (mixly-lang). Если вы явно разрешаете необязательную веб-аналитику, Mixly загружает PostHog из US Cloud. PostHog может хранить состояние аналитики в cookies или localStorage и обрабатывать псевдонимный идентификатор браузера, путь страницы без query-параметров, язык интерфейса, тип страницы, origin реферера и переходы по ссылкам App Store или Google Play. Мы не включаем автосбор действий, heatmaps, запись сессий, рекламу или отслеживание в соцсетях. От аналитики можно отказаться или изменить выбор в любой момент по ссылке «Настройки аналитики» в футере. PostHog и его инфраструктура могут обрабатывать сетевые метаданные, включая IP-адрес, для приёма событий; информация может обрабатываться в США." }
           ]
         },
         {
@@ -315,7 +315,7 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "Локальные данные приложения остаются на устройстве, пока вы не удалите их, не очистите данные приложения, не сбросите приложение или не удалите Mixly. Если вы вошли через Apple или Google, вы можете удалить аккаунт в приложении: это удалит аутентифицированный аккаунт и его приватный облачный снимок данных. При выходе локальные данные аккаунта удаляются с устройства после попытки синхронизации." },
             { "type": "p", "text": "Сообщения поддержки, обратной связи, user profile records, аналитические записи, записи premium-entitlement, технические логи smart share links, community-предложения, community-реакции и community-отзывы хранятся только столько времени, сколько разумно необходимо для поддержки, улучшения приложения и каталога, модерации, аналитики, управления подписками, работы шаринга, безопасности, юридических и операционных целей." },
-            { "type": "p", "text": "Вы можете удалить свои community-отзывы в приложении, если эта функция доступна. Вы можете запросить удаление переписки с поддержкой, user profile records, community-предложений или community-отзывов, а также задать вопросы по конфиденциальности, обратившись на [[a:./support.html#account-deletion]]публичную страницу запроса на удаление аккаунта[[/a]] или на [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]. Нам может потребоваться сохранить часть информации, если это необходимо по юридическим причинам, для безопасности, предотвращения мошенничества, биллинга, разрешения споров или по обоснованным операционным причинам." }
+            { "type": "p", "text": "Вы можете удалить свои community-отзывы в приложении, если эта функция доступна. Вы можете запросить удаление переписки с поддержкой, user profile records, community-предложений или community-отзывов, а также задать вопросы по конфиденциальности, обратившись на [[a:./support.html#account-deletion]]публичную страницу запроса на удаление аккаунта[[/a]] или на [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]. Нам может потребоваться сохранить часть информации, если это необходимо по юридическим причинам, для безопасности, предотвращения мошенничества, биллинга, разрешения споров или по обоснованным операционным причинам." }
           ]
         },
         {
@@ -350,7 +350,7 @@ var LEGAL_DOCS = {
           "id": "s17",
           "title": "17. Контакты",
           "blocks": [
-            { "type": "p", "text": "По вопросам конфиденциальности, поддержки или юридическим вопросам: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "По вопросам конфиденциальности, поддержки или юридическим вопросам: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -365,7 +365,7 @@ var LEGAL_DOCS = {
           "title": "1. Wer Mixly betreibt",
           "blocks": [
             { "type": "p", "text": "Mixly wird betrieben vom Einzelunternehmer ULADZISLAU YARMAKOVICH, Batumi, Georgien („Mixly“, „wir“, „uns“ oder „unser“)." },
-            { "type": "p", "text": "Kontakt-E-Mail für Datenschutz-, Support- und Rechtsanfragen: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Kontakt-E-Mail für Datenschutz-, Support- und Rechtsanfragen: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Postanschrift: Georgien, Stadt Batumi, Vakhtang-Gorgasali-Str. N116-118, 11. Stock, Wohnung N58." }
           ]
         },
@@ -392,7 +392,7 @@ var LEGAL_DOCS = {
               "sprachbezogenes App-Verhalten, das aus Ihrer Geräte-Locale oder Ihrer In-App-Sprachauswahl abgeleitet wird."
             ] },
             { "type": "p", "text": "Diese Informationen werden mit lokaler Speichertechnologie wie AsyncStorage und temporären App-Dateien auf Ihrem Gerät gespeichert. Mixly bietet keine Registrierung mit E-Mail/Passwort an. Sie können sich unter iOS mit Apple oder unter Android mit Google anmelden, und ein iOS-Nutzer kann Google ausdrücklich mit demselben Konto verknüpfen. Für ein authentifiziertes Konto speichert Mixly eine private Cloud-Kopie der aufgeführten App-Daten in Supabase, damit sie auf einem anderen Gerät wiederhergestellt werden kann. Die Cloud-Kopie ist mit Ihrer authentifizierten Supabase-Benutzer-ID verknüpft und so geschützt, dass andere Nutzer sie nicht lesen können. Einige lokale Identitätsinformationen, etwa Ihre generierte Mixly-Benutzer-ID und der optionale Spitzname, können ebenfalls mit Supabase synchronisiert werden, damit Support- und Community-Funktionen arbeiten können. Wenn Sie Ihre Mixly-System-ID kopieren, wird dieser Wert vom Betriebssystem in die Zwischenablage Ihres Geräts gelegt." },
-            { "type": "p", "text": "Die Mixly-Website speichert Ihre gewählte Anzeigesprache in localStorage (mixly-lang) und verwendet sessionStorage (mixly-page-veil) nur für eine einmalige Animation beim Seitenwechsel. Wenn Sie optionale Webanalyse ausdrücklich erlauben, lädt Mixly PostHog aus der US Cloud. PostHog kann seinen Analysestatus in Cookies oder localStorage speichern und eine pseudonyme Browserkennung, den Seitenpfad ohne Query-Parameter, Anzeigesprache, Seitentyp, Referrer-Origin sowie Interaktionen mit App-Store- oder Google-Play-Links verarbeiten. Wir aktivieren keine automatische Interaktionserfassung, Heatmaps, Sitzungsaufzeichnungen, Werbung oder Social-Media-Tracking. Sie können die Analyse jederzeit über den Link „Analyse-Einstellungen“ in der Fußzeile ablehnen oder Ihre Auswahl ändern. PostHog und seine Infrastruktur können Netzwerkmetadaten einschließlich der IP-Adresse verarbeiten, um Ereignisse zu empfangen; Informationen können in den Vereinigten Staaten verarbeitet werden." }
+            { "type": "p", "text": "Die Mixly-Website speichert Ihre gewählte Anzeigesprache in localStorage (mixly-lang). Wenn Sie optionale Webanalyse ausdrücklich erlauben, lädt Mixly PostHog aus der US Cloud. PostHog kann seinen Analysestatus in Cookies oder localStorage speichern und eine pseudonyme Browserkennung, den Seitenpfad ohne Query-Parameter, Anzeigesprache, Seitentyp, Referrer-Origin sowie Interaktionen mit App-Store- oder Google-Play-Links verarbeiten. Wir aktivieren keine automatische Interaktionserfassung, Heatmaps, Sitzungsaufzeichnungen, Werbung oder Social-Media-Tracking. Sie können die Analyse jederzeit über den Link „Analyse-Einstellungen“ in der Fußzeile ablehnen oder Ihre Auswahl ändern. PostHog und seine Infrastruktur können Netzwerkmetadaten einschließlich der IP-Adresse verarbeiten, um Ereignisse zu empfangen; Informationen können in den Vereinigten Staaten verarbeitet werden." }
           ]
         },
         {
@@ -492,7 +492,7 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "Lokale App-Daten verbleiben auf Ihrem Gerät, bis Sie sie löschen, die App-Daten leeren, die App zurücksetzen oder Mixly deinstallieren. Wenn Sie sich mit Apple oder Google anmelden, können Sie Ihr Konto in der App löschen; dadurch werden das authentifizierte Konto und dessen private Cloud-App-Daten-Momentaufnahme gelöscht. Beim Abmelden werden die lokalen Kontodaten von diesem Gerät entfernt, nachdem eine Synchronisierung möglich war." },
             { "type": "p", "text": "Support- und Feedback-Nachrichten, Benutzerprofildatensätze, Analysedatensätze, Datensätze zu Abonnementberechtigungen, technische Protokolle von Smart-Share-Links, Community-Vorschlagsdatensätze, Community-Reaktionsdatensätze und Community-Rezensionsdatensätze werden nur so lange aufbewahrt, wie es für Support, App-Verbesserung, Katalogverbesserung, Moderation, Analyse, Abonnementverwaltung, Teilen-Funktionalität, Sicherheit sowie rechtliche und betriebliche Zwecke vernünftigerweise erforderlich ist." },
-            { "type": "p", "text": "Sie können Ihre eigenen Community-Rezensionen in der App löschen, sofern diese Funktion verfügbar ist. Sie können die Löschung von Support-Korrespondenz, Benutzerprofildatensätzen, Community-Vorschlagsdatensätzen oder Community-Rezensionsdatensätzen beantragen oder Datenschutzfragen stellen, indem Sie sich an [[a:./support.html#account-deletion]]die öffentliche Seite für Konto-Löschanträge[[/a]] oder an [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]] wenden. Wir müssen möglicherweise einige Informationen aufbewahren, sofern dies aus rechtlichen, Sicherheits-, Betrugspräventions-, Abrechnungs-, Streitbeilegungs- oder berechtigten betrieblichen Gründen erforderlich ist." }
+            { "type": "p", "text": "Sie können Ihre eigenen Community-Rezensionen in der App löschen, sofern diese Funktion verfügbar ist. Sie können die Löschung von Support-Korrespondenz, Benutzerprofildatensätzen, Community-Vorschlagsdatensätzen oder Community-Rezensionsdatensätzen beantragen oder Datenschutzfragen stellen, indem Sie sich an [[a:./support.html#account-deletion]]die öffentliche Seite für Konto-Löschanträge[[/a]] oder an [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]] wenden. Wir müssen möglicherweise einige Informationen aufbewahren, sofern dies aus rechtlichen, Sicherheits-, Betrugspräventions-, Abrechnungs-, Streitbeilegungs- oder berechtigten betrieblichen Gründen erforderlich ist." }
           ]
         },
         {
@@ -527,7 +527,7 @@ var LEGAL_DOCS = {
           "id": "s17",
           "title": "17. Kontakt",
           "blocks": [
-            { "type": "p", "text": "Bei Fragen zu Datenschutz, Support oder rechtlichen Themen wenden Sie sich an: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "Bei Fragen zu Datenschutz, Support oder rechtlichen Themen wenden Sie sich an: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -549,7 +549,7 @@ var LEGAL_DOCS = {
           { "type": "p", "text": "If you allow analytics, we use a service provider to understand page visits, language changes, and clicks on app-store links. We do not record sessions, use heatmaps, or automatically capture interactions. More details are in our [[a:./privacy.html]]Privacy Policy[[/a]]." }
         ] },
         { "id": "s4", "title": "4. More information", "blocks": [
-          { "type": "p", "text": "For the wider information-handling practices of Mixly, read our [[a:./privacy.html]]Privacy Policy[[/a]]. For questions, contact [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+          { "type": "p", "text": "For the wider information-handling practices of Mixly, read our [[a:./privacy.html]]Privacy Policy[[/a]]. For questions, contact [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
         ] }
       ]
     },
@@ -568,7 +568,7 @@ var LEGAL_DOCS = {
           { "type": "p", "text": "Если вы разрешаете аналитику, мы используем сервис, чтобы понимать посещения страниц, смену языка и переходы по ссылкам на магазины приложений. Мы не записываем сессии, не используем heatmaps и не собираем действия автоматически. Подробности — в [[a:./privacy.html]]Политике конфиденциальности[[/a]]." }
         ] },
         { "id": "s4", "title": "4. Дополнительная информация", "blocks": [
-          { "type": "p", "text": "Более широкое описание обработки информации приведено в [[a:./privacy.html]]Политике конфиденциальности[[/a]]. По вопросам пишите на [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+          { "type": "p", "text": "Более широкое описание обработки информации приведено в [[a:./privacy.html]]Политике конфиденциальности[[/a]]. По вопросам пишите на [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
         ] }
       ]
     },
@@ -587,7 +587,7 @@ var LEGAL_DOCS = {
           { "type": "p", "text": "Wenn Sie Analysen erlauben, nutzen wir einen Dienst, um Seitenbesuche, Sprachwechsel und Klicks auf App-Store-Links zu verstehen. Wir zeichnen keine Sitzungen auf, nutzen keine Heatmaps und erfassen Interaktionen nicht automatisch. Weitere Details finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]." }
         ] },
         { "id": "s4", "title": "4. Weitere Informationen", "blocks": [
-          { "type": "p", "text": "Weitere Informationen zur Verarbeitung durch Mixly finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]. Fragen richten Sie bitte an [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+          { "type": "p", "text": "Weitere Informationen zur Verarbeitung durch Mixly finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]. Fragen richten Sie bitte an [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
         ] }
       ]
     }
@@ -603,7 +603,7 @@ var LEGAL_DOCS = {
           "title": "1. Operator and contact",
           "blocks": [
             { "type": "p", "text": "Mixly is operated by Individual Entrepreneur ULADZISLAU YARMAKOVICH, Batumi, Georgia (\"Mixly\", \"we\", \"us\", or \"our\")." },
-            { "type": "p", "text": "Contact email: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Contact email: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Postal address: Georgia, Batumi City, Vakhtang Gorgasali st., N116-118, Floor 11, Apartment N58." }
           ]
         },
@@ -752,7 +752,7 @@ var LEGAL_DOCS = {
           "id": "s19",
           "title": "19. Contact",
           "blocks": [
-            { "type": "p", "text": "For questions about these Terms, contact: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "For questions about these Terms, contact: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -767,7 +767,7 @@ var LEGAL_DOCS = {
           "title": "1. Оператор и контакты",
           "blocks": [
             { "type": "p", "text": "Оператором Mixly является Индивидуальный предприниматель ULADZISLAU YARMAKOVICH, Батуми, Грузия («Mixly», «мы», «нас» или «наш»)." },
-            { "type": "p", "text": "Контактный email: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Контактный email: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Почтовый адрес: Грузия, г. Батуми, ул. Вахтанга Горгасали, N116-118, 11 этаж, квартира N58." }
           ]
         },
@@ -916,7 +916,7 @@ var LEGAL_DOCS = {
           "id": "s19",
           "title": "19. Контакты",
           "blocks": [
-            { "type": "p", "text": "По вопросам о настоящих Условиях обращайтесь: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "По вопросам о настоящих Условиях обращайтесь: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -931,7 +931,7 @@ var LEGAL_DOCS = {
           "title": "1. Betreiber und Kontakt",
           "blocks": [
             { "type": "p", "text": "Mixly wird betrieben vom Einzelunternehmer ULADZISLAU YARMAKOVICH, Batumi, Georgien („Mixly“, „wir“, „uns“ oder „unser“)." },
-            { "type": "p", "text": "Kontakt-E-Mail: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Kontakt-E-Mail: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Postanschrift: Georgien, Stadt Batumi, Vakhtang-Gorgasali-Str. N116-118, 11. Stock, Wohnung N58." }
           ]
         },
@@ -1080,7 +1080,7 @@ var LEGAL_DOCS = {
           "id": "s19",
           "title": "19. Kontakt",
           "blocks": [
-            { "type": "p", "text": "Bei Fragen zu diesen Bedingungen wenden Sie sich an: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "Bei Fragen zu diesen Bedingungen wenden Sie sich an: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -1097,7 +1097,7 @@ var LEGAL_DOCS = {
           "title": "1. Licensor",
           "blocks": [
             { "type": "p", "text": "The Mixly mobile application is licensed by Individual Entrepreneur ULADZISLAU YARMAKOVICH, Batumi, Georgia (\"Licensor\", \"Mixly\", \"we\", \"us\", or \"our\")." },
-            { "type": "p", "text": "Contact email: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Contact email: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Postal address: Georgia, Batumi City, Vakhtang Gorgasali st., N116-118, Floor 11, Apartment N58." }
           ]
         },
@@ -1220,7 +1220,7 @@ var LEGAL_DOCS = {
           "id": "s16",
           "title": "16. Contact",
           "blocks": [
-            { "type": "p", "text": "For questions about this License Agreement, contact: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "For questions about this License Agreement, contact: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -1235,7 +1235,7 @@ var LEGAL_DOCS = {
           "title": "1. Лицензиар",
           "blocks": [
             { "type": "p", "text": "Мобильное приложение Mixly лицензируется Индивидуальным предпринимателем ULADZISLAU YARMAKOVICH, Батуми, Грузия («Лицензиар», «Mixly», «мы», «нас» или «наш»)." },
-            { "type": "p", "text": "Контактный email: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Контактный email: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Почтовый адрес: Грузия, г. Батуми, ул. Вахтанга Горгасали, N116-118, 11 этаж, квартира N58." }
           ]
         },
@@ -1358,7 +1358,7 @@ var LEGAL_DOCS = {
           "id": "s16",
           "title": "16. Контакты",
           "blocks": [
-            { "type": "p", "text": "По вопросам о настоящем Лицензионном соглашении обращайтесь: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "По вопросам о настоящем Лицензионном соглашении обращайтесь: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -1373,7 +1373,7 @@ var LEGAL_DOCS = {
           "title": "1. Lizenzgeber",
           "blocks": [
             { "type": "p", "text": "Die mobile Mixly-Anwendung wird lizenziert vom Einzelunternehmer ULADZISLAU YARMAKOVICH, Batumi, Georgien („Lizenzgeber“, „Mixly“, „wir“, „uns“ oder „unser“)." },
-            { "type": "p", "text": "Kontakt-E-Mail: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." },
+            { "type": "p", "text": "Kontakt-E-Mail: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." },
             { "type": "p", "text": "Postanschrift: Georgien, Stadt Batumi, Vakhtang-Gorgasali-Str. N116-118, 11. Stock, Wohnung N58." }
           ]
         },
@@ -1496,7 +1496,7 @@ var LEGAL_DOCS = {
           "id": "s16",
           "title": "16. Kontakt",
           "blocks": [
-            { "type": "p", "text": "Bei Fragen zu dieser Lizenzvereinbarung wenden Sie sich an: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+            { "type": "p", "text": "Bei Fragen zu dieser Lizenzvereinbarung wenden Sie sich an: [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
           ]
         }
       ]
@@ -1513,7 +1513,7 @@ var LEGAL_DOCS = {
           "title": "Contact us",
           "blocks": [
             { "type": "p", "text": "If you need help with Mixly, want to report an issue, suggest a catalog update, or ask a privacy or legal question, contact us by email:" },
-            { "type": "p", "text": "[[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]" }
+            { "type": "p", "text": "[[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]" }
           ]
         },
         {
@@ -1534,7 +1534,7 @@ var LEGAL_DOCS = {
           "title": "Account deletion request",
           "blocks": [
             { "type": "p", "text": "You can delete an Apple- or Google-connected Mixly account inside the app: Profile → Profile details → Delete profile and data. This removes the authenticated Mixly account and its private cloud state." },
-            { "type": "p", "text": "If you cannot access the app or account, email [[a:mailto:thesunfalle@gmail.com?subject=Mixly%20account%20deletion%20request]]thesunfalle@gmail.com[[/a]] with the subject “Mixly account deletion request”. Include the email address associated with Apple or Google, if one was shared with Mixly, and do not include passwords, payment-card details, or one-time codes. We may request information needed to verify the request and may retain limited data where required for billing, fraud prevention, security, or law." }
+            { "type": "p", "text": "If you cannot access the app or account, email [[a:mailto:support@get-mixly.app?subject=Mixly%20account%20deletion%20request]]support@get-mixly.app[[/a]] with the subject “Mixly account deletion request”. Include the email address associated with Apple or Google, if one was shared with Mixly, and do not include passwords, payment-card details, or one-time codes. We may request information needed to verify the request and may retain limited data where required for billing, fraud prevention, security, or law." }
           ]
         },
         {
@@ -1561,7 +1561,7 @@ var LEGAL_DOCS = {
           "title": "Свяжитесь с нами",
           "blocks": [
             { "type": "p", "text": "Если вам нужна помощь с Mixly, вы хотите сообщить о проблеме, предложить обновление каталога или задать вопрос по конфиденциальности либо юридический вопрос, напишите нам по email:" },
-            { "type": "p", "text": "[[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]" }
+            { "type": "p", "text": "[[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]" }
           ]
         },
         {
@@ -1582,7 +1582,7 @@ var LEGAL_DOCS = {
           "title": "Запрос на удаление аккаунта",
           "blocks": [
             { "type": "p", "text": "Вы можете удалить подключённый через Apple или Google аккаунт Mixly внутри приложения: Профиль → Данные профиля → Удалить профиль и данные. Это удаляет аутентифицированный аккаунт Mixly и его приватное облачное состояние." },
-            { "type": "p", "text": "Если вы не можете получить доступ к приложению или аккаунту, напишите на [[a:mailto:thesunfalle@gmail.com?subject=Mixly%20account%20deletion%20request]]thesunfalle@gmail.com[[/a]] с темой «Mixly account deletion request». Укажите email, связанный с Apple или Google, если он был предоставлен Mixly, и не указывайте пароли, данные банковских карт или одноразовые коды. Мы можем запросить информацию, необходимую для проверки запроса, и можем сохранить ограниченные данные, если это требуется для биллинга, предотвращения мошенничества, безопасности или по закону." }
+            { "type": "p", "text": "Если вы не можете получить доступ к приложению или аккаунту, напишите на [[a:mailto:support@get-mixly.app?subject=Mixly%20account%20deletion%20request]]support@get-mixly.app[[/a]] с темой «Mixly account deletion request». Укажите email, связанный с Apple или Google, если он был предоставлен Mixly, и не указывайте пароли, данные банковских карт или одноразовые коды. Мы можем запросить информацию, необходимую для проверки запроса, и можем сохранить ограниченные данные, если это требуется для биллинга, предотвращения мошенничества, безопасности или по закону." }
           ]
         },
         {
@@ -1609,7 +1609,7 @@ var LEGAL_DOCS = {
           "title": "Kontaktieren Sie uns",
           "blocks": [
             { "type": "p", "text": "Wenn Sie Hilfe mit Mixly benötigen, ein Problem melden, eine Katalogaktualisierung vorschlagen oder eine Datenschutz- oder Rechtsfrage stellen möchten, kontaktieren Sie uns per E-Mail:" },
-            { "type": "p", "text": "[[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]" }
+            { "type": "p", "text": "[[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]" }
           ]
         },
         {
@@ -1630,7 +1630,7 @@ var LEGAL_DOCS = {
           "title": "Antrag auf Kontolöschung",
           "blocks": [
             { "type": "p", "text": "Sie können ein mit Apple oder Google verbundenes Mixly-Konto in der App löschen: Profil → Profildetails → Profil und Daten löschen. Dadurch werden das authentifizierte Mixly-Konto und sein privater Cloud-Zustand entfernt." },
-            { "type": "p", "text": "Wenn Sie nicht auf die App oder das Konto zugreifen können, senden Sie eine E-Mail an [[a:mailto:thesunfalle@gmail.com?subject=Mixly%20account%20deletion%20request]]thesunfalle@gmail.com[[/a]] mit dem Betreff „Mixly account deletion request“. Geben Sie die mit Apple oder Google verknüpfte E-Mail-Adresse an, sofern eine an Mixly übermittelt wurde, und geben Sie keine Passwörter, Zahlungskartendaten oder Einmalcodes an. Wir können zur Überprüfung des Antrags erforderliche Informationen anfordern und begrenzte Daten aufbewahren, sofern dies für Abrechnung, Betrugsprävention, Sicherheit oder aufgrund gesetzlicher Vorgaben erforderlich ist." }
+            { "type": "p", "text": "Wenn Sie nicht auf die App oder das Konto zugreifen können, senden Sie eine E-Mail an [[a:mailto:support@get-mixly.app?subject=Mixly%20account%20deletion%20request]]support@get-mixly.app[[/a]] mit dem Betreff „Mixly account deletion request“. Geben Sie die mit Apple oder Google verknüpfte E-Mail-Adresse an, sofern eine an Mixly übermittelt wurde, und geben Sie keine Passwörter, Zahlungskartendaten oder Einmalcodes an. Wir können zur Überprüfung des Antrags erforderliche Informationen anfordern und begrenzte Daten aufbewahren, sofern dies für Abrechnung, Betrugsprävention, Sicherheit oder aufgrund gesetzlicher Vorgaben erforderlich ist." }
           ]
         },
         {
