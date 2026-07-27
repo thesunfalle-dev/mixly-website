@@ -49,32 +49,133 @@
   function normalizeToc() {
     const toc = document.querySelector('.article-toc');
     if (!toc) return;
-    const desktop = window.matchMedia('(min-width: 981px)');
-    const sync = () => {
-      if (!desktop.matches) {
-        toc.style.position = 'static';
-        toc.style.top = '';
-        toc.style.left = '';
-        toc.style.width = '';
-        return;
-      }
 
-      // Measure the reserved grid column before fixing the TOC to the viewport.
-      // This is more reliable than `sticky` across all article layouts.
+    // Avoid stacking listeners when mount() runs again after SPA navigations.
+    if (toc.dataset.tocPinBound === '1') {
+      window.dispatchEvent(new Event('resize'));
+      return;
+    }
+    toc.dataset.tocPinBound = '1';
+
+    const desktop = window.matchMedia('(min-width: 981px)');
+    const pinTop = 96;
+    const edgeGap = 32;
+    let pinnedLeft = 0;
+    let pinnedWidth = 0;
+    let spacer = null;
+    let frame = 0;
+
+    const ensureSpacer = () => {
+      if (spacer && spacer.isConnected) return spacer;
+      spacer = toc.previousElementSibling;
+      if (!spacer || spacer.getAttribute('data-article-toc-spacer') !== '1') {
+        spacer = document.createElement('div');
+        spacer.setAttribute('data-article-toc-spacer', '1');
+        spacer.setAttribute('aria-hidden', 'true');
+        toc.parentNode.insertBefore(spacer, toc);
+      }
+      return spacer;
+    };
+
+    const clearInline = () => {
+      toc.style.position = '';
+      toc.style.top = '';
+      toc.style.left = '';
+      toc.style.width = '';
+      toc.style.maxHeight = '';
+      toc.style.overflowY = '';
+      toc.style.bottom = '';
+      if (spacer && spacer.isConnected) {
+        spacer.style.display = 'none';
+        spacer.style.height = '';
+        spacer.style.width = '';
+      }
+    };
+
+    const measureColumn = () => {
       toc.style.position = 'static';
       toc.style.top = '';
       toc.style.left = '';
       toc.style.width = '';
+      toc.style.maxHeight = '';
+      toc.style.bottom = '';
+      const slot = ensureSpacer();
+      slot.style.display = 'none';
       const rect = toc.getBoundingClientRect();
-      toc.style.position = 'fixed';
-      toc.style.top = '96px';
-      toc.style.left = `${Math.round(rect.left)}px`;
-      toc.style.width = `${Math.round(rect.width)}px`;
+      pinnedLeft = Math.round(rect.left);
+      pinnedWidth = Math.max(160, Math.round(rect.width));
+      slot.style.display = 'block';
+      slot.style.width = `${pinnedWidth}px`;
+      slot.style.height = '1px';
+      slot.style.pointerEvents = 'none';
+      slot.style.visibility = 'hidden';
     };
-    sync();
-    window.addEventListener('resize', sync);
-    if (desktop.addEventListener) desktop.addEventListener('change', sync);
-    else desktop.addListener(sync);
+
+    const applyPin = () => {
+      if (!toc.isConnected) return;
+      if (!desktop.matches) {
+        clearInline();
+        return;
+      }
+
+      const footer = document.querySelector('.site-footer');
+      const layout = document.querySelector('.article-layout');
+      const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
+      const layoutBottom = layout ? layout.getBoundingClientRect().bottom : footerTop;
+      // Also respect related/premium blocks after the article layout.
+      const related = document.querySelector('.article-related, [data-premium-block]');
+      const relatedTop = related ? related.getBoundingClientRect().top : footerTop;
+      const stopLine = Math.min(footerTop, layoutBottom, relatedTop) - edgeGap;
+
+      toc.style.position = 'fixed';
+      toc.style.left = `${pinnedLeft}px`;
+      toc.style.width = `${pinnedWidth}px`;
+      toc.style.bottom = 'auto';
+      toc.style.overflowY = 'auto';
+
+      const viewportCap = Math.max(120, window.innerHeight - pinTop - edgeGap);
+      toc.style.maxHeight = `${viewportCap}px`;
+      let tocHeight = toc.getBoundingClientRect().height || toc.offsetHeight;
+
+      let top = pinTop;
+      if (top + tocHeight > stopLine) {
+        top = stopLine - tocHeight;
+      }
+      if (top < edgeGap) {
+        top = edgeGap;
+        const tightCap = Math.max(80, stopLine - top);
+        toc.style.maxHeight = `${tightCap}px`;
+        tocHeight = toc.getBoundingClientRect().height || toc.offsetHeight;
+        top = Math.min(pinTop, stopLine - tocHeight);
+        if (top < edgeGap) top = edgeGap;
+      }
+      toc.style.top = `${Math.round(top)}px`;
+    };
+
+    const syncLayout = () => {
+      if (!toc.isConnected) return;
+      if (!desktop.matches) {
+        clearInline();
+        return;
+      }
+      measureColumn();
+      applyPin();
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        applyPin();
+      });
+    };
+
+    syncLayout();
+    window.addEventListener('resize', syncLayout);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    if (desktop.addEventListener) desktop.addEventListener('change', syncLayout);
+    else desktop.addListener(syncLayout);
+    requestAnimationFrame(() => requestAnimationFrame(syncLayout));
   }
 
   function addRelatedArticles(article, lang) {
