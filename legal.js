@@ -10,6 +10,8 @@
   };
 
   var sectionNav = null;
+  var tocModeMedia = null;
+  var tocModeHandler = null;
 
   function detectDoc() {
     var fromAttr = document.body.getAttribute('data-legal-doc');
@@ -64,6 +66,15 @@
     return root[lang] || root.en || root.ru || null;
   }
 
+  function clearTocModeListener() {
+    if (tocModeMedia && tocModeHandler) {
+      if (tocModeMedia.removeEventListener) tocModeMedia.removeEventListener('change', tocModeHandler);
+      else if (tocModeMedia.removeListener) tocModeMedia.removeListener(tocModeHandler);
+    }
+    tocModeMedia = null;
+    tocModeHandler = null;
+  }
+
   function bindToc(tocNav, sections, currentEl, dropdown) {
     if (sectionNav && sectionNav.destroy) sectionNav.destroy();
     sectionNav = null;
@@ -77,6 +88,41 @@
     });
   }
 
+  function enhanceExistingStatic(lang) {
+    var bodyEl = document.querySelector('#legal-body');
+    var tocEl = document.querySelector('#legal-toc');
+    if (!bodyEl || !tocEl) return false;
+    var sections = Array.prototype.slice.call(bodyEl.querySelectorAll('.legal-section[id]'));
+    if (!sections.length) return false;
+
+    // Static HTML is the RU source of truth. Keep it when locale is RU so a
+    // failed JS path never wipes a readable no-JS document mid-render.
+    if (lang !== 'ru') return false;
+
+    var dropdown = tocEl.querySelector('.legal-toc-dropdown');
+    var tocNav = tocEl.querySelector('.legal-toc-nav');
+    var tocCurrent = tocEl.querySelector('#legal-toc-current, .legal-toc-current');
+    var summary = tocEl.querySelector('.legal-toc-summary');
+    if (!dropdown || !tocNav || !tocCurrent) return false;
+
+    clearTocModeListener();
+    tocModeMedia = window.matchMedia('(min-width: 981px)');
+    tocModeHandler = function () {
+      dropdown.open = tocModeMedia.matches;
+      if (summary) {
+        summary.tabIndex = tocModeMedia.matches ? -1 : 0;
+        if (tocModeMedia.matches) summary.setAttribute('aria-hidden', 'true');
+        else summary.removeAttribute('aria-hidden');
+      }
+    };
+    tocModeHandler();
+    if (tocModeMedia.addEventListener) tocModeMedia.addEventListener('change', tocModeHandler);
+    else if (tocModeMedia.addListener) tocModeMedia.addListener(tocModeHandler);
+
+    bindToc(tocNav, sections, tocCurrent, dropdown);
+    return true;
+  }
+
   function renderLegal(lang) {
     var doc = detectDoc();
     var pack = packFor(doc, lang);
@@ -85,27 +131,24 @@
     var noticeEl = document.querySelector('#legal-notice');
     var bodyEl = document.querySelector('#legal-body');
     var tocEl = document.querySelector('#legal-toc');
-    if (!pack || !titleEl || !metaEl || !bodyEl || !tocEl) return;
+    if (!titleEl || !metaEl || !bodyEl || !tocEl) return;
 
-    document.title = pack.title + ' · Mixly';
-    var desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute('content', pack.notice || pack.title);
+    // Prefer static RU markup; only rebuild when switching locale or when the
+    // static body is missing (broken shell).
+    if (enhanceExistingStatic(lang)) return;
+    if (!pack) return;
 
-    titleEl.textContent = pack.title;
-    metaEl.textContent = pack.meta || '';
+    var nextTitle = pack.title;
+    var nextMeta = pack.meta || '';
+    var nextNotice = pack.notice || '';
+    var nextBody = document.createElement('div');
+    nextBody.className = 'legal-body';
+    nextBody.id = 'legal-body';
 
-    if (noticeEl) {
-      noticeEl.textContent = '';
-      if (pack.notice) {
-        noticeEl.hidden = false;
-        noticeEl.appendChild(linkify(pack.notice));
-      } else {
-        noticeEl.hidden = true;
-      }
-    }
-
-    bodyEl.textContent = '';
-    tocEl.textContent = '';
+    var nextToc = document.createElement('aside');
+    nextToc.className = 'legal-toc';
+    nextToc.id = 'legal-toc';
+    nextToc.setAttribute('aria-label', (window.MixlyI18n && window.MixlyI18n.t('legal.toc')) || 'On this page');
 
     var dropdown = document.createElement('details');
     dropdown.className = 'legal-toc-dropdown';
@@ -128,7 +171,7 @@
     tocNav.className = 'legal-toc-nav';
     tocNav.setAttribute('aria-label', (window.MixlyI18n && window.MixlyI18n.t('legal.tocAria')) || 'Document sections');
     dropdown.appendChild(tocNav);
-    tocEl.appendChild(dropdown);
+    nextToc.appendChild(dropdown);
 
     var sectionNodes = [];
     (pack.sections || []).forEach(function (section) {
@@ -136,11 +179,17 @@
       sectionEl.id = section.id;
       sectionEl.className = 'legal-section';
 
+      if (doc === 'cookies' && section.id === 's1') {
+        var analyticsAnchor = document.createElement('span');
+        analyticsAnchor.id = 'analytics-settings';
+        sectionEl.appendChild(analyticsAnchor);
+      }
+
       var h2 = document.createElement('h2');
       h2.textContent = section.title;
       sectionEl.appendChild(h2);
       renderBlocks(sectionEl, section.blocks);
-      bodyEl.appendChild(sectionEl);
+      nextBody.appendChild(sectionEl);
       sectionNodes.push(sectionEl);
 
       var link = document.createElement('a');
@@ -149,20 +198,43 @@
       tocNav.appendChild(link);
     });
 
+    if (!sectionNodes.length) return;
+
     if (sectionNodes[0]) {
       tocCurrent.textContent = (tocNav.querySelector('a') || {}).textContent || '';
     }
 
-    var desktopToc = window.matchMedia('(min-width: 981px)');
-    var syncTocMode = function () {
-      dropdown.open = desktopToc.matches;
-      summary.tabIndex = desktopToc.matches ? -1 : 0;
-      if (desktopToc.matches) summary.setAttribute('aria-hidden', 'true');
+    // Atomic commit: only replace live DOM after a complete build.
+    document.title = nextTitle + ' · Mixly';
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', nextNotice || nextTitle);
+    titleEl.textContent = nextTitle;
+    metaEl.textContent = nextMeta;
+
+    if (noticeEl) {
+      noticeEl.textContent = '';
+      if (nextNotice) {
+        noticeEl.hidden = false;
+        noticeEl.appendChild(linkify(nextNotice));
+      } else {
+        noticeEl.hidden = true;
+      }
+    }
+
+    bodyEl.replaceWith(nextBody);
+    tocEl.replaceWith(nextToc);
+
+    clearTocModeListener();
+    tocModeMedia = window.matchMedia('(min-width: 981px)');
+    tocModeHandler = function () {
+      dropdown.open = tocModeMedia.matches;
+      summary.tabIndex = tocModeMedia.matches ? -1 : 0;
+      if (tocModeMedia.matches) summary.setAttribute('aria-hidden', 'true');
       else summary.removeAttribute('aria-hidden');
     };
-    syncTocMode();
-    if (desktopToc.addEventListener) desktopToc.addEventListener('change', syncTocMode);
-    else if (desktopToc.addListener) desktopToc.addListener(syncTocMode);
+    tocModeHandler();
+    if (tocModeMedia.addEventListener) tocModeMedia.addEventListener('change', tocModeHandler);
+    else if (tocModeMedia.addListener) tocModeMedia.addListener(tocModeHandler);
 
     bindToc(tocNav, sectionNodes, tocCurrent, dropdown);
   }
@@ -174,7 +246,7 @@
       renderLegal((event.detail && event.detail.lang) || 'en');
     });
 
-    var lang = (window.MixlyI18n && window.MixlyI18n.getLang && window.MixlyI18n.getLang()) || 'en';
+    var lang = (window.MixlyI18n && window.MixlyI18n.getLang && window.MixlyI18n.getLang()) || 'ru';
     renderLegal(lang);
   }
 

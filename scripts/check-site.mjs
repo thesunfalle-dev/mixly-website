@@ -58,6 +58,17 @@ if (/sessionStorage/.test(pageNavSource)) {
 if (!/resetUiState/.test(pageNavSource) || !/closeMobileMenu/.test(pageNavSource)) {
   report('page-nav.js', 'must expose fail-open UI reset that closes the mobile menu');
 }
+
+const legalRuntime = readFileSync(resolve(root, 'legal.js'), 'utf8');
+if (/bodyEl\.textContent\s*=\s*['"]['"]/.test(legalRuntime) && !/replaceWith/.test(legalRuntime)) {
+  report('legal.js', 'must not clear legal body before a successful rebuild (keep static HTML fail-open)');
+}
+if (!/enhanceExistingStatic|lang !== 'ru'/.test(legalRuntime)) {
+  report('legal.js', 'must keep static RU legal markup when locale is Russian');
+}
+if (!/\.app-shot[^{]*\{[^}]*background:\s*#343436/.test(stylesSource) && !/app-shot[^{]*background:\s*#343436/.test(stylesSource)) {
+  report('styles.css', 'app screenshots must use a neutral surface background, not pure black');
+}
 if (!/FETCH_TIMEOUT_MS|AbortController/.test(pageNavSource)) {
   report('page-nav.js', 'must time out stuck SPA fetches and fall back to hard navigation');
 }
