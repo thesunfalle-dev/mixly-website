@@ -15,6 +15,8 @@
   var tocPinMedia = null;
   var tocPinHandler = null;
   var tocPinResize = null;
+  var tocPinScroll = null;
+  var tocPinFrame = 0;
 
   function detectDoc() {
     var fromAttr = document.body.getAttribute('data-legal-doc');
@@ -75,9 +77,13 @@
       else if (tocPinMedia.removeListener) tocPinMedia.removeListener(tocPinHandler);
     }
     if (tocPinResize) window.removeEventListener('resize', tocPinResize);
+    if (tocPinScroll) window.removeEventListener('scroll', tocPinScroll);
+    if (tocPinFrame) cancelAnimationFrame(tocPinFrame);
     tocPinMedia = null;
     tocPinHandler = null;
     tocPinResize = null;
+    tocPinScroll = null;
+    tocPinFrame = 0;
   }
 
   function clearTocModeListener() {
@@ -91,44 +97,99 @@
   }
 
   // Desktop sticky is unreliable with overflow-x on html/body (same as articles).
-  // Pin the TOC column to the viewport after measuring its grid slot.
+  // Pin the TOC after measuring its grid slot, and clamp so it never covers the footer.
   function pinDesktopToc(tocEl) {
     if (!tocEl) return;
     clearTocPin();
     tocPinMedia = window.matchMedia('(min-width: 981px)');
-    var sync = function () {
-      if (!tocEl.isConnected) return;
-      if (!tocPinMedia.matches) {
-        tocEl.style.position = '';
-        tocEl.style.top = '';
-        tocEl.style.left = '';
-        tocEl.style.width = '';
-        tocEl.style.maxHeight = '';
-        tocEl.style.overflowY = '';
-        return;
-      }
-      tocEl.style.position = 'static';
+    var pinnedLeft = 0;
+    var pinnedWidth = 0;
+    var pinTop = 96;
+    var footerGap = 28;
+
+    var clearInline = function () {
+      tocEl.style.position = '';
       tocEl.style.top = '';
       tocEl.style.left = '';
       tocEl.style.width = '';
       tocEl.style.maxHeight = '';
       tocEl.style.overflowY = '';
-      var rect = tocEl.getBoundingClientRect();
-      tocEl.style.position = 'fixed';
-      tocEl.style.top = '96px';
-      tocEl.style.left = Math.round(rect.left) + 'px';
-      tocEl.style.width = Math.round(rect.width) + 'px';
-      tocEl.style.maxHeight = 'calc(100vh - 112px)';
-      tocEl.style.overflowY = 'auto';
     };
-    tocPinHandler = sync;
-    tocPinResize = sync;
-    sync();
+
+    var measureColumn = function () {
+      clearInline();
+      var rect = tocEl.getBoundingClientRect();
+      pinnedLeft = Math.round(rect.left);
+      pinnedWidth = Math.round(rect.width);
+    };
+
+    var applyPin = function () {
+      if (!tocEl.isConnected) return;
+      if (!tocPinMedia.matches) {
+        clearInline();
+        return;
+      }
+
+      var footer = document.querySelector('.site-footer');
+      var layout = document.querySelector('.legal-layout');
+      var footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
+      var layoutBottom = layout ? layout.getBoundingClientRect().bottom : footerTop;
+      // Stop above whichever comes first: footer or end of legal grid.
+      var stopLine = Math.min(footerTop, layoutBottom) - footerGap;
+
+      tocEl.style.position = 'fixed';
+      tocEl.style.left = pinnedLeft + 'px';
+      tocEl.style.width = pinnedWidth + 'px';
+      tocEl.style.overflowY = 'auto';
+
+      // Prefer under the header; near the bottom, slide up so the TOC sits above the footer.
+      var top = pinTop;
+      var available = Math.max(80, stopLine - top);
+      tocEl.style.maxHeight = available + 'px';
+      var tocHeight = tocEl.offsetHeight;
+
+      if (top + tocHeight > stopLine) {
+        top = stopLine - tocHeight;
+      }
+      if (top < 16) {
+        top = 16;
+        available = Math.max(80, stopLine - top);
+        tocEl.style.maxHeight = available + 'px';
+        tocHeight = tocEl.offsetHeight;
+        top = Math.min(pinTop, stopLine - tocHeight);
+        if (top < 16) top = 16;
+      }
+      tocEl.style.top = Math.round(top) + 'px';
+    };
+
+    var syncLayout = function () {
+      if (!tocEl.isConnected) return;
+      if (!tocPinMedia.matches) {
+        clearInline();
+        return;
+      }
+      measureColumn();
+      applyPin();
+    };
+
+    var onScroll = function () {
+      if (tocPinFrame) return;
+      tocPinFrame = requestAnimationFrame(function () {
+        tocPinFrame = 0;
+        applyPin();
+      });
+    };
+
+    tocPinHandler = syncLayout;
+    tocPinResize = syncLayout;
+    tocPinScroll = onScroll;
+    syncLayout();
     if (tocPinMedia.addEventListener) tocPinMedia.addEventListener('change', tocPinHandler);
     else if (tocPinMedia.addListener) tocPinMedia.addListener(tocPinHandler);
     window.addEventListener('resize', tocPinResize);
+    window.addEventListener('scroll', tocPinScroll, { passive: true });
     requestAnimationFrame(function () {
-      requestAnimationFrame(sync);
+      requestAnimationFrame(syncLayout);
     });
   }
 
