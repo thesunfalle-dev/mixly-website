@@ -693,8 +693,20 @@ var ARTICLES = {
       if (ld) {
         try {
           var data = JSON.parse(ld.textContent);
-          data.inLanguage = lang;
-          data.description = t(lang, 'meta.home.description');
+          var description = t(lang, 'meta.home.description');
+          if (Array.isArray(data['@graph'])) {
+            data['@graph'].forEach(function (node) {
+              if (!node || typeof node !== 'object') return;
+              if (node['@type'] === 'WebSite' || node['@type'] === 'MobileApplication') {
+                node.description = description;
+              }
+              if (node['@type'] === 'WebSite') node.inLanguage = ['ru', 'en', 'de'];
+              if (node['@type'] === 'MobileApplication') node.inLanguage = lang;
+            });
+          } else {
+            data.inLanguage = lang;
+            data.description = description;
+          }
           ld.textContent = JSON.stringify(data);
         } catch (e3) {}
       }
