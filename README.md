@@ -11,6 +11,7 @@ cd website && python3 -m http.server 4173
 
 - `index.html` — лендинг
 - `blog.html` / `article.html` — блог (пока заглушка «скоро появится»)
+- `share.html` — smart-link handoff для app share (`?mix=`, `?lab=`, `?preview=1`); deep link + fallback в App Store / Play; `noindex`, не в sitemap
 - `privacy.html`, `terms.html`, `eula.html`, `support.html` — юридические документы (RU / EN / DE)
 - `404.html`, `403.html`, `500.html` — страницы ошибок (`noindex`)
 
