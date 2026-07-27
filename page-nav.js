@@ -7,11 +7,51 @@
   const root = document.documentElement;
 
   if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
+    history.scrollRestoration = 'auto';
   }
 
   const readyHeader = () => {
     document.querySelector('.site-header')?.classList.remove('is-hidden');
+  };
+
+  const bindHeaderVisibility = () => {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let previousScrollY = window.scrollY;
+    let framePending = false;
+
+    const update = () => {
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > previousScrollY + 4;
+      const scrollingUp = currentScrollY < previousScrollY - 4;
+
+      if (currentScrollY < 80 || scrollingUp) header.classList.remove('is-hidden');
+      if (currentScrollY > 80 && scrollingDown) header.classList.add('is-hidden');
+
+      previousScrollY = currentScrollY;
+      framePending = false;
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (framePending) return;
+        framePending = true;
+        requestAnimationFrame(update);
+      },
+      { passive: true }
+    );
+  };
+
+  const closeMobileMenu = ({ restoreFocus = false } = {}) => {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuToggle = document.querySelector('[data-mobile-menu-open]');
+    mobileMenu?.classList.remove('is-open');
+    mobileMenu?.setAttribute('aria-hidden', 'true');
+    mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('mobile-menu-open');
+    if (restoreFocus) mobileMenuToggle?.focus();
   };
 
   const scrollInstant = (top = 0) => {
@@ -144,7 +184,10 @@
 
   // Safari restores scroll as the veil lifts. Freeze body until well after unveil.
   const pinScrollTop = (durationMs = 700) => {
-    if (location.hash) return () => {};
+    if (location.hash) {
+      root.classList.remove('scroll-pinned');
+      return () => {};
+    }
 
     root.classList.add('scroll-pinned');
     scrollInstant(0);
@@ -219,19 +262,21 @@
 
   if (sessionStorage.getItem(VEIL_KEY) === '1') {
     sessionStorage.removeItem(VEIL_KEY);
-    if (!reducedMotion) beginArrivedTransition();
-    else {
-      root.classList.remove('content-pending', 'is-veiled', 'veil-instant', 'hover-lock');
-      scrollInstant(0);
-    }
+    // The old page has already completed its short fade. Do not veil the new
+    // page while images and fonts settle: that used to leave the hero dimmed.
+    root.classList.remove('content-pending', 'is-veiled', 'veil-instant', 'scroll-pinned');
+    prepareArrivedPage();
+    releaseHoverLock();
   } else {
     try {
       const nav = performance.getEntriesByType('navigation')[0];
       if (!reducedMotion && nav?.type === 'back_forward' && isHomePath(location.pathname)) {
         beginArrivedTransition();
-      } else if (!location.hash) {
+      } else if (!location.hash && nav?.type !== 'reload') {
         root.classList.remove('content-pending');
         scrollInstant(0);
+      } else {
+        root.classList.remove('content-pending');
       }
     } catch (_) {
       root.classList.remove('content-pending');
@@ -259,6 +304,7 @@
       if (!isInternalNavLink(link)) return;
 
       readyHeader();
+      closeMobileMenu();
       if (reducedMotion) return;
 
       event.preventDefault();
@@ -296,19 +342,14 @@
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileMenuToggle = document.querySelector('[data-mobile-menu-open]');
   if (mobileMenu && mobileMenuToggle) {
-    const closeMobileMenu = () => {
-      mobileMenu.classList.remove('is-open');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-      mobileMenuToggle.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('mobile-menu-open');
-    };
-
     mobileMenuToggle.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.toggle('is-open');
       mobileMenu.setAttribute('aria-hidden', String(!isOpen));
       mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
       document.body.classList.toggle('mobile-menu-open', isOpen);
       readyHeader();
+      if (isOpen) mobileMenu.querySelector('a, button:not([disabled])')?.focus();
+      else mobileMenuToggle.focus();
     });
 
     mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMobileMenu));
@@ -316,7 +357,28 @@
       if (event.target === mobileMenu) closeMobileMenu();
     });
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMobileMenu();
+      if (!mobileMenu.classList.contains('is-open')) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMobileMenu({ restoreFocus: true });
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = [...mobileMenu.querySelectorAll('a[href], button:not([disabled])')]
+        .filter((element) => !element.hasAttribute('hidden'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     });
   }
+
+  bindHeaderVisibility();
 })();

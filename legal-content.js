@@ -3,7 +3,7 @@ var LEGAL_DOCS = {
   "privacy": {
     "en": {
       "title": "Privacy Policy",
-      "meta": "Effective date: June 8, 2026",
+      "meta": "Effective date: July 22, 2026",
       "notice": "Mixly is intended for adults only. The app is an informational catalog and recommendation reference for hookah/shisha flavor mixes. It does not sell, ship, facilitate the sale of, or promote the purchase or consumption of tobacco, nicotine, alcohol, or controlled products.",
       "sections": [
         {
@@ -37,7 +37,8 @@ var LEGAL_DOCS = {
               "temporary share-card images generated on your device when you choose to share a mix image, where that feature is enabled;",
               "language-related app behavior derived from your device locale or in-app language choice."
             ] },
-            { "type": "p", "text": "This information is stored on your device using local storage technology such as AsyncStorage and temporary app files. Mixly does not provide email/password registration. You may choose to sign in with Apple on iOS or Google on Android, and an iOS user may explicitly link Google to the same account. For an authenticated account, Mixly stores a private cloud copy of the listed app data in Supabase so it can be restored on another device. The cloud copy is tied to your authenticated Supabase user ID and is protected so other users cannot read it. Some local identity information, such as your generated Mixly user ID and optional nickname, may also be synced to Supabase so support and community features can work. If you choose to copy your Mixly system ID, that value is placed on your device clipboard by the operating system." }
+            { "type": "p", "text": "This information is stored on your device using local storage technology such as AsyncStorage and temporary app files. Mixly does not provide email/password registration. You may choose to sign in with Apple on iOS or Google on Android, and an iOS user may explicitly link Google to the same account. For an authenticated account, Mixly stores a private cloud copy of the listed app data in Supabase so it can be restored on another device. The cloud copy is tied to your authenticated Supabase user ID and is protected so other users cannot read it. Some local identity information, such as your generated Mixly user ID and optional nickname, may also be synced to Supabase so support and community features can work. If you choose to copy your Mixly system ID, that value is placed on your device clipboard by the operating system." },
+            { "type": "p", "text": "The Mixly website stores your selected display language in localStorage (mixly-lang) and uses sessionStorage (mixly-page-veil) only for a single page-transition animation. If you actively allow optional website analytics, Mixly loads PostHog from its US Cloud. PostHog may store its analytics state in cookies or local storage and process a pseudonymous browser identifier, page path without query parameters, display language, page type, referral origin, and interactions with App Store or Google Play links. We do not enable automatic interaction capture, heatmaps, session recording, advertising, or social-media tracking. Analytics can be refused or changed at any time through the Analytics settings link in the footer. PostHog and its infrastructure may process network metadata, including IP address, to receive events; information may be processed in the United States." }
           ]
         },
         {
@@ -179,7 +180,7 @@ var LEGAL_DOCS = {
     },
     "ru": {
       "title": "Политика конфиденциальности",
-      "meta": "Дата вступления в силу: 8 июня 2026",
+      "meta": "Дата вступления в силу: 22 июля 2026",
       "notice": "Mixly предназначен только для взрослых. Приложение является информационным каталогом и справочником рекомендаций по миксам вкусов для кальяна/шиши. Оно не продаёт, не доставляет, не содействует продаже и не продвигает покупку или употребление табака, никотина, алкоголя либо контролируемых товаров.",
       "sections": [
         {
@@ -213,7 +214,8 @@ var LEGAL_DOCS = {
               "временные изображения share-card, созданные на вашем устройстве, когда вы выбираете поделиться изображением микса и эта функция включена;",
               "поведение приложения, связанное с языком, определяемое по локали устройства или выбору языка в приложении."
             ] },
-            { "type": "p", "text": "Эта информация хранится на устройстве с использованием технологий локального хранилища, таких как AsyncStorage, и временных файлов приложения. Mixly не предоставляет регистрацию по email/паролю. Вы можете войти через Apple на iOS или через Google на Android, а на iOS пользователь может явно привязать Google к тому же аккаунту. Для авторизованного аккаунта Mixly сохраняет приватную облачную копию перечисленных данных в Supabase, чтобы восстановить их на другом устройстве. Эта копия привязана к аутентифицированному Supabase user ID и недоступна другим пользователям. Часть локальной идентификационной информации, например созданный Mixly user ID и необязательный никнейм, также может синхронизироваться с Supabase для работы поддержки и community-функций. Если вы выбираете скопировать свой системный ID Mixly, это значение помещается в буфер обмена устройства средствами операционной системы." }
+            { "type": "p", "text": "Эта информация хранится на устройстве с использованием технологий локального хранилища, таких как AsyncStorage, и временных файлов приложения. Mixly не предоставляет регистрацию по email/паролю. Вы можете войти через Apple на iOS или через Google на Android, а на iOS пользователь может явно привязать Google к тому же аккаунту. Для авторизованного аккаунта Mixly сохраняет приватную облачную копию перечисленных данных в Supabase, чтобы восстановить их на другом устройстве. Эта копия привязана к аутентифицированному Supabase user ID и недоступна другим пользователям. Часть локальной идентификационной информации, например созданный Mixly user ID и необязательный никнейм, также может синхронизироваться с Supabase для работы поддержки и community-функций. Если вы выбираете скопировать свой системный ID Mixly, это значение помещается в буфер обмена устройства средствами операционной системы." },
+            { "type": "p", "text": "Сайт Mixly хранит выбранный язык интерфейса в localStorage (mixly-lang), а sessionStorage (mixly-page-veil) использует только для однократной анимации перехода между страницами. Если вы явно разрешаете необязательную веб-аналитику, Mixly загружает PostHog из US Cloud. PostHog может хранить состояние аналитики в cookies или localStorage и обрабатывать псевдонимный идентификатор браузера, путь страницы без query-параметров, язык интерфейса, тип страницы, origin реферера и переходы по ссылкам App Store или Google Play. Мы не включаем автосбор действий, heatmaps, запись сессий, рекламу или отслеживание в соцсетях. От аналитики можно отказаться или изменить выбор в любой момент по ссылке «Настройки аналитики» в футере. PostHog и его инфраструктура могут обрабатывать сетевые метаданные, включая IP-адрес, для приёма событий; информация может обрабатываться в США." }
           ]
         },
         {
@@ -355,7 +357,7 @@ var LEGAL_DOCS = {
     },
     "de": {
       "title": "Datenschutzerklärung",
-      "meta": "Gültig ab: 8. Juni 2026",
+      "meta": "Gültig ab: 22. Juli 2026",
       "notice": "Mixly ist ausschließlich für Erwachsene bestimmt. Die App ist ein informativer Katalog und ein Empfehlungsnachschlagewerk für Geschmacksmischungen für Wasserpfeife/Shisha. Sie verkauft, versendet oder vermittelt keine Tabak-, Nikotin-, Alkohol- oder kontrollierten Produkte und fördert weder deren Kauf noch deren Konsum.",
       "sections": [
         {
@@ -389,7 +391,8 @@ var LEGAL_DOCS = {
               "temporäre Share-Card-Bilder, die auf Ihrem Gerät erzeugt werden, wenn Sie ein Mischungsbild teilen und diese Funktion aktiviert ist;",
               "sprachbezogenes App-Verhalten, das aus Ihrer Geräte-Locale oder Ihrer In-App-Sprachauswahl abgeleitet wird."
             ] },
-            { "type": "p", "text": "Diese Informationen werden mit lokaler Speichertechnologie wie AsyncStorage und temporären App-Dateien auf Ihrem Gerät gespeichert. Mixly bietet keine Registrierung mit E-Mail/Passwort an. Sie können sich unter iOS mit Apple oder unter Android mit Google anmelden, und ein iOS-Nutzer kann Google ausdrücklich mit demselben Konto verknüpfen. Für ein authentifiziertes Konto speichert Mixly eine private Cloud-Kopie der aufgeführten App-Daten in Supabase, damit sie auf einem anderen Gerät wiederhergestellt werden kann. Die Cloud-Kopie ist mit Ihrer authentifizierten Supabase-Benutzer-ID verknüpft und so geschützt, dass andere Nutzer sie nicht lesen können. Einige lokale Identitätsinformationen, etwa Ihre generierte Mixly-Benutzer-ID und der optionale Spitzname, können ebenfalls mit Supabase synchronisiert werden, damit Support- und Community-Funktionen arbeiten können. Wenn Sie Ihre Mixly-System-ID kopieren, wird dieser Wert vom Betriebssystem in die Zwischenablage Ihres Geräts gelegt." }
+            { "type": "p", "text": "Diese Informationen werden mit lokaler Speichertechnologie wie AsyncStorage und temporären App-Dateien auf Ihrem Gerät gespeichert. Mixly bietet keine Registrierung mit E-Mail/Passwort an. Sie können sich unter iOS mit Apple oder unter Android mit Google anmelden, und ein iOS-Nutzer kann Google ausdrücklich mit demselben Konto verknüpfen. Für ein authentifiziertes Konto speichert Mixly eine private Cloud-Kopie der aufgeführten App-Daten in Supabase, damit sie auf einem anderen Gerät wiederhergestellt werden kann. Die Cloud-Kopie ist mit Ihrer authentifizierten Supabase-Benutzer-ID verknüpft und so geschützt, dass andere Nutzer sie nicht lesen können. Einige lokale Identitätsinformationen, etwa Ihre generierte Mixly-Benutzer-ID und der optionale Spitzname, können ebenfalls mit Supabase synchronisiert werden, damit Support- und Community-Funktionen arbeiten können. Wenn Sie Ihre Mixly-System-ID kopieren, wird dieser Wert vom Betriebssystem in die Zwischenablage Ihres Geräts gelegt." },
+            { "type": "p", "text": "Die Mixly-Website speichert Ihre gewählte Anzeigesprache in localStorage (mixly-lang) und verwendet sessionStorage (mixly-page-veil) nur für eine einmalige Animation beim Seitenwechsel. Wenn Sie optionale Webanalyse ausdrücklich erlauben, lädt Mixly PostHog aus der US Cloud. PostHog kann seinen Analysestatus in Cookies oder localStorage speichern und eine pseudonyme Browserkennung, den Seitenpfad ohne Query-Parameter, Anzeigesprache, Seitentyp, Referrer-Origin sowie Interaktionen mit App-Store- oder Google-Play-Links verarbeiten. Wir aktivieren keine automatische Interaktionserfassung, Heatmaps, Sitzungsaufzeichnungen, Werbung oder Social-Media-Tracking. Sie können die Analyse jederzeit über den Link „Analyse-Einstellungen“ in der Fußzeile ablehnen oder Ihre Auswahl ändern. PostHog und seine Infrastruktur können Netzwerkmetadaten einschließlich der IP-Adresse verarbeiten, um Ereignisse zu empfangen; Informationen können in den Vereinigten Staaten verarbeitet werden." }
           ]
         },
         {
@@ -527,6 +530,65 @@ var LEGAL_DOCS = {
             { "type": "p", "text": "Bei Fragen zu Datenschutz, Support oder rechtlichen Themen wenden Sie sich an: [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
           ]
         }
+      ]
+    }
+  },
+  "cookies": {
+    "en": {
+      "title": "Cookie & Analytics Policy",
+      "meta": "Effective date: July 22, 2026",
+      "notice": "This page explains the website storage and optional analytics controls available on the Mixly website.",
+      "sections": [
+        { "id": "s1", "title": "1. Your choice", "blocks": [
+          { "type": "p", "text": "Mixly asks before it enables optional analytics. You can accept or reject it without losing access to the website. To change your choice later, [[a:#analytics-settings]]open analytics settings[[/a]]." }
+        ] },
+        { "id": "s2", "title": "2. Strictly necessary browser storage", "blocks": [
+          { "type": "p", "text": "The website remembers your language, your analytics choice, and a one-time page-transition preference in browser storage. These values are not used for advertising, cross-site tracking, or profiling." }
+        ] },
+        { "id": "s3", "title": "3. Optional analytics", "blocks": [
+          { "type": "p", "text": "If you allow analytics, we use a service provider to understand page visits, language changes, and clicks on app-store links. We do not record sessions, use heatmaps, or automatically capture interactions. More details are in our [[a:./privacy.html]]Privacy Policy[[/a]]." }
+        ] },
+        { "id": "s4", "title": "4. More information", "blocks": [
+          { "type": "p", "text": "For the wider information-handling practices of Mixly, read our [[a:./privacy.html]]Privacy Policy[[/a]]. For questions, contact [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+        ] }
+      ]
+    },
+    "ru": {
+      "title": "Политика Cookies и аналитики",
+      "meta": "Дата вступления в силу: 22 июля 2026",
+      "notice": "На этой странице описаны технологии хранения в браузере и управление необязательной аналитикой на сайте Mixly.",
+      "sections": [
+        { "id": "s1", "title": "1. Ваш выбор", "blocks": [
+          { "type": "p", "text": "Mixly спрашивает разрешение перед включением необязательной аналитики. Вы можете принять или отклонить её без потери доступа к сайту. Чтобы позже изменить выбор, [[a:#analytics-settings]]откройте настройки аналитики[[/a]]." }
+        ] },
+        { "id": "s2", "title": "2. Необходимое хранение в браузере", "blocks": [
+          { "type": "p", "text": "Сайт запоминает выбранный язык, ваш выбор аналитики и однократную настройку анимации перехода между страницами в хранилище браузера. Эти значения не используются для рекламы, межсайтового трекинга или построения профиля." }
+        ] },
+        { "id": "s3", "title": "3. Необязательная аналитика", "blocks": [
+          { "type": "p", "text": "Если вы разрешаете аналитику, мы используем сервис, чтобы понимать посещения страниц, смену языка и переходы по ссылкам на магазины приложений. Мы не записываем сессии, не используем heatmaps и не собираем действия автоматически. Подробности — в [[a:./privacy.html]]Политике конфиденциальности[[/a]]." }
+        ] },
+        { "id": "s4", "title": "4. Дополнительная информация", "blocks": [
+          { "type": "p", "text": "Более широкое описание обработки информации приведено в [[a:./privacy.html]]Политике конфиденциальности[[/a]]. По вопросам пишите на [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+        ] }
+      ]
+    },
+    "de": {
+      "title": "Cookie- & Analyse-Richtlinie",
+      "meta": "Gültig ab: 22. Juli 2026",
+      "notice": "Diese Seite erläutert die Browser-Speicherung und die Steuerung optionaler Analysen auf der Mixly-Website.",
+      "sections": [
+        { "id": "s1", "title": "1. Ihre Auswahl", "blocks": [
+          { "type": "p", "text": "Mixly fragt, bevor optionale Analysen aktiviert werden. Sie können sie akzeptieren oder ablehnen, ohne den Zugang zur Website zu verlieren. Um Ihre Auswahl später zu ändern, [[a:#analytics-settings]]öffnen Sie die Analyse-Einstellungen[[/a]]." }
+        ] },
+        { "id": "s2", "title": "2. Notwendige Browser-Speicherung", "blocks": [
+          { "type": "p", "text": "Die Website speichert Ihre gewählte Sprache, Ihre Analyse-Auswahl und eine einmalige Einstellung für die Seitenwechsel-Animation im Browser. Diese Werte werden nicht für Werbung, websiteübergreifendes Tracking oder Profilbildung verwendet." }
+        ] },
+        { "id": "s3", "title": "3. Optionale Analysen", "blocks": [
+          { "type": "p", "text": "Wenn Sie Analysen erlauben, nutzen wir einen Dienst, um Seitenbesuche, Sprachwechsel und Klicks auf App-Store-Links zu verstehen. Wir zeichnen keine Sitzungen auf, nutzen keine Heatmaps und erfassen Interaktionen nicht automatisch. Weitere Details finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]." }
+        ] },
+        { "id": "s4", "title": "4. Weitere Informationen", "blocks": [
+          { "type": "p", "text": "Weitere Informationen zur Verarbeitung durch Mixly finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]. Fragen richten Sie bitte an [[a:mailto:thesunfalle@gmail.com]]thesunfalle@gmail.com[[/a]]." }
+        ] }
       ]
     }
   },
