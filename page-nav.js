@@ -208,6 +208,11 @@
         if (generation === navGeneration) hardNavigate(url);
         return;
       }
+      if (window.MixlyMonitoring?.captureException) {
+        window.MixlyMonitoring.captureException(error, {
+          tags: { nav_failure: 'spa_fetch', target_path: url.pathname },
+        });
+      }
       if (generation === navGeneration) hardNavigate(url);
     } finally {
       window.clearTimeout(timeout);

@@ -6,12 +6,16 @@
 В нём хранятся:
 
 - HTML-страницы, статьи и metadata в корне проекта;
-- локализованный текст в `i18n.js` и `legal-content.js`;
-- изображения приложения в `images_for_web/` и `assets/`;
+- локализованные статьи: `/{ru,en,de}/blog/<slug>/index.html`;
+- локализованный текст в `i18n.js` и `legal-content.js` (+ `npm run generate:legal`);
+- SEO статей: `npm run generate:article-seo` / `scripts/enrich-article-seo.mjs`;
+- изображения приложения в `images_for_web/` и `assets/blog/`;
 - SEO-конфигурация в `robots.txt`, `sitemap.xml` и HTML metadata;
-- Worker-правила в `worker.js`.
+- Worker-правила и article path map в `worker.js`.
 
 Незакоммиченные изменения не являются backup и не должны быть единственной копией контента.
+Cloudflare хранит предыдущие Worker versions — это rollback-слой для деплоя, но **не**
+замена Git history для правок контента.
 
 ## Перед изменением контента
 
@@ -46,12 +50,25 @@
 
 Новые публичные статьи должны получать постоянный URL до публикации. Изменять slug опубликованной статьи можно только вместе с записью в redirect map Worker:
 
-1. Добавить `old path → new path` в `worker.js` как постоянный 301 redirect.
-2. Обновить ссылки, canonical и sitemap на новый URL.
+1. Добавить `old path → new path` в `worker.js` как постоянный 301 redirect (рядом с `articlePaths`).
+2. Обновить ссылки, related cards, `generate:article-seo`, canonical и sitemap на новый URL.
 3. Проверить старый URL, новый URL и все локализованные варианты на preview.
 4. Сохранять redirect бессрочно, если для его удаления не принято отдельное SEO-решение. Не удалять его одновременно с миграцией.
 
-Сейчас реальных опубликованных article-slug нет: `article.html` — `noindex` шаблон. Поэтому redirect map не создаётся заранее без фактического старого URL. Когда появится первая миграция, запись должна быть добавлена и проверена на preview до публикации.
+Опубликованные кластеры (2026-07): mixing guide, ratios, flavor combinations — по три локали каждый.
+`article.html` остаётся `noindex` шаблоном и не входит в sitemap.
+
+### Учебное восстановление
+
+```sh
+# посмотреть файл из известного commit
+git show HEAD:en/blog/how-to-mix-hookah-tobacco/index.html | head
+# восстановить один asset в отдельной ветке
+git restore --source HEAD~1 -- assets/blog/kak-pravilno-smeshivat-tabak-hero.png
+npm run check
+```
+
+После restore — commit, preview, production deploy по `docs/deployment.md`.
 
 ## Что уже проверено
 
