@@ -71,12 +71,46 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "MobileApplication",
-        "name": "Mixly",
-        "applicationCategory": "LifestyleApplication",
-        "operatingSystem": "iOS",
-        "description": "Mixly, приложение, которое помогает находить и собирать кальянные миксы под любимые бренды, вкусы и крепость.",
-        "inLanguage": "ru"
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://get-mixly.app/#organization",
+            "name": "Mixly",
+            "url": "https://get-mixly.app/",
+            "logo": "https://get-mixly.app/assets/mixly-app-icon.png",
+            "sameAs": [
+              "https://apps.apple.com/app/id6762792005",
+              "https://www.instagram.com/get_mixly/",
+              "https://www.threads.com/@get_mixly"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://get-mixly.app/#website",
+            "url": "https://get-mixly.app/",
+            "name": "Mixly",
+            "description": "Mixly — hookah / shisha mix app: find, save and build flavor combinations.",
+            "publisher": { "@id": "https://get-mixly.app/#organization" },
+            "inLanguage": ["ru", "en", "de"]
+          },
+          {
+            "@type": "MobileApplication",
+            "@id": "https://get-mixly.app/#app",
+            "name": "Mixly",
+            "url": "https://get-mixly.app/",
+            "downloadUrl": "https://apps.apple.com/app/id6762792005",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "iOS",
+            "description": "Mixly hookah mix app: discover shisha flavor combinations, save mixes and build your own recipes.",
+            "image": "https://get-mixly.app/assets/mixly-app-icon.png",
+            "publisher": { "@id": "https://get-mixly.app/#organization" },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
       }
     </script>
   </head>

@@ -336,6 +336,42 @@ if (!sharePage) {
   }
 }
 
+const home = pages.get('index.html') || '';
+if (!/"@type":\s*"Organization"/.test(home) || !/"@type":\s*"WebSite"/.test(home)) {
+  report('index.html', 'home JSON-LD must include Organization and WebSite entities');
+}
+if (!/"@type":\s*"MobileApplication"/.test(home) || !/downloadUrl/.test(home)) {
+  report('index.html', 'home JSON-LD must describe the Mixly MobileApplication with downloadUrl');
+}
+
+const blog = pages.get('blog.html') || '';
+if (!/property="og:title"/.test(blog) || !/twitter:card/.test(blog)) {
+  report('blog.html', 'blog index must include Open Graph and Twitter metadata');
+}
+
+const localizedArticles = [...pages.keys()].filter((file) => /^(?:ru|en|de)\/blog\/.+\/index\.html$/.test(file));
+if (localizedArticles.length < 9) {
+  report('articles', `expected 9 localized article pages, found ${localizedArticles.length}`);
+}
+for (const file of localizedArticles) {
+  const source = pages.get(file);
+  if (!source.includes('hreflang="ru"') || !source.includes('hreflang="en"') || !source.includes('hreflang="de"') || !source.includes('hreflang="x-default"')) {
+    report(file, 'localized article must expose full hreflang set including x-default');
+  }
+  if (!/property="og:title"/.test(source) || !/property="og:image"/.test(source)) {
+    report(file, 'localized article must include Open Graph title and image');
+  }
+  if (!/"@type":"Article"/.test(source) || !/"@type":"BreadcrumbList"/.test(source)) {
+    report(file, 'localized article must include Article and BreadcrumbList JSON-LD');
+  }
+  if (!/class="breadcrumbs"/.test(source)) {
+    report(file, 'localized article must include visible breadcrumb navigation');
+  }
+  if (/<!doctype html>\s*<script/i.test(source)) {
+    report(file, 'scripts must not appear before the root <html> element');
+  }
+}
+
 if (errors.length) {
   console.error(`Site checks failed (${errors.length}):`);
   for (const error of errors) console.error(`- ${error}`);
