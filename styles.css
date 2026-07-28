@@ -533,15 +533,62 @@ body { padding-top: 80px; }
 @media (max-width: 760px) { .premium { grid-template-columns: 1fr; gap: 36px; min-height: 0; padding: 52px 25px 26px; }.premium-copy > p { font-size: 16px; }.premium-value { padding: 25px 20px 8px; border-radius: 22px; }.premium-list li { grid-template-columns: 1fr; gap: 6px; padding: 18px 0; }.premium-list li strong { font-size: 15px; } }
 
 /* Premium as a clear product overview, with the app's available scope at a glance. */
-.premium { display: grid; grid-template-columns: 1fr; grid-template-areas: 'copy' 'benefits' 'cta'; gap: 46px; min-height: 0; margin-top: var(--space-section); padding: 76px 70px 68px; border-radius: 32px; text-align: center; background: radial-gradient(circle at 18% 92%, rgba(161,114,237,.33), transparent 34%), radial-gradient(circle at 82% 10%, rgba(235,255,87,.34), transparent 31%), #2d2c30; }
+.premium {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: 'copy' 'benefits' 'cta';
+  gap: 46px;
+  min-height: 0;
+  margin-top: var(--space-section);
+  padding: 76px 70px 68px;
+  overflow: hidden;
+  border-radius: 32px;
+  text-align: center;
+  background: radial-gradient(circle at 18% 92%, rgba(161,114,237,.33), transparent 34%), radial-gradient(circle at 82% 10%, rgba(235,255,87,.34), transparent 31%), #2d2c30;
+  /* Hard clip so animated/blurred ::after cannot paint square corners outside the radius (Safari). */
+  -webkit-clip-path: inset(0 round 32px);
+  clip-path: inset(0 round 32px);
+}
 .premium::before { background: linear-gradient(105deg, rgba(255,255,255,.035), transparent 49%, rgba(255,255,255,.04)); }.premium::after { content: none; }
 .premium-copy { grid-area: copy; display: block; max-width: 740px; margin: 0 auto; padding: 0; text-align: center; }.premium-copy .eyebrow { margin-bottom: var(--space-kicker-title); color: var(--app-lime); }.premium-copy h2 { max-width: 650px; margin: 0 auto 18px; }.premium-copy > p { max-width: 620px; margin: 0 auto; color: rgba(255,255,255,.69); font-size: 18px; }
 .premium-benefits { position: relative; z-index: 1; display: grid; grid-area: benefits; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255,255,255,.17); border-bottom: 1px solid rgba(255,255,255,.17); text-align: left; }.premium-benefits article { min-height: 154px; padding: 26px 32px 22px; }.premium-benefits article + article { border-left: 1px solid rgba(255,255,255,.17); }.premium-benefits strong { display: block; min-height: 67px; margin-bottom: 13px; color: var(--app-lime); font-size: clamp(26px, 2.7vw, 35px); font-weight: 700; letter-spacing: -.025em; line-height: .95; }.premium-benefits article:nth-child(2) strong { color: #d5beff; font-size: clamp(26px, 2.7vw, 35px); }.premium-benefits article:nth-child(3) strong { color: #ffb59e; font-size: clamp(26px, 2.7vw, 35px); }.premium-benefits p { max-width: 220px; min-height: 42px; margin: 0; color: rgba(255,255,255,.65); font-size: 15px; line-height: 1.35; }
 .premium-cta { grid-area: cta; justify-self: center; min-height: 50px; padding: 0 22px; }.premium-cta:hover { transform: none; }
-@media (max-width: 760px) { .premium { gap: 34px; margin-top: var(--space-section-mobile); padding: 54px 25px 46px; border-radius: 26px; }.premium-copy .eyebrow { margin-bottom: var(--space-kicker-title); }.premium-copy > p { font-size: 16px; }.premium-benefits { display: block; text-align: left; }.premium-benefits article { min-height: 0; padding: 21px 0; }.premium-benefits article + article { border-top: 1px solid rgba(255,255,255,.17); border-left: 0; }.premium-benefits strong, .premium-benefits article:nth-child(2) strong, .premium-benefits article:nth-child(3) strong { min-height: 0; margin-bottom: 8px; font-size: 29px; }.premium-benefits p { max-width: none; min-height: 0; } }
+@media (max-width: 760px) {
+  .premium {
+    gap: 34px;
+    margin-top: var(--space-section-mobile);
+    padding: 54px 25px 46px;
+    border-radius: 26px;
+    -webkit-clip-path: inset(0 round 26px);
+    clip-path: inset(0 round 26px);
+  }
+  .premium-copy .eyebrow { margin-bottom: var(--space-kicker-title); }
+  .premium-copy > p { font-size: 16px; }
+  .premium-benefits { display: block; text-align: left; }
+  .premium-benefits article { min-height: 0; padding: 21px 0; }
+  .premium-benefits article + article { border-top: 1px solid rgba(255,255,255,.17); border-left: 0; }
+  .premium-benefits strong, .premium-benefits article:nth-child(2) strong, .premium-benefits article:nth-child(3) strong { min-height: 0; margin-bottom: 8px; font-size: 29px; }
+  .premium-benefits p { max-width: none; min-height: 0; }
+}
 
 /* Slow orbiting color fields keep the Premium panel alive without competing with copy. */
-.premium::after { content: ''; position: absolute; z-index: 0; inset: -24%; pointer-events: none; opacity: .9; background: radial-gradient(circle at 23% 74%, rgba(161,114,237,.42), transparent 22%), radial-gradient(circle at 79% 24%, rgba(235,255,87,.38), transparent 20%), radial-gradient(circle at 67% 77%, rgba(241,147,123,.28), transparent 18%); filter: blur(24px); mix-blend-mode: screen; animation: premium-orbit 12s ease-in-out infinite; }
+.premium::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  /* Stay inside the card: negative inset + blur was painting square corners past border-radius. */
+  inset: 0;
+  pointer-events: none;
+  opacity: .9;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 23% 74%, rgba(161,114,237,.5), transparent 34%),
+    radial-gradient(circle at 79% 24%, rgba(235,255,87,.46), transparent 32%),
+    radial-gradient(circle at 67% 77%, rgba(241,147,123,.36), transparent 30%);
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  animation: premium-orbit 12s ease-in-out infinite;
+}
 .premium-cta { position: relative; z-index: 1; }
 @keyframes premium-orbit { 0%, 100% { transform: translate3d(-3%, -2%, 0) rotate(0deg); } 25% { transform: translate3d(5%, -5%, 0) rotate(2deg); } 50% { transform: translate3d(8%, 4%, 0) rotate(0deg); } 75% { transform: translate3d(-4%, 6%, 0) rotate(-2deg); } }
 @media (prefers-reduced-motion: reduce) { .premium::after { animation: none; } }
@@ -1138,15 +1185,18 @@ html {
   }
   .legal-toc-dropdown {
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
+    border-radius: 18px;
     background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
   }
   .legal-toc-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 14px;
+    min-height: 52px;
+    padding: 14px 18px;
+    box-sizing: border-box;
     cursor: pointer;
   }
   .legal-toc-summary::after {
@@ -1165,30 +1215,37 @@ html {
     transform: rotate(225deg);
   }
   .legal-toc-label {
+    flex: 0 0 auto;
     margin: 0;
+    line-height: 1.2;
   }
   .legal-toc-current {
     display: block;
-    margin-left: auto;
-    max-width: 48%;
+    flex: 1 1 auto;
+    margin-left: 0;
+    max-width: none;
+    min-width: 0;
     overflow: hidden;
     color: var(--lime);
     font-size: 13px;
     font-weight: 700;
-    text-align: right;
+    line-height: 1.25;
+    text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .legal-toc-nav {
     display: grid;
-    gap: 0;
-    padding: 0 8px 10px;
+    gap: 4px;
+    /* Top pad keeps the first link off the summary divider. */
+    padding: 14px 14px 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
   .legal-toc a {
-    padding: 12px 8px;
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 14px 12px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.35;
   }
   .legal-toc a.is-active {
     background: rgba(235, 255, 87, 0.08);
@@ -1428,7 +1485,8 @@ html {
   .article-toc-nav {
     display: grid;
     gap: 4px;
-    padding: 12px 14px 16px;
+    /* Extra top pad so the first item is not glued to the summary divider. */
+    padding: 16px 14px 16px;
     border-top: 1px solid rgba(255,255,255,.08);
   }
   .article-toc a {
@@ -1456,7 +1514,7 @@ html {
   }
   .article-toc-nav {
     gap: 6px;
-    padding: 14px 12px 18px;
+    padding: 18px 12px 18px;
   }
   .article-toc a {
     padding: 15px 14px;

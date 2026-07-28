@@ -57,7 +57,8 @@
   .article-toc-nav {
     display: grid;
     gap: 4px;
-    padding: 12px 14px 16px;
+    /* Extra top pad so the first item is not glued to the summary divider. */
+    padding: 16px 14px 16px;
     border-top: 1px solid rgba(255,255,255,.08);
   }
   .article-toc a {
@@ -85,7 +86,7 @@
   }
   .article-toc-nav {
     gap: 6px;
-    padding: 14px 12px 18px;
+    padding: 18px 12px 18px;
   }
   .article-toc a {
     padding: 15px 14px;

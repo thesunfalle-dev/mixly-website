@@ -214,15 +214,18 @@ html {
   }
   .legal-toc-dropdown {
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
+    border-radius: 18px;
     background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
   }
   .legal-toc-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 14px;
+    min-height: 52px;
+    padding: 14px 18px;
+    box-sizing: border-box;
     cursor: pointer;
   }
   .legal-toc-summary::after {
@@ -241,30 +244,37 @@ html {
     transform: rotate(225deg);
   }
   .legal-toc-label {
+    flex: 0 0 auto;
     margin: 0;
+    line-height: 1.2;
   }
   .legal-toc-current {
     display: block;
-    margin-left: auto;
-    max-width: 48%;
+    flex: 1 1 auto;
+    margin-left: 0;
+    max-width: none;
+    min-width: 0;
     overflow: hidden;
     color: var(--lime);
     font-size: 13px;
     font-weight: 700;
-    text-align: right;
+    line-height: 1.25;
+    text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .legal-toc-nav {
     display: grid;
-    gap: 0;
-    padding: 0 8px 10px;
+    gap: 4px;
+    /* Top pad keeps the first link off the summary divider. */
+    padding: 14px 14px 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
   .legal-toc a {
-    padding: 12px 8px;
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 14px 12px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.35;
   }
   .legal-toc a.is-active {
     background: rgba(235, 255, 87, 0.08);
