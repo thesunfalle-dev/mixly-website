@@ -137,10 +137,9 @@ function injectJsonLd(html, blocks) {
 function injectBreadcrumb(html, lang, title) {
   const copy = BREADCRUMB_COPY[lang];
   const nav = `<nav class="breadcrumbs" aria-label="${copy.aria}"><ol><li><a href="/">${copy.home}</a></li><li><a href="/blog.html">${copy.blog}</a></li><li aria-current="page">${escapeAttr(title)}</li></ol></nav>`;
+  // Breadcrumbs replace the old "back to blog" link on article pages.
+  html = html.replace(/<a class="back-home"[\s\S]*?<\/a>\s*/i, '');
   html = html.replace(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/i, '');
-  if (/class="back-home"/.test(html)) {
-    return html.replace(/<a class="back-home"[\s\S]*?<\/a>/i, (m) => `${m}${nav}`);
-  }
   return html.replace(/<main[^>]*>/i, (m) => `${m}${nav}`);
 }
 

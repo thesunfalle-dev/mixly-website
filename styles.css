@@ -1331,7 +1331,7 @@ html {
 .article-image { margin: 24px 0 30px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 22px; background: #202024; }.article-image img { display: block; width: 100%; height: auto; }.article-image figcaption { padding: 11px 14px; color: rgba(255,255,255,.52); font-size: 13px; line-height: 1.4; }.article-image-hero { margin: 0 0 44px; border-radius: 28px; }.article-image-hero figcaption { padding: 13px 16px; }.article-toc { align-self: start; height: fit-content; }@media (min-width: 981px) { .article-toc-summary { pointer-events: none; }.article-toc-dropdown .article-toc-nav { display: grid !important; } }
 @media (max-width: 760px) { .article-image { margin: 20px 0 26px; border-radius: 18px; }.article-image-hero { margin-bottom: 32px; border-radius: 22px; }.article-toc { display: block; }.article-toc-summary { padding-bottom: 8px; } }
 .article-page-content section[id] { scroll-margin-top: 120px; }
-.breadcrumbs { margin: 0 0 22px; }
+.breadcrumbs { margin: 0 0 28px; }
 .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 0; padding: 0; list-style: none; color: rgba(255,255,255,.55); font-size: 13px; line-height: 1.4; }
 .breadcrumbs li { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
 .breadcrumbs li:not(:last-child)::after { content: '/'; color: rgba(255,255,255,.28); }
