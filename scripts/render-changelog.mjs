@@ -102,6 +102,7 @@ function pageHtml(locale) {
   const lang = locale;
   const home = homePath(locale);
   const blog = blogPath(locale);
+  const contactLabel = locale === 'ru' ? 'Контакты' : locale === 'de' ? 'Kontakt' : 'Contact';
   const crumbs = BREADCRUMB_COPY[locale] || BREADCRUMB_COPY.en;
   const hreflang = [
     `<link rel="alternate" hreflang="ru" href="${publicUrl('ru')}">`,
@@ -219,8 +220,8 @@ function pageHtml(locale) {
         <div class="footer-links">
           <div><p data-i18n="footer.app">App</p><a href="${home}#how-it-works" data-i18n="nav.about">About</a><a href="${home}#features" data-i18n="nav.features">Features</a><a href="${path}" data-i18n="nav.updates">Updates</a><a href="${blog}" data-i18n="nav.blog">Blog</a><a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>
           <div><p data-i18n="footer.docs">Docs</p><a href="${locale === 'ru' ? '/privacy.html' : `/${locale}/privacy`}" data-i18n="footer.privacy">Privacy</a><a href="${locale === 'ru' ? '/cookies.html' : `/${locale}/cookies`}" data-i18n="footer.cookies">Cookies</a><a href="${locale === 'ru' ? '/terms.html' : `/${locale}/terms`}" data-i18n="footer.terms">Terms</a><a href="${locale === 'ru' ? '/eula.html' : `/${locale}/eula`}" data-i18n="footer.eula">EULA</a><a href="${locale === 'ru' ? '/support.html' : `/${locale}/support`}" data-i18n="footer.support">Support</a></div>
-        </div>
           <div><p data-i18n="footer.contacts">${contactLabel}</p><a href="mailto:support@get-mixly.app">support@get-mixly.app</a><a href="https://t.me/getmixly" rel="noopener">Telegram</a></div>
+        </div>
       </div>
     </footer>
     <script src="/i18n.js" defer></script>
