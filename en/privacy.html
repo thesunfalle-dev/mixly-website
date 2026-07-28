@@ -32,7 +32,7 @@
     <script src="/analytics.js" defer></script>
     <script src="/toc-pin.js" defer></script>
     <script src="/legal.js" defer></script>
-  </head>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://get-mixly.app/en/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://get-mixly.app/en/privacy"}]}</script></head>
   <body data-legal-doc="privacy">
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
@@ -83,7 +83,8 @@
       </div>
     </aside>
     <main class="legal-page" id="content">
-      <a class="back-home" href="/en/"><span aria-hidden="true">←</span> <span data-i18n="legal.back">Back to home</span></a>
+      <nav class="breadcrumbs" data-i18n-aria="nav.breadcrumbs" aria-label="Breadcrumbs"><ol><li><a href="/en/" data-i18n="nav.home">Home</a></li><li aria-current="page">Privacy Policy</li></ol></nav>
+      
       <div class="legal-layout">
         <article class="legal-article">
           <header class="legal-header">

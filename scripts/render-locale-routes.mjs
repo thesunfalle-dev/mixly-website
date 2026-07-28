@@ -267,8 +267,53 @@ function renderMarketing(file, locale) {
   source = markLangSwitch(source, locale);
   const pageKey = file === 'index.html' ? '' : file;
   source = setCanonicalAndHreflang(source, locale, pageKey);
+  if (file === 'blog.html') {
+    const homeHref = publicPath(locale, '');
+    const blogLabel = strings['nav.blog'] || 'Blog';
+    const crumbs = renderBreadcrumbsNav(locale, blogLabel, homeHref);
+    source = source.replace(/<a class="back-home"[\s\S]*?<\/a>\s*/i, '');
+    source = source.replace(/<nav class="breadcrumbs"[\s\S]*?<\/nav>\s*/i, '');
+    source = source.replace(/<main[^>]*>/i, (m) => `${m}\n      ${crumbs}\n      `);
+    source = injectBreadcrumbListJsonLd(source, locale, 'blog.html', blogLabel);
+  }
   // Prefer absolute asset paths already; ensure i18n still works for interactive bits
   return source;
+}
+
+function breadcrumbHomeLabel(locale) {
+  const strings = STRINGS[locale] || STRINGS.en;
+  return strings['nav.home'] || (locale === 'de' ? 'Start' : locale === 'ru' ? 'Главная' : 'Home');
+}
+
+function breadcrumbAria(locale) {
+  const strings = STRINGS[locale] || STRINGS.en;
+  return strings['nav.breadcrumbs'] || (locale === 'de' ? 'Brotkrumen' : locale === 'ru' ? 'Хлебные крошки' : 'Breadcrumbs');
+}
+
+function renderBreadcrumbsNav(locale, currentLabel, homeHref) {
+  return (
+    `<nav class="breadcrumbs" data-i18n-aria="nav.breadcrumbs" aria-label="${escapeHtml(breadcrumbAria(locale))}">` +
+    `<ol><li><a href="${homeHref}" data-i18n="nav.home">${escapeHtml(breadcrumbHomeLabel(locale))}</a></li>` +
+    `<li aria-current="page">${escapeHtml(currentLabel)}</li></ol></nav>`
+  );
+}
+
+function injectBreadcrumbListJsonLd(source, locale, pageKey, currentLabel) {
+  const homePath = publicPath(locale, '');
+  const pagePath = publicPath(locale, pageKey);
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: breadcrumbHomeLabel(locale), item: `${origin}${homePath}` },
+      { '@type': 'ListItem', position: 2, name: currentLabel, item: `${origin}${pagePath}` },
+    ],
+  };
+  // Drop prior BreadcrumbList blocks we may have injected on re-run.
+  source = source.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, (match) =>
+    match.includes('"BreadcrumbList"') ? '' : match
+  );
+  return source.replace('</head>', `<script type="application/ld+json">${JSON.stringify(ld)}</script></head>`);
 }
 
 function renderLegal(file, locale) {
@@ -284,12 +329,19 @@ function renderLegal(file, locale) {
   );
   source = source.replace(/<div class="legal-body" id="legal-body">[\s\S]*?<\/div>/, legal.body);
   source = source.replace(/<aside class="legal-toc" id="legal-toc"[\s\S]*?<\/aside>/, legal.toc);
+  // Replace legacy back-home or existing crumbs with locale-correct breadcrumbs.
+  const homeHref = publicPath(locale, '');
+  const crumbs = renderBreadcrumbsNav(locale, legal.title, homeHref);
+  source = source.replace(/<a class="back-home"[\s\S]*?<\/a>\s*/i, '');
+  source = source.replace(/<nav class="breadcrumbs"[\s\S]*?<\/nav>\s*/i, '');
+  source = source.replace(/<main[^>]*>/i, (m) => `${m}\n      ${crumbs}\n      `);
   source = source.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(legal.title)} · Mixly</title>`);
   source = source.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escapeHtml(legal.notice)}$2`);
   source = absolutizeAssets(source);
   source = localizeInternalLinks(source, locale);
   source = markLangSwitch(source, locale);
   source = setCanonicalAndHreflang(source, locale, file);
+  source = injectBreadcrumbListJsonLd(source, locale, file, legal.title);
   return source;
 }
 
@@ -309,6 +361,14 @@ function enhanceRootHreflang(file, pageKey) {
   console.log('hreflang root', file);
 }
 
+function enhanceRootBreadcrumbJsonLd(file, pageKey, currentLabel) {
+  const path = resolve(root, file);
+  let source = readFileSync(path, 'utf8');
+  source = injectBreadcrumbListJsonLd(source, 'ru', pageKey, currentLabel);
+  writeFileSync(path, source);
+  console.log('breadcrumb ld+json root', file);
+}
+
 for (const locale of locales) {
   for (const file of marketingFiles) {
     writeLocaleFile(locale, file, renderMarketing(file, locale));
@@ -321,5 +381,13 @@ for (const locale of locales) {
 enhanceRootHreflang('index.html', '');
 enhanceRootHreflang('blog.html', 'blog.html');
 for (const file of legalFiles) enhanceRootHreflang(file, file);
+
+// Root RU static pages get BreadcrumbList JSON-LD (visible crumbs are already in templates).
+enhanceRootBreadcrumbJsonLd('blog.html', 'blog.html', STRINGS.ru['nav.blog'] || 'Блог');
+for (const file of legalFiles) {
+  const doc = file.replace(/\.html$/, '');
+  const title = LEGAL_DOCS[doc]?.ru?.title || STRINGS.ru[`footer.${doc}`] || doc;
+  enhanceRootBreadcrumbJsonLd(file, file, title);
+}
 
 console.log('locale routes rendered for', locales.join(', '));

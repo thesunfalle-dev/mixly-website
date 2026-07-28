@@ -89,6 +89,12 @@ function injectHomeList(html, locale) {
   return html.replace(pattern, `${replacement}\n      `);
 }
 
+const BREADCRUMB_COPY = {
+  ru: { home: 'Главная', aria: 'Хлебные крошки' },
+  en: { home: 'Home', aria: 'Breadcrumbs' },
+  de: { home: 'Start', aria: 'Brotkrumen' },
+};
+
 function pageHtml(locale) {
   const meta = CHANGELOG_META[locale];
   const path = publicPath(locale);
@@ -96,6 +102,7 @@ function pageHtml(locale) {
   const lang = locale;
   const home = homePath(locale);
   const blog = blogPath(locale);
+  const crumbs = BREADCRUMB_COPY[locale] || BREADCRUMB_COPY.en;
   const hreflang = [
     `<link rel="alternate" hreflang="ru" href="${publicUrl('ru')}">`,
     `<link rel="alternate" hreflang="en" href="${publicUrl('en')}">`,
@@ -112,6 +119,15 @@ function pageHtml(locale) {
     isPartOf: { '@id': `${origin}/#website` },
     about: { '@id': `${origin}/#app` },
   };
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: crumbs.home, item: `${origin}${home}` },
+      { '@type': 'ListItem', position: 2, name: meta.title, item: url },
+    ],
+  };
+  const breadcrumbs = `<nav class="breadcrumbs" aria-label="${escapeHtml(crumbs.aria)}"><ol><li><a href="${home}">${escapeHtml(crumbs.home)}</a></li><li aria-current="page">${escapeHtml(meta.title)}</li></ol></nav>`;
 
   return `<!doctype html>
 <html lang="${lang}">
@@ -131,6 +147,7 @@ function pageHtml(locale) {
     <meta name="twitter:description" content="${escapeHtml(meta.pageDescription)}" />
     <title>${escapeHtml(meta.pageTitle)}</title>
     <script type="application/ld+json">${JSON.stringify(schema)}</script>
+    <script type="application/ld+json">${JSON.stringify(breadcrumbLd)}</script>
     <style>html { background: #29282b; }</style>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
@@ -184,6 +201,7 @@ function pageHtml(locale) {
       </nav>
     </aside>
     <main class="blog-page changelog-page" id="content">
+      ${breadcrumbs}
       <section class="blog-page-hero" aria-labelledby="changelog-page-title">
         <p class="eyebrow">${escapeHtml(meta.eyebrow)}</p>
         <h1 id="changelog-page-title">${escapeHtml(meta.title)}</h1>

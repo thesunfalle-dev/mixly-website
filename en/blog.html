@@ -46,7 +46,7 @@
     <script src="/monitoring.js" defer></script>
     <script src="/page-nav.js" defer></script>
     <script src="/analytics.js" defer></script>
-  </head>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://get-mixly.app/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://get-mixly.app/en/blog"}]}</script></head>
   <body>
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
@@ -97,8 +97,9 @@
       </div>
     </aside>
     <main class="blog-page" id="content">
+      <nav class="breadcrumbs" data-i18n-aria="nav.breadcrumbs" aria-label="Breadcrumbs"><ol><li><a href="/en/" data-i18n="nav.home">Home</a></li><li aria-current="page">Blog</li></ol></nav>
+      
       <section class="blog-page-hero" aria-labelledby="blog-page-title">
-        <a class="back-home" href="/en/"><span aria-hidden="true">←</span> <span data-i18n="blog.back">Home</span></a>
         <p class="eyebrow" data-i18n="blog.page.eyebrow">Mixly Blog</p>
         <h1 id="blog-page-title" data-i18n="blog.page.title">Ideas you’ll want to return to</h1>
         <p data-i18n="blog.page.lead">Practical notes on flavors, pairings, and how to build better mixes.</p>
