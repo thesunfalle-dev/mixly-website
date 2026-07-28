@@ -51,7 +51,7 @@ const CLUSTERS = [
       en: 'Beginner hookah mix recipes: 12 simple formulas with shares for fruit, fresh, berry, and dessert bowls.',
       de: 'Shisha-Mischungen für Einsteiger: 12 einfache Rezepte mit Anteilen — fruchtig, frisch, beerenig und dessertig.',
     },
-    image: `${origin}/assets/blog/beginner-mix-recipes-hero.webp`,
+    image: `${origin}/assets/blog/mix-recipes-hero.webp`,
 
   },
   {
