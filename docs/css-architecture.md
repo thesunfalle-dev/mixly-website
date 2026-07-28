@@ -38,8 +38,13 @@ npm run check
 
 `npm run build:css` regenerates root `styles.css` from the modules (banners like `/* === file === */` are stripped).
 
-## Follow-ups
+## Follow-ups (phase 2)
 
-- Merge historical override layers for `.hero` / `.premium` / `.site-header` into single component blocks (behavior-preserving).
-- Minify the built bundle for Lighthouse unused-CSS / transfer savings.
-- Optional visual snapshot smoke for 320 / 768 / 1200 viewports.
+Historical cascade still has multiple rewrite layers (especially `.hero`, `.premium`, `.site-header`, repeated `max-width: 760px` blocks — ~28 mobile media queries). Phase 1 only modularized ownership by file; it did **not** collapse overrides.
+
+Next concrete steps:
+
+1. For each component, keep the **last** winning rule set in its module and delete earlier dead assignments after visual check.
+2. Group mobile rules per component into one `@media (max-width: 760px)` block inside that module.
+3. Minify the built bundle only after override collapse (current minify savings ~4 KiB).
+4. Optional visual snapshot smoke for 320 / 768 / 1200 viewports (RU/EN/DE home + blog + article + legal).

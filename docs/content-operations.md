@@ -8,8 +8,10 @@
 - HTML-страницы, статьи и metadata в корне проекта;
 - локализованные статьи: `/{ru,en,de}/blog/<slug>/index.html`;
 - локализованный текст в `i18n.js` и `legal-content.js` (+ `npm run generate:legal`);
+- релизы приложения: `changelog-content.js` (+ `npm run generate:changelog` → home lists и `/changelog`);
 - SEO статей: `npm run generate:article-seo` / `scripts/enrich-article-seo.mjs`;
-- изображения приложения в `images_for_web/` и `assets/blog/`;
+- изображения приложения в `images_for_web/` и `assets/blog/` (`npm run optimize:blog-images`);
+- CSS-модули в `css/*` (+ `npm run build:css` → `styles.css`);
 - SEO-конфигурация в `robots.txt`, `sitemap.xml` и HTML metadata;
 - Worker-правила и article path map в `worker.js`.
 
@@ -57,6 +59,13 @@ Cloudflare хранит предыдущие Worker versions — это rollback
 
 Опубликованные кластеры (2026-07): mixing guide, beginner recipes, flavor combinations — по три локали каждый.
 `article.html` остаётся `noindex` шаблоном и не входит в sitemap.
+
+### Changelog / What's new
+
+1. Добавить релиз **в начало** массива `RELEASES` в `changelog-content.js` (все локали: labels + items).
+2. Запустить `npm run generate:changelog`, затем `npm run generate:locale-routes`, затем снова `npm run generate:changelog` (en/de home lists).
+3. `id` релиза (`v1-0-6`) становится стабильным hash URL: `/changelog#v1-0-6`.
+4. Проверить `npm run check` и preview production paths `/changelog`, `/en/changelog`, `/de/changelog`.
 
 ### Учебное восстановление
 
