@@ -1,7 +1,46 @@
 (() => {
   'use strict';
 
+  // Own scroll position: browser "auto" restore on mobile often jumps the
+  // homepage from the hero to a mid-page section after pull-to-refresh.
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  const navigationType = () => {
+    try {
+      return performance.getEntriesByType('navigation')[0]?.type || '';
+    } catch (_) {
+      return '';
+    }
+  };
+
+  // On hard reload, always land at the top. Leftover #how-it-works / #features
+  // hashes (and late scroll restoration) are the usual culprits on iOS Safari.
+  // First visits with a section hash keep native/hash scrolling (type !== reload).
+  if (navigationType() === 'reload') {
+    if (location.hash) {
+      try {
+        history.replaceState(null, '', `${location.pathname}${location.search}`);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    const pinTop = () => {
+      window.scrollTo(0, 0);
+    };
+    pinTop();
+    requestAnimationFrame(pinTop);
+    window.addEventListener(
+      'load',
+      () => {
+        pinTop();
+        requestAnimationFrame(() => {
+          pinTop();
+          document.documentElement.classList.remove('is-reload-resetting');
+        });
+      },
+      { once: true }
+    );
+  }
 
   let navigating = false;
   let controller = null;
@@ -355,4 +394,3 @@
 
   window.MixlyPageNav = { navigate, resetUiState, closeMobileMenu };
 })();
-

@@ -21,6 +21,7 @@
     <title>Mixly: fresh ideas for your next hookah mix</title>
     <style>
       html { background: #29282b; }
+      html.is-reload-resetting body { visibility: hidden; }
     </style>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
@@ -69,7 +70,18 @@
           document.head.appendChild(preload);
         });
 
-        if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+          document.documentElement.classList.add('is-reload-resetting');
+          window.scrollTo(0, 0);
+          window.addEventListener('load', () => {
+            window.scrollTo(0, 0);
+            requestAnimationFrame(() => {
+              window.scrollTo(0, 0);
+              document.documentElement.classList.remove('is-reload-resetting');
+            });
+          }, { once: true });
+        }
       } catch (_) {}
     </script>
     <script src="/monitoring.js" defer></script>
