@@ -105,11 +105,13 @@
         <p data-i18n="blog.page.lead">Practical notes on flavors, pairings, and how to build better mixes.</p>
       </section>
       <nav class="blog-filters" data-i18n-aria="blog.filterAria" aria-label="Article filter">
-        <button class="is-active" type="button" data-filter="practice" aria-controls="blog-articles" aria-pressed="true" data-i18n="blog.filter.practice">Practice</button>
+        <button class="is-active" type="button" data-filter="all" aria-controls="blog-articles" aria-pressed="true" data-i18n="blog.filter.all">All</button>
+        <button type="button" data-filter="practice" aria-controls="blog-articles" aria-pressed="false" data-i18n="blog.filter.practice">Practice</button>
+        <button type="button" data-filter="tastes" aria-controls="blog-articles" aria-pressed="false" data-i18n="blog.filter.tastes">Tastes</button>
       </nav>
       <p class="sr-only" id="blog-filter-status" role="status" aria-live="polite" aria-atomic="true"></p>
       <section class="blog-page-list" id="blog-articles" data-i18n-aria="blog.listAria" aria-label="All articles">
-        <article id="kak-pravilno-smeshivat-tabak-dlya-kalyana" class="blog-page-card blog-page-card-featured" data-category="practice">
+<article id="kak-pravilno-smeshivat-tabak-dlya-kalyana" class="blog-page-card" data-category="practice">
           <a href="/en/blog/how-to-mix-hookah-tobacco" data-i18n-href="blog.card.first.href">
             <p class="article-meta" data-i18n="blog.card.first.meta">PRACTICE · 4 MIN</p>
             <h2 data-i18n="blog.card.first.title">How to mix hookah tobacco</h2>
@@ -117,19 +119,43 @@
             <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
           </a>
         </article>
-        <article id="beginner-mix-recipes" class="blog-page-card" data-category="practice">
+<article id="choose-mix-base" class="blog-page-card" data-category="tastes">
+          <a href="/en/blog/how-to-choose-hookah-mix-base" data-i18n-href="blog.card.base.href">
+            <p class="article-meta" data-i18n="blog.card.base.meta">TASTES · 3 MIN</p>
+            <h2 data-i18n="blog.card.base.title">How to Choose a Mix Base</h2>
+            <p data-i18n="blog.card.base.excerpt">Pick the lead flavor: roles, intensity, and simple criteria.</p>
+            <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
+          </a>
+        </article>
+<article id="beginner-mix-recipes" class="blog-page-card" data-category="practice">
           <a href="/en/blog/beginner-hookah-mix-recipes" data-i18n-href="blog.card.ratios.href">
             <p class="article-meta" data-i18n="blog.card.ratios.meta">PRACTICE · 4 MIN</p>
-            <h2 data-i18n="blog.card.ratios.title">Beginner Hookah Mix Recipes</h2>
+            <h2 data-i18n="blog.card.ratios.title">Beginner Mix Recipes</h2>
             <p data-i18n="blog.card.ratios.excerpt">12 simple share-based recipes: fruit, fresh, berry, and dessert starter mixes.</p>
             <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
           </a>
         </article>
-        <article id="hookah-flavor-combinations" class="blog-page-card" data-category="practice">
+<article id="hookah-tobacco-strength" class="blog-page-card" data-category="tastes">
+          <a href="/en/blog/hookah-tobacco-strength" data-i18n-href="blog.card.strength.href">
+            <p class="article-meta" data-i18n="blog.card.strength.meta">TASTES · 2 MIN</p>
+            <h2 data-i18n="blog.card.strength.title">Hookah Tobacco Strength</h2>
+            <p data-i18n="blog.card.strength.excerpt">Light, medium, strong — without overloading the mix.</p>
+            <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
+          </a>
+        </article>
+<article id="hookah-flavor-combinations" class="blog-page-card" data-category="practice">
           <a href="/en/blog/hookah-flavor-combinations" data-i18n-href="blog.card.combinations.href">
             <p class="article-meta" data-i18n="blog.card.combinations.meta">PRACTICE · 9 MIN</p>
-            <h2 data-i18n="blog.card.combinations.title">Hookah Flavor Combinations: What Goes Well Together</h2>
+            <h2 data-i18n="blog.card.combinations.title">Hookah Flavor Combinations</h2>
             <p data-i18n="blog.card.combinations.excerpt">How to combine fruit, berries, citrus, fresh and dessert profiles.</p>
+            <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
+          </a>
+        </article>
+<article id="hookah-flavor-profiles" class="blog-page-card" data-category="tastes">
+          <a href="/en/blog/hookah-flavor-profiles" data-i18n-href="blog.card.profiles.href">
+            <p class="article-meta" data-i18n="blog.card.profiles.meta">TASTES · 2 MIN</p>
+            <h2 data-i18n="blog.card.profiles.title">Hookah Flavor Profiles</h2>
+            <p data-i18n="blog.card.profiles.excerpt">A map of flavor profiles: fruit, berry, fresh, dessert.</p>
             <span class="blog-card-read"><span data-i18n="blog.read">Read</span> <span aria-hidden="true">→</span></span>
           </a>
         </article>
@@ -148,8 +174,48 @@
     </footer>
     <script>
       const filterButtons = document.querySelectorAll('[data-filter]');
-      const articleCards = document.querySelectorAll('.blog-page-card');
+      const list = document.querySelector('#blog-articles');
       const filterStatus = document.querySelector('#blog-filter-status');
+      const allCards = Array.from(document.querySelectorAll('.blog-page-card'));
+
+      function interleave(cards) {
+        const buckets = new Map();
+        cards.forEach((card) => {
+          const cat = card.dataset.category || 'other';
+          if (!buckets.has(cat)) buckets.set(cat, []);
+          buckets.get(cat).push(card);
+        });
+        const queues = Array.from(buckets.values());
+        const out = [];
+        let progress = true;
+        while (progress) {
+          progress = false;
+          queues.forEach((queue) => {
+            if (queue.length) {
+              out.push(queue.shift());
+              progress = true;
+            }
+          });
+        }
+        return out;
+      }
+
+      function applyFilter(filter) {
+        const visible = allCards.filter((card) => filter === 'all' || card.dataset.category === filter);
+        const ordered = filter === 'all' ? interleave(visible) : visible;
+        ordered.forEach((card) => {
+          card.hidden = false;
+          list.appendChild(card);
+        });
+        allCards.forEach((card) => {
+          if (!ordered.includes(card)) card.hidden = true;
+        });
+        return ordered.length;
+      }
+
+      // initial interleave for "all"
+      applyFilter('all');
+
       filterButtons.forEach((button) => button.addEventListener('click', () => {
         const filter = button.dataset.filter;
         filterButtons.forEach((item) => {
@@ -157,12 +223,7 @@
           item.classList.toggle('is-active', isActive);
           item.setAttribute('aria-pressed', String(isActive));
         });
-        let visibleCount = 0;
-        articleCards.forEach((card) => {
-          const isVisible = card.dataset.category === filter;
-          card.hidden = !isVisible;
-          if (isVisible) visibleCount += 1;
-        });
+        const visibleCount = applyFilter(filter);
         filterStatus.textContent = `${button.textContent.trim()}: ${visibleCount}`;
       }));
     </script>

@@ -73,6 +73,63 @@ const CLUSTERS = [
     },
     image: `${origin}/assets/blog/hookah-flavor-combination-fresh.webp`,
   },
+  {
+    id: 'choose-base',
+    paths: {
+      ru: '/ru/blog/kak-vybrat-osnovu-dlya-miksa',
+      en: '/en/blog/how-to-choose-hookah-mix-base',
+      de: '/de/blog/shisha-mix-basis-waehlen',
+    },
+    title: {
+      ru: 'Как выбрать основу для микса',
+      en: 'How to Choose a Hookah Mix Base',
+      de: 'Shisha-Mix-Basis wählen',
+    },
+    description: {
+      ru: 'Как выбрать основу для микса кальяна: роли вкусов, критерии базы и типичные ошибки.',
+      en: 'How to choose a hookah mix base: flavor roles, selection criteria, and common mistakes.',
+      de: 'Shisha-Mix-Basis wählen: Aroma-Rollen, Kriterien und typische Fehler.',
+    },
+    image: `${origin}/assets/blog/choose-base-hero.webp`,
+  },
+  {
+    id: 'strength',
+    paths: {
+      ru: '/ru/blog/krepost-tabaka-dlya-kalyana',
+      en: '/en/blog/hookah-tobacco-strength',
+      de: '/de/blog/shisha-tabak-staerke',
+    },
+    title: {
+      ru: 'Крепость табака для кальяна: как подбирать',
+      en: 'Hookah Tobacco Strength: How to Choose It',
+      de: 'Shisha-Tabak-Stärke: so wählst du richtig',
+    },
+    description: {
+      ru: 'Крепость табака для кальяна: лёгкий, средний, крепкий — как подобрать под микс и комфорт сессии.',
+      en: 'Hookah tobacco strength guide: light, medium, strong — how to match strength to your mix and session.',
+      de: 'Shisha-Tabak-Stärke: leicht, mittel, stark — so passt du die Stärke an Mix und Session an.',
+    },
+    image: `${origin}/assets/blog/strength-levels.webp`,
+  },
+  {
+    id: 'profiles',
+    paths: {
+      ru: '/ru/blog/vkusovye-profili-kalyana',
+      en: '/en/blog/hookah-flavor-profiles',
+      de: '/de/blog/shisha-geschmacksprofile',
+    },
+    title: {
+      ru: 'Вкусовые профили кальяна: как в них ориентироваться',
+      en: 'Hookah Flavor Profiles: How to Navigate Them',
+      de: 'Shisha-Geschmacksprofile: so findest du dich zurecht',
+    },
+    description: {
+      ru: 'Вкусовые профили кальяна: фрукты, ягоды, свежесть, десерт — карта для выбора основы и миксов.',
+      en: 'Hookah flavor profiles: fruit, berry, fresh, dessert — a map for choosing bases and mixes.',
+      de: 'Shisha-Geschmacksprofile: Frucht, Beere, Frische, Dessert — Karte für Basis und Mixe.',
+    },
+    image: `${origin}/assets/blog/profiles-hero.webp`,
+  },
 ];
 
 const BREADCRUMB_COPY = {

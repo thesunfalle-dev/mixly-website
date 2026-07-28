@@ -15,10 +15,29 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const WPM = { ru: 190, en: 210, de: 190 };
-const CAT = { ru: 'ПРАКТИКА', en: 'PRACTICE', de: 'PRAXIS' };
+const CAT_PRACTICE = { ru: 'ПРАКТИКА', en: 'PRACTICE', de: 'PRAXIS' };
+const CAT_TASTES = { ru: 'ВКУСЫ', en: 'TASTES', de: 'GESCHMACK' };
 const UNIT = { ru: 'МИН', en: 'MIN', de: 'MIN' };
 const PUBLISHED = '2026-07-22';
 const MODIFIED = '2026-07-28';
+
+const TASTES_SLUGS = new Set([
+  'kak-vybrat-osnovu-dlya-miksa',
+  'how-to-choose-hookah-mix-base',
+  'shisha-mix-basis-waehlen',
+  'krepost-tabaka-dlya-kalyana',
+  'hookah-tobacco-strength',
+  'shisha-tabak-staerke',
+  'vkusovye-profili-kalyana',
+  'hookah-flavor-profiles',
+  'shisha-geschmacksprofile',
+]);
+
+function categoryFor(rel, lang) {
+  const slug = rel.split('/')[2] || '';
+  if (TASTES_SLUGS.has(slug)) return CAT_TASTES[lang] || CAT_TASTES.en;
+  return CAT_PRACTICE[lang] || CAT_PRACTICE.en;
+}
 
 const APPLE_SVG =
   '<svg class="hero-download-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M16.37 12.31c-.03-2.28 1.86-3.39 1.94-3.44-1.06-1.55-2.7-1.76-3.28-1.78-1.38-.15-2.72.83-3.43.83-.72 0-1.8-.82-2.97-.79-1.51.02-2.93.9-3.71 2.25-1.62 2.8-.41 6.91 1.14 9.18.78 1.11 1.69 2.35 2.88 2.3 1.16-.05 1.59-.74 2.99-.74 1.38 0 1.78.74 3 .71 1.25-.02 2.04-1.12 2.79-2.24.91-1.28 1.27-2.54 1.29-2.61-.03-.01-2.44-.93-2.46-3.97ZM14.14 5.68c.63-.79 1.06-1.87.94-2.96-.91.04-2.05.63-2.71 1.4-.59.68-1.11 1.8-.98 2.85 1.02.08 2.07-.52 2.75-1.29Z"/></svg>';
@@ -113,7 +132,7 @@ for (const { lang, file, rel } of listArticles()) {
   }
   const words = wordCount(bodyMatch[1]);
   const minutes = Math.max(1, Math.round(words / (WPM[lang] || 200)));
-  const meta = `${CAT[lang]} · ${minutes} ${UNIT[lang]}`;
+  const meta = `${categoryFor(rel, lang)} · ${minutes} ${UNIT[lang]}`;
   source = source.replace(
     /<p class="article-meta"[^>]*>[^<]*<\/p>/,
     `<p class="article-meta" data-reading-minutes="${minutes}" data-reading-words="${words}">${meta}</p>`,

@@ -75,6 +75,15 @@ const ARTICLE_REWRITES = {
   '/en/blog/beginner-hookah-mix-recipes': '/en/blog/beginner-hookah-mix-recipes/index.html',
   '/de/blog/shisha-mischungen-fuer-einsteiger':
     '/de/blog/shisha-mischungen-fuer-einsteiger/index.html',
+  '/ru/blog/kak-vybrat-osnovu-dlya-miksa': '/ru/blog/kak-vybrat-osnovu-dlya-miksa/index.html',
+  '/en/blog/how-to-choose-hookah-mix-base': '/en/blog/how-to-choose-hookah-mix-base/index.html',
+  '/de/blog/shisha-mix-basis-waehlen': '/de/blog/shisha-mix-basis-waehlen/index.html',
+  '/ru/blog/krepost-tabaka-dlya-kalyana': '/ru/blog/krepost-tabaka-dlya-kalyana/index.html',
+  '/en/blog/hookah-tobacco-strength': '/en/blog/hookah-tobacco-strength/index.html',
+  '/de/blog/shisha-tabak-staerke': '/de/blog/shisha-tabak-staerke/index.html',
+  '/ru/blog/vkusovye-profili-kalyana': '/ru/blog/vkusovye-profili-kalyana/index.html',
+  '/en/blog/hookah-flavor-profiles': '/en/blog/hookah-flavor-profiles/index.html',
+  '/de/blog/shisha-geschmacksprofile': '/de/blog/shisha-geschmacksprofile/index.html',
 };
 
 // Permanent redirects for retired article slugs (keep indefinitely for SEO).

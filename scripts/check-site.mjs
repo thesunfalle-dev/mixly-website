@@ -488,8 +488,8 @@ if (!/property="og:title"/.test(blog) || !/twitter:card/.test(blog)) {
 }
 
 const localizedArticles = [...pages.keys()].filter((file) => /^(?:ru|en|de)\/blog\/.+\/index\.html$/.test(file));
-if (localizedArticles.length < 9) {
-  report('articles', `expected 9 localized article pages, found ${localizedArticles.length}`);
+if (localizedArticles.length < 18) {
+  report('articles', `expected 18 localized article pages, found ${localizedArticles.length}`);
 }
 for (const file of localizedArticles) {
   const source = pages.get(file);

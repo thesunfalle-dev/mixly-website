@@ -6,6 +6,7 @@
   };
   const ARTICLES = [
     {
+      category: 'practice',
       paths: { ru: '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana', en: '/en/blog/how-to-mix-hookah-tobacco', de: '/de/blog/wie-man-shisha-tabak-richtig-mischt' },
       copy: {
         ru: { title: 'Как правильно смешивать табак для кальяна', excerpt: 'Базовые пропорции, сочетания вкусов и понятный алгоритм первого микса.' },
@@ -14,26 +15,55 @@
       }
     },
     {
+      category: 'practice',
       paths: { ru: '/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih', en: '/en/blog/beginner-hookah-mix-recipes', de: '/de/blog/shisha-mischungen-fuer-einsteiger' },
       copy: {
-        ru: { title: 'Миксы для кальяна для начинающих: готовые рецепты', excerpt: '12 простых рецептов с долями: фруктовые, свежие, ягодные и десертные миксы.' },
+        ru: { title: 'Миксы для начинающих: готовые рецепты', excerpt: '12 простых рецептов с долями: фруктовые, свежие, ягодные и десертные миксы.' },
         en: { title: 'Beginner Hookah Mix Recipes', excerpt: '12 simple share-based recipes: fruit, fresh, berry, and dessert starter mixes.' },
-        de: { title: 'Shisha-Mischungen für Einsteiger: fertige Rezepte', excerpt: '12 einfache Rezepte mit Anteilen: fruchtig, frisch, beerenig und dessertig.' }
+        de: { title: 'Shisha-Mischungen für Einsteiger', excerpt: '12 einfache Rezepte mit Anteilen: fruchtig, frisch, beerenig und dessertig.' }
       }
     },
     {
+      category: 'practice',
       paths: { ru: '/ru/blog/sochetaniya-vkusov-dlya-kalyana', en: '/en/blog/hookah-flavor-combinations', de: '/de/blog/shisha-geschmackskombinationen' },
       copy: {
-        ru: { title: 'Сочетания вкусов для кальяна: что с чем смешивать', excerpt: 'Как сочетать фрукты, ягоды, цитрусы, свежие и десертные вкусы.' },
+        ru: { title: 'Сочетания вкусов для кальяна', excerpt: 'Как сочетать фрукты, ягоды, цитрусы, свежие и десертные вкусы.' },
         en: { title: 'Hookah Flavor Combinations', excerpt: 'How to pair fruit, berries, citrus, fresh and dessert flavors.' },
         de: { title: 'Shisha-Geschmackskombinationen', excerpt: 'So kombinierst du Früchte, Beeren, Zitrus-, frische und Dessert-Aromen.' }
+      }
+    },
+    {
+      category: 'tastes',
+      paths: { ru: '/ru/blog/kak-vybrat-osnovu-dlya-miksa', en: '/en/blog/how-to-choose-hookah-mix-base', de: '/de/blog/shisha-mix-basis-waehlen' },
+      copy: {
+        ru: { title: 'Как выбрать основу для микса', excerpt: 'Как выбрать главный вкус для микса: роли в чаше, интенсивность и простые критерии.' },
+        en: { title: 'How to Choose a Mix Base', excerpt: 'How to pick the lead flavor for a mix: bowl roles, intensity, and simple criteria.' },
+        de: { title: 'Shisha-Mix-Basis wählen', excerpt: 'So wählst du das Hauptaroma für einen Mix: Rollen in der Bowl, Intensität und klare Kriterien.' }
+      }
+    },
+    {
+      category: 'tastes',
+      paths: { ru: '/ru/blog/krepost-tabaka-dlya-kalyana', en: '/en/blog/hookah-tobacco-strength', de: '/de/blog/shisha-tabak-staerke' },
+      copy: {
+        ru: { title: 'Крепость табака для кальяна', excerpt: 'Как ориентироваться в крепости табака и не перегрузить микс.' },
+        en: { title: 'Hookah Tobacco Strength', excerpt: 'How to read tobacco strength and avoid overloading the mix.' },
+        de: { title: 'Shisha-Tabak-Stärke', excerpt: 'So liest du Tabakstärke und überlädst den Mix nicht.' }
+      }
+    },
+    {
+      category: 'tastes',
+      paths: { ru: '/ru/blog/vkusovye-profili-kalyana', en: '/en/blog/hookah-flavor-profiles', de: '/de/blog/shisha-geschmacksprofile' },
+      copy: {
+        ru: { title: 'Вкусовые профили кальяна', excerpt: 'Карта вкусовых профилей кальяна: что к чему относится и как этим пользоваться.' },
+        en: { title: 'Hookah Flavor Profiles', excerpt: 'A map of hookah flavor profiles: what belongs where and how to use it.' },
+        de: { title: 'Shisha-Geschmacksprofile', excerpt: 'Karte der Shisha-Geschmacksprofile: was wohin gehört und wie du sie nutzt.' }
       }
     }
   ];
   const RELATED_COPY = {
-    ru: { eyebrow: 'Практика', title: 'Читайте также', aria: 'Связанные статьи' },
-    en: { eyebrow: 'Practice', title: 'Read next', aria: 'Related articles' },
-    de: { eyebrow: 'Praxis', title: 'Weiterlesen', aria: 'Verwandte Artikel' }
+    ru: { practice: 'Практика', tastes: 'Вкусы', title: 'Читайте также', aria: 'Связанные статьи' },
+    en: { practice: 'Practice', tastes: 'Tastes', title: 'Read next', aria: 'Related articles' },
+    de: { practice: 'Praxis', tastes: 'Geschmack', title: 'Weiterlesen', aria: 'Verwandte Artikel' }
   };
   const link = (href, text) => `<a href="${href}">${text}</a>`;
 
@@ -73,10 +103,11 @@
     const content = document.querySelector('.article-page-content');
     if (!content || document.querySelector('.article-related')) return;
     const copy = RELATED_COPY[lang] || RELATED_COPY.en;
-    const related = ARTICLES.filter((item) => item !== article);
+    const related = ARTICLES.filter((item) => item !== article && item.category === article.category).slice(0, 2);
     const cards = related.map((item) => {
       const itemCopy = item.copy[lang] || item.copy.en;
-      return `<article><a href="${item.paths[lang] || item.paths.en}"><p>${copy.eyebrow}</p><h3>${itemCopy.title}</h3><span>${itemCopy.excerpt}</span><b>→</b></a></article>`;
+      const eyebrow = copy[item.category] || copy.practice;
+      return `<article><a href="${item.paths[lang] || item.paths.en}"><p>${eyebrow}</p><h3>${itemCopy.title}</h3><span>${itemCopy.excerpt}</span><b>→</b></a></article>`;
     }).join('');
     content.insertAdjacentHTML('beforeend', `<section class="article-related" aria-labelledby="article-related-title"><h2 id="article-related-title">${copy.title}</h2><div class="article-related-grid" aria-label="${copy.aria}">${cards}</div></section>`);
   }
