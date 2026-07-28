@@ -52,6 +52,23 @@ function report(file, message) {
   errors.push(`${file}: ${message}`);
 }
 
+const cssManifestPath = resolve(root, 'css/manifest.json');
+if (existsSync(cssManifestPath)) {
+  const cssManifest = JSON.parse(readFileSync(cssManifestPath, 'utf8'));
+  const rebuilt = cssManifest.files
+    .map((file) =>
+      readFileSync(resolve(root, 'css', file), 'utf8')
+        .split('\n')
+        .filter((line) => !(line.startsWith('/* ===') && line.includes('===')))
+        .join('\n')
+    )
+    .join('')
+    .replace(/\n+$/, '\n');
+  if (rebuilt !== stylesSource.replace(/\n+$/, '\n')) {
+    report('styles.css', 'is out of date — run npm run build:css after editing css/* modules');
+  }
+}
+
 if (/sessionStorage/.test(pageNavSource)) {
   report('page-nav.js', 'navigation must not persist transition state between pages');
 }
@@ -88,8 +105,10 @@ function localFileFor(url) {
   if (path === '/en' || path === '/en/') return 'en/index.html';
   if (path === '/de' || path === '/de/') return 'de/index.html';
   if (path === '/ru' || path === '/ru/') return 'index.html';
-  // Assets html_handling serves /en/blog from en/blog.html
-  const extensionless = path.match(/^\/(en|de)\/(blog|privacy|cookies|terms|eula|support)$/);
+  // Worker rewrites /changelog → changelog.html (and localized pairs).
+  if (path === '/changelog' || path === '/changelog/') return 'changelog.html';
+  // Assets html_handling / Worker serve /en/blog from en/blog.html
+  const extensionless = path.match(/^\/(en|de)\/(blog|changelog|privacy|cookies|terms|eula|support)$/);
   if (extensionless) return `${extensionless[1]}/${extensionless[2]}.html`;
   const relative = path.replace(/^\//, '');
   if (relative.endsWith('/')) return `${relative}index.html`;
@@ -210,8 +229,9 @@ for (const [file, source] of pages) {
               : file.endsWith('/index.html')
                 ? file.slice(0, -'/index.html'.length)
                 : file;
-      // Locale marketing/legal files are published extensionless via Assets html_handling.
-      expectedPath = expectedPath.replace(/^(en|de)\/(blog|privacy|cookies|terms|eula|support)\.html$/, '$1/$2');
+      // Locale marketing/legal files are published extensionless via Worker rewrites.
+      expectedPath = expectedPath.replace(/^(en|de)\/(blog|changelog|privacy|cookies|terms|eula|support)\.html$/, '$1/$2');
+      expectedPath = expectedPath.replace(/^changelog\.html$/, 'changelog');
       if (canonical !== `${publicOrigin}/${expectedPath}`) {
         report(file, `canonical does not match its public URL: ${canonical}`);
       }

@@ -3,8 +3,10 @@
   "private": true,
   "scripts": {
     "check": "node scripts/check-site.mjs",
+    "build:css": "node scripts/build-css.mjs",
     "generate:default-locale": "node scripts/render-default-locale.mjs",
     "generate:legal": "node scripts/render-legal.mjs",
+    "generate:changelog": "node scripts/render-changelog.mjs",
     "generate:article-shell": "node scripts/render-static-article-shell.mjs",
     "generate:article-seo": "node scripts/enrich-article-seo.mjs",
     "generate:article-meta": "node scripts/update-article-meta.mjs",

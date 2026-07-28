@@ -1,0 +1,19 @@
+{
+  "files": [
+    "00-tokens.css",
+    "01-base.css",
+    "02-components-chrome.css",
+    "03-home-content.css",
+    "04-chrome-blog.css",
+    "05-pages-legal-error.css",
+    "06-article-toc-utilities.css"
+  ],
+  "breakpoints": {
+    "mobileMax": "760px",
+    "tabletMax": "980px",
+    "desktopMin": "981px",
+    "reducedMotion": "prefers-reduced-motion: reduce",
+    "hoverCapable": "hover: hover"
+  },
+  "workflow": "Edit css/*.css then npm run build:css. Production serves styles.css only."
+}

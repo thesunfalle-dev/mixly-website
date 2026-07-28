@@ -694,6 +694,7 @@ var ARTICLES = {
     var bare;
     var extensionless = {
       '/blog': '/blog.html',
+      '/changelog': '/changelog.html',
       '/privacy': '/privacy.html',
       '/cookies': '/cookies.html',
       '/terms': '/terms.html',
@@ -702,6 +703,7 @@ var ARTICLES = {
     };
     var withHtml = {
       '/blog.html': '/blog',
+      '/changelog.html': '/changelog',
       '/privacy.html': '/privacy',
       '/cookies.html': '/cookies',
       '/terms.html': '/terms',
@@ -809,8 +811,8 @@ var ARTICLES = {
   var SHOT_FILES = {
     'shot.main1': 'main_1.webp',
     'shot.main2': 'main_2.webp',
-    'shot.discovery': 'Discovery.png',
-    'shot.lab': 'Lab.png'
+    'shot.discovery': 'Discovery.webp',
+    'shot.lab': 'Lab.webp'
   };
 
   function shotSrc(lang, key) {

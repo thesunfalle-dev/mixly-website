@@ -30,8 +30,10 @@ npm run qa:smoke
 
 Record Lighthouse mobile scores in Linear when re-running full audits (home, blog, one article).
 
+Baseline tables and re-run commands: [lighthouse-baseline.md](./lighthouse-baseline.md).
+
 ## Remaining opportunities
 
-- Convert remaining Discovery/Lab PNGs under `images_for_web/` if still large.
-- Locale-prefixed home/blog (MIX-7) will allow smaller per-locale HTML payloads without full i18n dictionaries on first paint.
-- Optional: image `srcset` for hero phones.
+- Optional: image `srcset` for hero phones and article covers.
+- CSS modularization / minify pipeline (MIX-61) for unused-CSS and render-blocking CSS.
+- Field CrUX comparison after real traffic (MIX-64 / MIX-65).

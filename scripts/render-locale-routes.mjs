@@ -33,8 +33,8 @@ const LEGAL_DOCS = legalContext.LEGAL_DOCS;
 const SHOT_FILES = {
   'shot.main1': 'main_1.webp',
   'shot.main2': 'main_2.webp',
-  'shot.discovery': 'Discovery.png',
-  'shot.lab': 'Lab.png',
+  'shot.discovery': 'Discovery.webp',
+  'shot.lab': 'Lab.webp',
 };
 
 function escapeHtml(value) {
@@ -121,6 +121,8 @@ function localizeInternalLinks(source, locale) {
   for (const [from, to] of Object.entries(map)) {
     source = source.split(from).join(to);
   }
+  // Pretty changelog paths (with optional hashes) and .html form.
+  source = source.replace(/href="\/changelog(\.html)?(#[^"]*)?"/g, `href="/${locale}/changelog$2"`);
   return source;
 }
 

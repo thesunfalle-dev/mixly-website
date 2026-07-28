@@ -1,0 +1,448 @@
+/* === 05-pages-legal-error.css === */
+.intro.section,
+.premium.section {
+  width: min(var(--content-max), calc(100% - (var(--page-gutter) * 2)));
+  max-width: var(--content-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 760px) {
+  :root { --page-gutter: var(--page-gutter-mobile); }
+  .intro.section,
+  .premium.section {
+    width: calc(100% - (var(--page-gutter-mobile) * 2));
+    max-width: none;
+  }
+}
+
+/* Reserve scrollbar space so document navigation keeps the same width. */
+html {
+  background: var(--bg);
+  scrollbar-gutter: stable;
+}
+
+/* Legal documents — article layout with sticky section anchors. */
+.legal-page {
+  width: min(var(--content-max), calc(100% - (var(--page-gutter) * 2)));
+  margin: 0 auto;
+  padding: 58px 0 96px;
+}
+.legal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 220px);
+  gap: 48px;
+  align-items: start;
+}
+.legal-article,
+.legal-toc {
+  min-width: 0;
+}
+.legal-header {
+  max-width: 100%;
+  margin-bottom: 36px;
+}
+.legal-header h1 {
+  max-width: 100%;
+  margin: 10px 0 16px;
+  font-size: clamp(34px, 4.2vw, 56px);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+.legal-meta {
+  margin: 0 0 22px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.legal-notice {
+  margin: 0;
+  padding: 16px 18px;
+  border-left: 3px solid var(--lime);
+  border-radius: 14px;
+  background: rgba(235, 255, 87, 0.08);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.legal-body {
+  max-width: 100%;
+}
+.legal-section + .legal-section {
+  margin-top: 42px;
+}
+.legal-section h2 {
+  margin: 0 0 14px;
+  font-size: clamp(22px, 2.4vw, 30px);
+  scroll-margin-top: 96px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.legal-section p,
+.legal-section li {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.legal-section p {
+  margin: 0 0 14px;
+}
+.legal-section ul {
+  margin: 0 0 14px;
+  padding-left: 1.2em;
+}
+.legal-section li + li {
+  margin-top: 8px;
+}
+.legal-section a {
+  color: var(--lime);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal-toc {
+  align-self: start;
+  height: fit-content;
+  position: sticky;
+  top: 96px;
+  padding: 18px 0 18px 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+}
+/* Desktop pin is handled in legal.js (fixed + footer clamp). Avoid a full-viewport
+   max-height here — it made the TOC paint over the footer before JS clamped. */
+@media (min-width: 981px) {
+  .legal-toc {
+    overflow-y: auto;
+  }
+}
+.legal-toc-dropdown {
+  margin: 0;
+}
+.legal-toc-dropdown > summary {
+  list-style: none;
+}
+.legal-toc-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+.legal-toc-label {
+  display: block;
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.legal-toc-current {
+  display: none;
+}
+.legal-toc-nav {
+  display: grid;
+  gap: 10px;
+}
+.legal-toc a {
+  position: relative;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.legal-toc a:hover,
+.legal-toc a:focus-visible {
+  color: var(--lime);
+}
+.legal-toc a.is-active {
+  color: var(--lime);
+}
+.legal-toc a.is-active::before {
+  content: '';
+  position: absolute;
+  left: -19px;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 2px;
+  border-radius: 99px;
+  background: var(--lime);
+}
+.header-cta .cta-full,
+.header-cta .cta-short {
+  display: inline;
+  line-height: 1;
+}
+.header-cta .cta-short {
+  display: none;
+}
+@media (min-width: 981px) {
+  .legal-toc-summary {
+    display: block;
+    padding: 0;
+    cursor: default;
+    pointer-events: none;
+  }
+  .legal-toc-summary::after {
+    display: none;
+  }
+  .legal-toc-dropdown .legal-toc-nav {
+    display: grid !important;
+  }
+}
+.article-coming-soon {
+  margin-top: 28px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(80, 68, 100, 0.42), rgba(43, 42, 46, 0.96));
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 17px;
+  line-height: 1.5;
+}
+@media (max-width: 980px) {
+  .legal-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .legal-toc {
+    position: static;
+    order: -1;
+    padding: 0;
+    border-left: 0;
+  }
+  .legal-toc-dropdown {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .legal-toc-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+  }
+  .legal-toc-summary::after {
+    content: '';
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    margin-top: -3px;
+    border-right: 2px solid rgba(255, 255, 255, 0.55);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.55);
+    transform: rotate(45deg);
+    transition: transform 0.2s var(--ease);
+  }
+  .legal-toc-dropdown[open] .legal-toc-summary::after {
+    margin-top: 3px;
+    transform: rotate(225deg);
+  }
+  .legal-toc-label {
+    margin: 0;
+  }
+  .legal-toc-current {
+    display: block;
+    margin-left: auto;
+    max-width: 48%;
+    overflow: hidden;
+    color: var(--lime);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .legal-toc-nav {
+    display: grid;
+    gap: 0;
+    padding: 0 8px 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .legal-toc a {
+    padding: 12px 8px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+  .legal-toc a.is-active {
+    background: rgba(235, 255, 87, 0.08);
+  }
+  .legal-toc a.is-active::before {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .legal-page {
+    width: calc(100% - (var(--page-gutter-mobile) * 2));
+    padding: 34px 0 70px;
+  }
+  .legal-header h1 {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+  .legal-section h2 {
+    scroll-margin-top: 84px;
+  }
+  .header-cta .cta-full {
+    display: none;
+  }
+  .header-cta .cta-short {
+    display: inline;
+    line-height: 1;
+  }
+  .site-header .header-actions {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .site-header .mobile-menu-toggle {
+    flex: 0 0 auto;
+  }
+  .site-header .header-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
+    line-height: 1;
+  }
+}
+
+/* Error pages — plain copy, no card chrome. */
+.error-page {
+  width: min(var(--content-max), calc(100% - (var(--page-gutter) * 2)));
+  min-height: calc(100vh - 220px);
+  margin: 0 auto;
+  padding: 48px 0 96px;
+  display: grid;
+  align-content: center;
+}
+.error-copy {
+  max-width: 640px;
+}
+.error-code {
+  margin: 0 0 18px;
+  color: var(--lime);
+  font-size: clamp(64px, 12vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+.error-copy h1 {
+  max-width: 16ch;
+  margin: 0 0 18px;
+  font-size: clamp(34px, 5vw, 52px);
+}
+.error-lead {
+  max-width: 42ch;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-top: 32px;
+}
+@media (max-width: 760px) {
+  .error-page {
+    width: calc(100% - (var(--page-gutter-mobile) * 2));
+    min-height: calc(100vh - 180px);
+    padding: 28px 0 70px;
+  }
+  .error-lead {
+    font-size: 16px;
+  }
+}
+
+/* Consent is intentionally compact and separate from product calls to action. */
+.analytics-consent {
+  position: fixed;
+  z-index: 80;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  width: min(464px, calc(100vw - 44px));
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 14px 16px;
+  padding: 20px;
+  border: 1px solid rgba(235, 255, 87, .38);
+  border-radius: 19px;
+  background: rgba(35, 34, 38, .97);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, .42);
+  backdrop-filter: blur(15px);
+}
+.analytics-consent[hidden] { display: none; }
+.analytics-consent-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--app-lime);
+  font-size: 26px;
+  line-height: 1;
+}
+.analytics-consent-copy h2 {
+  margin: 1px 0 7px;
+  color: var(--text);
+  font-size: 15px;
+  letter-spacing: -.01em;
+}
+.analytics-consent-copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, .68);
+  font-size: 13px;
+  line-height: 1.46;
+}
+.analytics-consent-copy a {
+  color: var(--app-lime);
+  font-size: 12px;
+  font-weight: 600;
+}
+.analytics-consent-copy a { display: inline-block; margin-top: 9px; }
+.analytics-consent-actions {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.analytics-consent-actions button {
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.analytics-consent-reject {
+  border: 1px solid rgba(255, 255, 255, .24);
+  color: rgba(255, 255, 255, .86);
+  background: transparent;
+}
+.analytics-consent-accept {
+  border: 1px solid var(--app-lime);
+  color: var(--ink);
+  background: var(--app-lime);
+}
+.analytics-consent-actions button:hover { transform: translateY(-1px); }
+.analytics-consent-actions button:focus-visible { outline: 2px solid var(--app-lime); outline-offset: 3px; }
+@media (max-width: 560px) {
+  .analytics-consent {
+    left: 16px;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    width: auto;
+    padding: 17px;
+  }
+  .analytics-consent-actions { grid-column: 1 / -1; }
+  .analytics-consent-actions button { flex: 1; }
+}
+/* Editorial reading aids — reusable for every published article. */
