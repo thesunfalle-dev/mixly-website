@@ -89,7 +89,14 @@
 .changelog-release-title span { color: rgba(255,255,255,.6); font-size: 14px; line-height: 1.4; }
 .changelog-release time { color: rgba(255,255,255,.52); font-size: 13px; white-space: nowrap; }
 .changelog-release-body .changelog-permalink { margin: 14px 0 0; font-size: 13px; }
-.changelog-release-body .changelog-permalink a { color: var(--app-lime); text-decoration: none; }
+.changelog-release-body .changelog-permalink a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 0;
+  color: var(--app-lime);
+  text-decoration: none;
+}
 .changelog-release-body .changelog-permalink a:hover { text-decoration: underline; }
 .changelog-page-link { margin: 28px 0 0; }
 .changelog-page-link a { color: var(--app-lime); font-weight: 600; text-decoration: none; }

@@ -56,6 +56,23 @@ Worker version `f2ea5755-52f8-4a17-bcea-4cb5edcfe944` @ 100%.
 
 Remaining lab friction (not blockers): unused CSS / render-blocking `styles.css` (MIX-61), minify CSS/JS, optional hero `srcset`.
 
+## Final pass production scores (2026-07-28, MIX-86)
+
+Lighthouse **13.4.1**, mobile, simulate. Worker `7828f6a7…` / git `cc52931` (+ changelog permalink touch-target CSS).
+
+| Page | Perf | A11y | BP | SEO | LCP | CLS | Notes |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `/` | **88** | **95*** | 100 | 100 | 3.5s | **0** | *permalink touch targets → CSS fix |
+| `/en/` | **81** | **95*** | 100 | 100 | 4.5s | **0** | same |
+| `/blog.html` | **82** | **100** | 100 | 100 | 4.2s | **0** | |
+| `/en/blog/how-to-mix-hookah-tobacco` | **81** | **100** | 100 | 100 | 4.5s | **0** | CLS still 0 post MIX-63 |
+| `/changelog` | **88** | **95*** | 100 | 100 | 3.6s | **0** | |
+| `/privacy.html` | **78** | **100** | 100 | **66** | 4.3s | **0** | SEO low = `noindex` |
+
+vs MIX-63 post-fix: home Perf **80 → 88**, article **78 → 81**, CLS remains **0**. No regressions.
+
+Non-blocking lab items: unminified/render-blocking CSS, image-delivery srcset (~40–80 KB), JS minify.
+
 ## Intentional non-goals
 
 - **Legal SEO score** stays low while pages are `noindex`.
