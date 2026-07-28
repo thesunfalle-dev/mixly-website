@@ -495,8 +495,8 @@ for (const file of localizedArticles) {
 
 for (const name of [
   'assets/blog/kak-pravilno-smeshivat-tabak-hero.webp',
-  'assets/blog/kak-pravilno-smeshivat-tabak-pairings.webp',
-  'assets/blog/kak-pravilno-smeshivat-tabak-proportions.webp',
+  'assets/blog/how-to-mix-pairings.webp',
+  'assets/blog/how-to-mix-proportions.webp',
 ]) {
   if (!existsSync(resolve(root, name))) report(name, 'optimized WebP asset is missing');
 }
