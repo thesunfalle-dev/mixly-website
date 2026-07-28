@@ -47,11 +47,11 @@ const CLUSTERS = [
       de: 'Shisha-Tabak: Mischverhältnisse',
     },
     description: {
-      ru: 'Как подобрать пропорции табака для кальяна: схемы 50/50, 70/30, 80/20 и миксы из трёх вкусов.',
-      en: 'How to mix hookah tobacco in the right ratio: simple 50/50, 70/30, 80/20 and three-flavor examples.',
-      de: 'Shisha-Tabak richtig mischen: einfache Verhältnisse wie 50/50, 70/30, 80/20 und drei Aromen.',
+      ru: 'Пропорции табака для кальяна: 50/50, 70/30, 80/20, 60/30/10, роли вкусов, примеры миксов и как корректировать чашу.',
+      en: 'Hookah tobacco mixing ratios: 50/50, 70/30, 80/20, 60/30/10, flavor roles, starter recipes, and how to adjust a bowl.',
+      de: 'Shisha-Mischverhältnisse: 50/50, 70/30, 80/20, 60/30/10, Rollen der Aromen, Startrezepte und Feintuning.',
     },
-    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-proportions.webp`,
+    image: `${origin}/assets/blog/proportsii-tabaka-hero.webp`,
   },
   {
     id: 'mix-flavors',
@@ -170,6 +170,7 @@ function enrich(cluster, lang) {
   }
   html = upsertLink(html, 'alternate', `${origin}${cluster.paths.en}`, 'x-default');
 
+  html = upsertMeta(html, 'name', 'description', description);
   html = upsertMeta(html, 'property', 'og:title', title);
   html = upsertMeta(html, 'property', 'og:description', description);
   html = upsertMeta(html, 'property', 'og:type', 'article');

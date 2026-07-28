@@ -16,9 +16,9 @@
     {
       paths: { ru: '/ru/blog/proportsii-tabaka-dlya-kalyana', en: '/en/blog/hookah-tobacco-mixing-ratios', de: '/de/blog/shisha-tabak-mischverhaeltnisse' },
       copy: {
-        ru: { title: 'Пропорции табака для кальяна: как смешивать вкусы', excerpt: 'Когда подходят 50/50, 70/30 и 60/30/10 и как не переборщить с акцентом.' },
-        en: { title: 'Hookah Tobacco Mixing Ratios', excerpt: 'When to use 50/50, 70/30 and 60/30/10 without overdoing an accent.' },
-        de: { title: 'Shisha-Tabak: Mischverhältnisse', excerpt: 'Wann 50/50, 70/30 und 60/30/10 sinnvoll sind und wie Akzente dosiert werden.' }
+        ru: { title: 'Пропорции табака для кальяна: как смешивать вкусы', excerpt: 'Схемы 50/50, 70/30, 80/20 и 60/30/10, роли вкусов и корректировка после первой чаши.' },
+        en: { title: 'Hookah Tobacco Mixing Ratios', excerpt: '50/50, 70/30, 80/20 and 60/30/10 schemes, flavor roles, and post-bowl adjustments.' },
+        de: { title: 'Shisha-Tabak: Mischverhältnisse', excerpt: 'Schemata 50/50, 70/30, 80/20 und 60/30/10, Rollen der Aromen und Feintuning.' }
       }
     },
     {
