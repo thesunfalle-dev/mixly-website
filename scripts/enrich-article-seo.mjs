@@ -81,6 +81,16 @@ const BREADCRUMB_COPY = {
   de: { home: 'Start', blog: 'Blog', aria: 'Brotkrumen' },
 };
 
+/** Public home/blog paths per locale (match worker STATIC_REWRITES + locale routes). */
+function localeHomePath(lang) {
+  return lang === 'ru' ? '/' : `/${lang}/`;
+}
+
+function localeBlogPath(lang) {
+  // RU keeps the .html public form used across the site; EN/DE use extensionless routes.
+  return lang === 'ru' ? '/blog.html' : `/${lang}/blog`;
+}
+
 function articleFile(path) {
   return resolve(root, `${path.slice(1)}/index.html`);
 }
@@ -136,7 +146,9 @@ function injectJsonLd(html, blocks) {
 
 function injectBreadcrumb(html, lang, title) {
   const copy = BREADCRUMB_COPY[lang];
-  const nav = `<nav class="breadcrumbs" aria-label="${copy.aria}"><ol><li><a href="/">${copy.home}</a></li><li><a href="/blog.html">${copy.blog}</a></li><li aria-current="page">${escapeAttr(title)}</li></ol></nav>`;
+  const homeHref = localeHomePath(lang);
+  const blogHref = localeBlogPath(lang);
+  const nav = `<nav class="breadcrumbs" aria-label="${copy.aria}"><ol><li><a href="${homeHref}">${copy.home}</a></li><li><a href="${blogHref}">${copy.blog}</a></li><li aria-current="page">${escapeAttr(title)}</li></ol></nav>`;
   // Breadcrumbs replace the old "back to blog" link on article pages.
   html = html.replace(/<a class="back-home"[\s\S]*?<\/a>\s*/i, '');
   html = html.replace(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/i, '');
@@ -180,6 +192,11 @@ function enrich(cluster, lang) {
   html = upsertMeta(html, 'name', 'twitter:title', title);
   html = upsertMeta(html, 'name', 'twitter:description', description);
 
+  const homePath = localeHomePath(lang);
+  const blogPath = localeBlogPath(lang);
+  const homeUrl = `${origin}${homePath}`;
+  const blogUrl = `${origin}${blogPath}`;
+
   const articleLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -205,7 +222,7 @@ function enrich(cluster, lang) {
     isPartOf: {
       '@type': 'Blog',
       name: 'Mixly Blog',
-      url: `${origin}/blog.html`,
+      url: blogUrl,
     },
   };
 
@@ -213,8 +230,8 @@ function enrich(cluster, lang) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: BREADCRUMB_COPY[lang].home, item: `${origin}/` },
-      { '@type': 'ListItem', position: 2, name: BREADCRUMB_COPY[lang].blog, item: `${origin}/blog.html` },
+      { '@type': 'ListItem', position: 1, name: BREADCRUMB_COPY[lang].home, item: homeUrl },
+      { '@type': 'ListItem', position: 2, name: BREADCRUMB_COPY[lang].blog, item: blogUrl },
       { '@type': 'ListItem', position: 3, name: title, item: url },
     ],
   };
