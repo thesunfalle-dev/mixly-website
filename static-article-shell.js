@@ -94,15 +94,87 @@
     else import('/premium-block.js').then(mountPremium).catch(() => {});
   }
 
+  function bindShellInteractions(header) {
+    const menu = document.querySelector('#mobile-menu');
+    const toggle = header.querySelector('.mobile-menu-toggle');
+    const switchRoots = header.querySelectorAll('[data-static-lang-switch], .lang-switch');
+
+    if (toggle && menu && toggle.dataset.shellBound !== '1') {
+      toggle.dataset.shellBound = '1';
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        menu.classList.toggle('is-open', open);
+        menu.setAttribute('aria-hidden', String(!open));
+        document.body.classList.toggle('mobile-menu-open', open);
+      });
+    }
+
+    switchRoots.forEach((root) => {
+      const switchToggle = root.querySelector('.lang-switch-toggle');
+      const switchMenu = root.querySelector('.lang-switch-menu');
+      if (!switchToggle || !switchMenu || switchToggle.dataset.shellBound === '1') return;
+      switchToggle.dataset.shellBound = '1';
+      switchToggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const open = switchToggle.getAttribute('aria-expanded') !== 'true';
+        switchToggle.setAttribute('aria-expanded', String(open));
+        switchMenu.hidden = !open;
+        root.classList.toggle('is-open', open);
+      });
+    });
+
+    if (!document.documentElement.dataset.shellLangBound) {
+      document.documentElement.dataset.shellLangBound = '1';
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-lang]');
+        const current = currentArticle();
+        if (button && current && current.paths[button.dataset.lang]) {
+          event.preventDefault();
+          window.location.assign(current.paths[button.dataset.lang]);
+          return;
+        }
+        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
+        if (
+          openMenu &&
+          !event.target.closest('[data-static-lang-switch]') &&
+          !event.target.closest('.lang-switch')
+        ) {
+          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
+          if (tgl) tgl.setAttribute('aria-expanded', 'false');
+          openMenu.parentElement?.classList.remove('is-open');
+          openMenu.hidden = true;
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        const toggleBtn = document.querySelector('.mobile-menu-toggle[aria-expanded="true"]');
+        if (toggleBtn) toggleBtn.click();
+        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
+        if (openMenu) {
+          openMenu.hidden = true;
+          openMenu.parentElement?.classList.remove('is-open');
+          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
+          if (tgl) {
+            tgl.setAttribute('aria-expanded', 'false');
+            tgl.focus();
+          }
+        }
+      });
+    }
+  }
+
   function ensureShell() {
     const lang = document.documentElement.lang || 'en';
     const copy = COPY[lang] || COPY.en;
-    const article = currentArticle();
     const header = document.querySelector('.site-header');
     const footer = document.querySelector('.site-footer');
     if (!header || !footer) return;
-    // Full static shells (data-shell-static) only need article enhancements.
+
+    // Full static shells already include header/footer markup, but still need
+    // language switch + mobile menu handlers (previously skipped by early return).
     if (header.dataset.shellStatic === 'true' || header.dataset.sharedShell === 'true') {
+      bindShellInteractions(header);
       enhanceArticlePage();
       return;
     }
@@ -121,59 +193,7 @@
     if (!document.querySelector('#mobile-menu')) header.insertAdjacentHTML('afterend', `<aside class="mobile-menu" id="mobile-menu" aria-label="${copy.menuAria}" aria-hidden="true"><nav aria-label="${copy.menuAria}">${link('/#how-it-works', copy.home)}${link('/#features', copy.features)}${link('/#changelog', copy.updates)}${link('/blog.html', copy.blog)}</nav></aside>`);
     if (!footer.querySelector('.footer-main')) footer.innerHTML = `<div class="footer-main"><div class="footer-brand-block"><a class="brand-app footer-brand" href="/">mixly</a><p>Mixly app © 2026</p></div><div class="footer-links"><div><p>${copy.app}</p>${link('/#how-it-works', copy.home)}${link('/#features', copy.features)}${link('/#changelog', copy.updates)}${link('/blog.html', copy.blog)}<a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div><div><p>${copy.docs}</p>${link('/privacy.html', copy.privacy)}${link('/cookies.html', copy.cookies)}${link('/terms.html', copy.terms)}${link('/eula.html', copy.eula)}${link('/support.html', copy.support)}</div></div></div><div class="footer-bottom"><p>${copy.age}</p><p>${copy.tagline}</p></div>`;
 
-    const menu = document.querySelector('#mobile-menu');
-    const toggle = header.querySelector('.mobile-menu-toggle');
-    const switchToggle = header.querySelector('.lang-switch-toggle');
-    const switchMenu = header.querySelector('.lang-switch-menu');
-    if (toggle && menu && toggle.dataset.shellBound !== '1') {
-      toggle.dataset.shellBound = '1';
-      toggle.addEventListener('click', () => {
-        const open = toggle.getAttribute('aria-expanded') !== 'true';
-        toggle.setAttribute('aria-expanded', String(open));
-        menu.classList.toggle('is-open', open);
-        menu.setAttribute('aria-hidden', String(!open));
-        document.body.classList.toggle('mobile-menu-open', open);
-      });
-    }
-    if (switchToggle && switchMenu && switchToggle.dataset.shellBound !== '1') {
-      switchToggle.dataset.shellBound = '1';
-      switchToggle.addEventListener('click', () => {
-        const open = switchToggle.getAttribute('aria-expanded') !== 'true';
-        switchToggle.setAttribute('aria-expanded', String(open));
-        switchMenu.hidden = !open;
-      });
-    }
-    if (!document.documentElement.dataset.shellLangBound) {
-      document.documentElement.dataset.shellLangBound = '1';
-      document.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-lang]');
-        const current = currentArticle();
-        if (button && current && current.paths[button.dataset.lang]) {
-          window.location.assign(current.paths[button.dataset.lang]);
-        }
-        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
-        if (openMenu && !event.target.closest('[data-static-lang-switch]')) {
-          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
-          if (tgl) tgl.setAttribute('aria-expanded', 'false');
-          openMenu.hidden = true;
-        }
-      });
-      document.addEventListener('keydown', (event) => {
-        if (event.key !== 'Escape') return;
-        const toggleBtn = document.querySelector('.mobile-menu-toggle[aria-expanded="true"]');
-        if (toggleBtn) toggleBtn.click();
-        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
-        if (openMenu) {
-          openMenu.hidden = true;
-          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
-          if (tgl) {
-            tgl.setAttribute('aria-expanded', 'false');
-            tgl.focus();
-          }
-        }
-      });
-    }
-
+    bindShellInteractions(header);
     enhanceArticlePage();
   }
 
