@@ -730,7 +730,7 @@ function footer(ui) {
     `<div class="footer-links"><div><p>${esc(ui.app)}</p>${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L('/blog.html', ui.blog)}` +
     `<a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>` +
     `<div><p>${esc(ui.docs)}</p>${L('/privacy.html', ui.privacy)}${L('/cookies.html', ui.cookies)}${L('/terms.html', ui.terms)}${L('/eula.html', ui.eula)}${L('/support.html', ui.support)}</div>` +
-    `<div><p>${esc(ui.socials)}</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener">Threads</a></div></div></div>` +
+    `<div><p>${esc(ui.socials)}</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener">Threads</a></div><div><p>${esc(ui.contacts)}</p><a href="mailto:support@get-mixly.app">support@get-mixly.app</a><a href="https://t.me/getmixly" rel="noopener">Telegram</a></div></div></div>` +
     `<div class="footer-bottom"><p>${esc(ui.age)}</p><p>${esc(ui.tagline)}</p></div></footer>`
   );
 }
