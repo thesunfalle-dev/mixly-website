@@ -14,11 +14,11 @@
       }
     },
     {
-      paths: { ru: '/ru/blog/proportsii-tabaka-dlya-kalyana', en: '/en/blog/hookah-tobacco-mixing-ratios', de: '/de/blog/shisha-tabak-mischverhaeltnisse' },
+      paths: { ru: '/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih', en: '/en/blog/beginner-hookah-mix-recipes', de: '/de/blog/shisha-mischungen-fuer-einsteiger' },
       copy: {
-        ru: { title: 'Пропорции табака для кальяна: как смешивать вкусы', excerpt: 'Схемы 50/50, 70/30, 80/20 и 60/30/10, роли вкусов и корректировка после первой чаши.' },
-        en: { title: 'Hookah Tobacco Mixing Ratios', excerpt: '50/50, 70/30, 80/20 and 60/30/10 schemes, flavor roles, and post-bowl adjustments.' },
-        de: { title: 'Shisha-Tabak: Mischverhältnisse', excerpt: 'Schemata 50/50, 70/30, 80/20 und 60/30/10, Rollen der Aromen und Feintuning.' }
+        ru: { title: 'Миксы для кальяна для начинающих: готовые рецепты', excerpt: '12 простых рецептов с долями: фруктовые, свежие, ягодные и десертные миксы.' },
+        en: { title: 'Beginner Hookah Mix Recipes', excerpt: '12 simple share-based recipes: fruit, fresh, berry, and dessert starter mixes.' },
+        de: { title: 'Shisha-Mischungen für Einsteiger: fertige Rezepte', excerpt: '12 einfache Rezepte mit Anteilen: fruchtig, frisch, beerenig und dessertig.' }
       }
     },
     {

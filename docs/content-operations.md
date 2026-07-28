@@ -55,7 +55,7 @@ Cloudflare хранит предыдущие Worker versions — это rollback
 3. Проверить старый URL, новый URL и все локализованные варианты на preview.
 4. Сохранять redirect бессрочно, если для его удаления не принято отдельное SEO-решение. Не удалять его одновременно с миграцией.
 
-Опубликованные кластеры (2026-07): mixing guide, ratios, flavor combinations — по три локали каждый.
+Опубликованные кластеры (2026-07): mixing guide, beginner recipes, flavor combinations — по три локали каждый.
 `article.html` остаётся `noindex` шаблоном и не входит в sitemap.
 
 ### Учебное восстановление

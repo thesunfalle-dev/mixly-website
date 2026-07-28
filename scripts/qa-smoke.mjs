@@ -24,9 +24,9 @@ const paths = [
   '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
   '/en/blog/how-to-mix-hookah-tobacco',
   '/de/blog/wie-man-shisha-tabak-richtig-mischt',
-  '/ru/blog/proportsii-tabaka-dlya-kalyana',
+  '/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih',
   '/en/blog/hookah-flavor-combinations',
-  '/de/blog/shisha-tabak-mischverhaeltnisse',
+  '/de/blog/shisha-mischungen-fuer-einsteiger',
   '/robots.txt',
   '/sitemap.xml',
 ];

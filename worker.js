@@ -64,9 +64,18 @@ const ARTICLE_REWRITES = {
   '/ru/blog/sochetaniya-vkusov-dlya-kalyana': '/ru/blog/sochetaniya-vkusov-dlya-kalyana/index.html',
   '/en/blog/hookah-flavor-combinations': '/en/blog/hookah-flavor-combinations/index.html',
   '/de/blog/shisha-geschmackskombinationen': '/de/blog/shisha-geschmackskombinationen/index.html',
-  '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/proportsii-tabaka-dlya-kalyana/index.html',
-  '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/hookah-tobacco-mixing-ratios/index.html',
-  '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-tabak-mischverhaeltnisse/index.html',
+  '/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih':
+    '/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih/index.html',
+  '/en/blog/beginner-hookah-mix-recipes': '/en/blog/beginner-hookah-mix-recipes/index.html',
+  '/de/blog/shisha-mischungen-fuer-einsteiger':
+    '/de/blog/shisha-mischungen-fuer-einsteiger/index.html',
+};
+
+// Permanent redirects for retired article slugs (keep indefinitely for SEO).
+const ARTICLE_REDIRECTS = {
+  '/ru/blog/proportsii-tabaka-dlya-kalyana': '/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih',
+  '/en/blog/hookah-tobacco-mixing-ratios': '/en/blog/beginner-hookah-mix-recipes',
+  '/de/blog/shisha-tabak-mischverhaeltnisse': '/de/blog/shisha-mischungen-fuer-einsteiger',
 };
 
 function barePath(pathname) {
@@ -114,6 +123,13 @@ function withSecurityHeaders(response, requestUrl) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const bare = barePath(url.pathname);
+    const redirectTo = ARTICLE_REDIRECTS[bare];
+    if (redirectTo && redirectTo !== bare) {
+      const target = new URL(redirectTo, url);
+      target.search = url.search;
+      return withSecurityHeaders(Response.redirect(target.toString(), 301), url);
+    }
     const assetPath = resolveAssetPath(url.pathname);
     const assetRequest = assetPath
       ? new Request(new URL(assetPath, url), request)

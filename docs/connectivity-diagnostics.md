@@ -15,7 +15,7 @@ From a European network (Cloudflare edge `WAW`):
 | `/privacy.html` | 200 | HIT | OK |
 | `/terms.html` | 200 | HIT | OK |
 | `/share.html?mix=test&preview=1` | 200 | HIT | OK (may 307 to `/share`) |
-| `/ru/blog/proportsii-tabaka-dlya-kalyana` | 200 | HIT | OK |
+| `/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih` | 200 | HIT | OK |
 | `/en/blog/how-to-mix-hookah-tobacco` | 200 | HIT | OK |
 
 DNS (public resolvers):
