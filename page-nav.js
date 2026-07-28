@@ -46,9 +46,12 @@
   };
 
   const closeDialogs = () => {
-    document.querySelectorAll('dialog[open]').forEach((dialog) => {
+    // Close every dialog (open or not) so a removed/stale modal cannot leave
+    // the document inert and make the fixed header unclickable after SPA hops.
+    document.querySelectorAll('dialog').forEach((dialog) => {
       try {
-        dialog.close();
+        if (dialog.open) dialog.close();
+        else dialog.removeAttribute('open');
       } catch (_) {
         dialog.removeAttribute('open');
       }

@@ -126,20 +126,11 @@
   }
 
   function bindShellInteractions(header) {
-    const menu = document.querySelector('#mobile-menu');
-    const toggle = header.querySelector('.mobile-menu-toggle');
     const switchRoots = header.querySelectorAll('[data-static-lang-switch], .lang-switch');
 
-    if (toggle && menu && toggle.dataset.shellBound !== '1') {
-      toggle.dataset.shellBound = '1';
-      toggle.addEventListener('click', () => {
-        const open = toggle.getAttribute('aria-expanded') !== 'true';
-        toggle.setAttribute('aria-expanded', String(open));
-        menu.classList.toggle('is-open', open);
-        menu.setAttribute('aria-hidden', String(!open));
-        document.body.classList.toggle('mobile-menu-open', open);
-      });
-    }
+    // Mobile menu open/close is owned exclusively by page-nav.js (capture-phase
+    // document listener). Binding a second toggle here double-fires after SPA
+    // article hops and cancels the open state — header controls look dead.
 
     switchRoots.forEach((root) => {
       const switchToggle = root.querySelector('.lang-switch-toggle');
@@ -179,8 +170,18 @@
       });
       document.addEventListener('keydown', (event) => {
         if (event.key !== 'Escape') return;
-        const toggleBtn = document.querySelector('.mobile-menu-toggle[aria-expanded="true"]');
-        if (toggleBtn) toggleBtn.click();
+        // Prefer page-nav reset so scroll-lock / menu state stay consistent.
+        if (window.MixlyPageNav?.closeMobileMenu) {
+          window.MixlyPageNav.closeMobileMenu({ restoreFocus: true });
+        } else {
+          const toggleBtn = document.querySelector('.mobile-menu-toggle[aria-expanded="true"]');
+          if (toggleBtn) {
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            document.querySelector('#mobile-menu')?.classList.remove('is-open');
+            document.querySelector('#mobile-menu')?.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('mobile-menu-open');
+          }
+        }
         const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
         if (openMenu) {
           openMenu.hidden = true;
