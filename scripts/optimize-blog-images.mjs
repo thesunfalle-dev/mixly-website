@@ -7,8 +7,8 @@ import sharp from 'sharp';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const files = [
   'assets/blog/kak-pravilno-smeshivat-tabak-hero.webp',
-  'assets/blog/kak-pravilno-smeshivat-tabak-pairings.webp',
-  'assets/blog/kak-pravilno-smeshivat-tabak-proportions.webp',
+  'assets/blog/how-to-mix-pairings.webp',
+  'assets/blog/how-to-mix-proportions.webp',
 ];
 
 for (const relative of files) {
