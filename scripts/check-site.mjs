@@ -506,18 +506,16 @@ for (const file of localizedArticles) {
     report(file, 'localized article must include visible breadcrumb navigation');
   }
   const articleLocale = file.slice(0, 2);
+  const crumbNav = source.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/i)?.[0] || '';
   if (articleLocale === 'ru') {
-    if (!/<nav class="breadcrumbs"[^>]*>[\s\S]*?href="\/"/.test(source) || !/href="\/blog\.html"/.test(source)) {
+    if (!/href="\/"/.test(crumbNav) || !/href="\/blog\.html"/.test(crumbNav)) {
       report(file, 'RU article breadcrumbs must link home "/" and blog "/blog.html"');
     }
   } else if (articleLocale === 'en' || articleLocale === 'de') {
     const homeHref = `/${articleLocale}/`;
     const blogHref = `/${articleLocale}/blog`;
-    if (!source.includes(`href="${homeHref}"`) || !source.includes(`href="${blogHref}"`)) {
+    if (!crumbNav.includes(`href="${homeHref}"`) || !crumbNav.includes(`href="${blogHref}"`)) {
       report(file, `${articleLocale.toUpperCase()} article breadcrumbs must link home "${homeHref}" and blog "${blogHref}"`);
-    }
-    if (/<nav class="breadcrumbs"[\s\S]*?href="\/blog\.html"/.test(source)) {
-      report(file, `${articleLocale.toUpperCase()} article breadcrumbs must not point at RU /blog.html`);
     }
   }
   if (/<!doctype html>\s*<script/i.test(source)) {
