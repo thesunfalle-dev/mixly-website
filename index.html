@@ -55,7 +55,7 @@
         })();
         window.__mixlyInitialLocale = initialLocale;
         window.__mixlySetLocalizedImage = (image) => {
-          const files = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.png', 'shot.lab': 'Lab.png' };
+          const files = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.webp', 'shot.lab': 'Lab.webp' };
           const file = files[image && image.getAttribute('data-i18n-src')];
           // Root-absolute paths — relative ./ breaks under /en/ and /de/.
           if (file) image.src = `/images_for_web/${initialLocale.toUpperCase()}/${file}`;
@@ -97,7 +97,7 @@
             "@id": "https://get-mixly.app/#website",
             "url": "https://get-mixly.app/",
             "name": "Mixly",
-            "description": "Mixly — hookah / shisha mix app: find, save and build flavor combinations.",
+            "description": "Mixly, приложение, которое помогает находить и собирать кальянные миксы под любимые бренды, вкусы и крепость.",
             "publisher": { "@id": "https://get-mixly.app/#organization" },
             "inLanguage": ["ru", "en", "de"]
           },
@@ -274,7 +274,7 @@
           <div class="discovery-orbit discovery-orbit-purple" aria-hidden="true"></div>
           <div class="discovery-orbit discovery-orbit-lime" aria-hidden="true"></div>
           <figure class="app-shot discovery-shot">
-            <img width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" src="/images_for_web/RU/Discovery.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
+            <img width="414" height="900" data-i18n-src="shot.discovery" data-i18n-alt="discovery.shotAlt" alt="Реальный экран «Открытия» в приложении Mixly" loading="lazy" decoding="async" src="/images_for_web/RU/Discovery.webp"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
           </figure>
         </div>
       </section>
@@ -294,7 +294,7 @@
           <div class="labs-orbit labs-orbit-lime" aria-hidden="true"></div>
           <div class="labs-orbit labs-orbit-peach" aria-hidden="true"></div>
           <figure class="app-shot labs-shot">
-            <img width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" src="/images_for_web/RU/Lab.png"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
+            <img width="414" height="900" data-i18n-src="shot.lab" data-i18n-alt="labs.shotAlt" alt="Реальный экран Mixly с карточкой сочетания" loading="lazy" decoding="async" src="/images_for_web/RU/Lab.webp"><script>window.__mixlySetLocalizedImage(document.currentScript.previousElementSibling);</script>
           </figure>
         </div>
       </section>
@@ -308,14 +308,205 @@
           <p data-i18n="changelog.lead">Собрали изменения, которые делают поиск, сохранение и обмен миксами удобнее.</p>
         </div>
         <div class="changelog-list" data-i18n-aria="changelog.listAria" aria-label="История обновлений Mixly">
-          <details class="changelog-release" open>
+          <details class="changelog-release" id="v1-0-5" open>
             <summary>
-              <span class="changelog-release-title"><strong data-i18n="changelog.v105.version">Версия 1.0.5</strong><span data-i18n="changelog.v105.summary">Быстрее начинай знакомство с Mixly.</span></span>
-              <time datetime="2026-07-14" data-i18n="changelog.v105.date">14 июля</time>
+              <span class="changelog-release-title"><strong>Версия 1.0.5</strong><span>Быстрее начинай знакомство с Mixly.</span></span>
+              <time datetime="2026-07-14">14 июля 2026</time>
               <span class="changelog-toggle-icon" aria-hidden="true"></span>
             </summary>
-            <div class="changelog-release-body"><ul><li data-i18n="changelog.v105.1">Обновили онбординг, чтобы начать было проще и быстрее.</li><li data-i18n="changelog.v105.2">Улучшили навигацию онбординга, сохранение предпочтений и переходы между экранами.</li><li data-i18n="changelog.v105.3">Исправили мелкие ошибки и повысили стабильность приложения.</li></ul></div>
+            <div class="changelog-release-body">
+              <ul><li>Обновили онбординг, чтобы начать было проще и быстрее.</li><li>Улучшили навигацию онбординга, сохранение предпочтений и переходы между экранами.</li><li>Исправили мелкие ошибки и повысили стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-5">Ссылка на версию 1.0.5</a></p>
+            </div>
           </details>
+          <details class="changelog-release" id="v1-0-4">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.4</strong><span>Стало проще начать, открывать миксы и делиться ими.</span></span>
+              <time datetime="2026-07-13">13 июля 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили создание профиля через «Войти с Apple».</li><li>Улучшили онбординг, чтобы быстрее настроить предпочтения.</li><li>Сделали персонализацию миксов точнее под твой вкус.</li><li>Обновили карточки для более наглядного обмена миксами.</li><li>Улучшили «Открытия»: миксы сообщества, реакции, отзывы и стабильность карточек.</li><li>Исправили ошибки и повысили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-4">Ссылка на версию 1.0.4</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-3">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.3</strong><span>Улучшили обмен, «Открытия» и стабильность.</span></span>
+              <time datetime="2026-06-10">10 июня 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Сделали карточки для обмена миксами понятнее и нагляднее.</li><li>Теперь карточками проще делиться с друзьями.</li><li>Добавили в «Открытия» миксы сообщества, реакции и отзывы.</li><li>Сделали карточки в «Открытиях» стабильнее и единообразнее.</li><li>Исправили ошибки и улучшили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-3">Ссылка на версию 1.0.3</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-2">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.2</strong><span>Открывать и делиться миксами стало проще.</span></span>
+              <time datetime="2026-05-29">29 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили «Открытия» — раздел с миксами сообщества, реакциями и отзывами.</li><li>Улучшили обмен миксами и диплинки, чтобы переходы по общим миксам работали плавнее.</li><li>Обновили инструменты Лаборатории для создания и управления своими миксами.</li><li>Улучшили названия, описания и локализацию миксов.</li><li>Исправили ошибки и повысили стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-2">Ссылка на версию 1.0.2</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-1">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.1</strong><span>Новая функция: Лаборатория.</span></span>
+              <time datetime="2026-05-11">11 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили Лабораторию: создай домашнюю коллекцию табаков и сохраняй собственные миксы.</li><li>Улучшили стабильность и производительность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-1">Ссылка на версию 1.0.1</a></p>
+            </div>
+          </details>
+        </div>
+        <p class="changelog-page-link"><a href="/changelog">Все обновления</a></p>
+        </details>
+          <details class="changelog-release" id="v1-0-4">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.4</strong><span>Стало проще начать, открывать миксы и делиться ими.</span></span>
+              <time datetime="2026-07-13">13 июля 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили создание профиля через «Войти с Apple».</li><li>Улучшили онбординг, чтобы быстрее настроить предпочтения.</li><li>Сделали персонализацию миксов точнее под твой вкус.</li><li>Обновили карточки для более наглядного обмена миксами.</li><li>Улучшили «Открытия»: миксы сообщества, реакции, отзывы и стабильность карточек.</li><li>Исправили ошибки и повысили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-4">Ссылка на версию 1.0.4</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-3">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.3</strong><span>Улучшили обмен, «Открытия» и стабильность.</span></span>
+              <time datetime="2026-06-10">10 июня 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Сделали карточки для обмена миксами понятнее и нагляднее.</li><li>Теперь карточками проще делиться с друзьями.</li><li>Добавили в «Открытия» миксы сообщества, реакции и отзывы.</li><li>Сделали карточки в «Открытиях» стабильнее и единообразнее.</li><li>Исправили ошибки и улучшили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-3">Ссылка на версию 1.0.3</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-2">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.2</strong><span>Открывать и делиться миксами стало проще.</span></span>
+              <time datetime="2026-05-29">29 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили «Открытия» — раздел с миксами сообщества, реакциями и отзывами.</li><li>Улучшили обмен миксами и диплинки, чтобы переходы по общим миксам работали плавнее.</li><li>Обновили инструменты Лаборатории для создания и управления своими миксами.</li><li>Улучшили названия, описания и локализацию миксов.</li><li>Исправили ошибки и повысили стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-2">Ссылка на версию 1.0.2</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-1">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.1</strong><span>Новая функция: Лаборатория.</span></span>
+              <time datetime="2026-05-11">11 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили Лабораторию: создай домашнюю коллекцию табаков и сохраняй собственные миксы.</li><li>Улучшили стабильность и производительность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-1">Ссылка на версию 1.0.1</a></p>
+            </div>
+          </details>
+        </div>
+        <p class="changelog-page-link"><a href="/changelog">Все обновления</a></p>
+        </details>
+          <details class="changelog-release" id="v1-0-4">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.4</strong><span>Стало проще начать, открывать миксы и делиться ими.</span></span>
+              <time datetime="2026-07-13">13 июля 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили создание профиля через «Войти с Apple».</li><li>Улучшили онбординг, чтобы быстрее настроить предпочтения.</li><li>Сделали персонализацию миксов точнее под твой вкус.</li><li>Обновили карточки для более наглядного обмена миксами.</li><li>Улучшили «Открытия»: миксы сообщества, реакции, отзывы и стабильность карточек.</li><li>Исправили ошибки и повысили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-4">Ссылка на версию 1.0.4</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-3">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.3</strong><span>Улучшили обмен, «Открытия» и стабильность.</span></span>
+              <time datetime="2026-06-10">10 июня 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Сделали карточки для обмена миксами понятнее и нагляднее.</li><li>Теперь карточками проще делиться с друзьями.</li><li>Добавили в «Открытия» миксы сообщества, реакции и отзывы.</li><li>Сделали карточки в «Открытиях» стабильнее и единообразнее.</li><li>Исправили ошибки и улучшили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-3">Ссылка на версию 1.0.3</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-2">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.2</strong><span>Открывать и делиться миксами стало проще.</span></span>
+              <time datetime="2026-05-29">29 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили «Открытия» — раздел с миксами сообщества, реакциями и отзывами.</li><li>Улучшили обмен миксами и диплинки, чтобы переходы по общим миксам работали плавнее.</li><li>Обновили инструменты Лаборатории для создания и управления своими миксами.</li><li>Улучшили названия, описания и локализацию миксов.</li><li>Исправили ошибки и повысили стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-2">Ссылка на версию 1.0.2</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-1">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.1</strong><span>Новая функция: Лаборатория.</span></span>
+              <time datetime="2026-05-11">11 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили Лабораторию: создай домашнюю коллекцию табаков и сохраняй собственные миксы.</li><li>Улучшили стабильность и производительность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-1">Ссылка на версию 1.0.1</a></p>
+            </div>
+          </details>
+        </div>
+        <p class="changelog-page-link"><a href="/changelog">Все обновления</a></p>
+        </details>
+          <details class="changelog-release" id="v1-0-4">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.4</strong><span>Стало проще начать, открывать миксы и делиться ими.</span></span>
+              <time datetime="2026-07-13">13 июля 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили создание профиля через «Войти с Apple».</li><li>Улучшили онбординг, чтобы быстрее настроить предпочтения.</li><li>Сделали персонализацию миксов точнее под твой вкус.</li><li>Обновили карточки для более наглядного обмена миксами.</li><li>Улучшили «Открытия»: миксы сообщества, реакции, отзывы и стабильность карточек.</li><li>Исправили ошибки и повысили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-4">Ссылка на версию 1.0.4</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-3">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.3</strong><span>Улучшили обмен, «Открытия» и стабильность.</span></span>
+              <time datetime="2026-06-10">10 июня 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Сделали карточки для обмена миксами понятнее и нагляднее.</li><li>Теперь карточками проще делиться с друзьями.</li><li>Добавили в «Открытия» миксы сообщества, реакции и отзывы.</li><li>Сделали карточки в «Открытиях» стабильнее и единообразнее.</li><li>Исправили ошибки и улучшили общую стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-3">Ссылка на версию 1.0.3</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-2">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.2</strong><span>Открывать и делиться миксами стало проще.</span></span>
+              <time datetime="2026-05-29">29 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили «Открытия» — раздел с миксами сообщества, реакциями и отзывами.</li><li>Улучшили обмен миксами и диплинки, чтобы переходы по общим миксам работали плавнее.</li><li>Обновили инструменты Лаборатории для создания и управления своими миксами.</li><li>Улучшили названия, описания и локализацию миксов.</li><li>Исправили ошибки и повысили стабильность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-2">Ссылка на версию 1.0.2</a></p>
+            </div>
+          </details>
+          <details class="changelog-release" id="v1-0-1">
+            <summary>
+              <span class="changelog-release-title"><strong>Версия 1.0.1</strong><span>Новая функция: Лаборатория.</span></span>
+              <time datetime="2026-05-11">11 мая 2026</time>
+              <span class="changelog-toggle-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="changelog-release-body">
+              <ul><li>Добавили Лабораторию: создай домашнюю коллекцию табаков и сохраняй собственные миксы.</li><li>Улучшили стабильность и производительность приложения.</li></ul>
+              <p class="changelog-permalink"><a href="/changelog#v1-0-1">Ссылка на версию 1.0.1</a></p>
+            </div>
+          </details>
+        </div>
+        <p class="changelog-page-link"><a href="/changelog">Все обновления</a></p>
+        </details>
           <details class="changelog-release">
             <summary>
               <span class="changelog-release-title"><strong data-i18n="changelog.v104.version">Версия 1.0.4</strong><span data-i18n="changelog.v104.summary">Стало проще начать, открывать миксы и делиться ими.</span></span>
@@ -364,7 +555,7 @@
         </div>
         <div class="blog-preview-grid" data-i18n-aria="journal.gridAria" aria-label="Последние статьи">
           <article class="blog-featured">
-            <a class="blog-card-link" href="/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana" data-i18n-href="blog.card.first.href" data-i18n-aria="blog.card.first.aria" aria-label="Как правильно смешивать табак для кальяна">
+            <a class="blog-card-link" href="/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana" data-i18n-href="blog.card.first.href">
               <p class="article-meta" data-i18n="blog.card.first.meta">ПРАКТИКА · 4 МИН</p>
               <h3 data-i18n="blog.card.first.title">Как правильно смешивать табак для кальяна</h3>
               <p class="article-excerpt" data-i18n="blog.card.first.excerpt">Базовые пропорции, сочетания вкусов и понятный алгоритм первого микса.</p>
@@ -372,7 +563,7 @@
             </a>
           </article>
           <article class="blog-featured">
-            <a class="blog-card-link" href="/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih" data-i18n-href="blog.card.ratios.href" data-i18n-aria="blog.card.ratios.aria" aria-label="Миксы для кальяна для начинающих: готовые рецепты">
+            <a class="blog-card-link" href="/ru/blog/miksy-dlya-kalyana-dlya-nachinayushchih" data-i18n-href="blog.card.ratios.href">
               <p class="article-meta" data-i18n="blog.card.ratios.meta">ПРАКТИКА · 4 МИН</p>
               <h3 data-i18n="blog.card.ratios.title">Миксы для кальяна для начинающих: готовые рецепты</h3>
               <p class="article-excerpt" data-i18n="blog.card.ratios.excerpt">12 простых рецептов с долями: фруктовые, свежие, ягодные и десертные миксы.</p>
@@ -380,7 +571,7 @@
             </a>
           </article>
           <article class="blog-featured">
-            <a class="blog-card-link" href="/ru/blog/sochetaniya-vkusov-dlya-kalyana" data-i18n-href="blog.card.combinations.href" data-i18n-aria="blog.card.combinations.aria" aria-label="Сочетания вкусов для кальяна: что с чем смешивать">
+            <a class="blog-card-link" href="/ru/blog/sochetaniya-vkusov-dlya-kalyana" data-i18n-href="blog.card.combinations.href">
               <p class="article-meta" data-i18n="blog.card.combinations.meta">ПРАКТИКА · 9 МИН</p>
               <h3 data-i18n="blog.card.combinations.title">Сочетания вкусов для кальяна: что с чем смешивать</h3>
               <p class="article-excerpt" data-i18n="blog.card.combinations.excerpt">Как сочетать фрукты, ягоды, цитрусы, свежие и десертные вкусы.</p>

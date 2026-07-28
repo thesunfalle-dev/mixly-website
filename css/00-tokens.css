@@ -1,0 +1,65 @@
+/* === 00-tokens.css === */
+:root {
+  --bg: #29282b;
+  --surface: #343436;
+  --lime: #ebff57;
+  --mint: #2df8c5;
+  --text: #fff;
+  --muted: #a5a5a5;
+  --line: rgba(255,255,255,.12);
+  --page-max: 1180px;
+  --page-gutter: 32px;
+  --page-gutter-mobile: 20px;
+  --content-max: 1116px; /* page-max minus left/right gutters */
+  --space-section: 112px;
+  --space-section-mobile: 76px;
+  --space-kicker-title: 16px;
+  --space-title-copy: 22px;
+  --space-heading-content: 42px;
+}
+
+/* Keep same-origin document navigations continuous when the browser supports
+   cross-document View Transitions. The fallback is ordinary native navigation. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Soft affordance while SPA navigation fetch is in flight (MIX-10). */
+html[data-nav-pending='1'] {
+  cursor: progress;
+}
+html[data-nav-pending='1'] body {
+  cursor: progress;
+}
+
+::view-transition-group(root) {
+  animation-duration: 180ms;
+  animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+::view-transition-old(root) {
+  animation: mixly-page-out 120ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: mixly-page-in 180ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes mixly-page-out {
+  to { opacity: 0; }
+}
+
+@keyframes mixly-page-in {
+  from { opacity: 0; }
+}
+/* A late font swap changes line wrapping and moves the entire page. Preloaded
+   fonts still appear immediately in normal conditions; on a slow connection
+   the browser keeps its first stable font instead of reflowing after paint. */
+@font-face { font-family: 'MixlyMontserrat'; src: url('./assets/Montserrat_400Regular.woff2') format('woff2'); font-style: normal; font-weight: 400; font-display: optional; }
+@font-face { font-family: 'MixlyMontserrat'; src: url('./assets/Montserrat_500Medium.woff2') format('woff2'); font-style: normal; font-weight: 500; font-display: optional; }
+@font-face { font-family: 'MixlyMontserrat'; src: url('./assets/Montserrat_600SemiBold.woff2') format('woff2'); font-style: normal; font-weight: 600; font-display: optional; }
+@font-face { font-family: 'MixlyMontserrat'; src: url('./assets/Montserrat_700Bold.woff2') format('woff2'); font-style: normal; font-weight: 700; font-display: optional; }
+* { box-sizing: border-box; }
+html { overflow-x: hidden; scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: 'MixlyMontserrat', Montserrat, Inter, Arial, sans-serif; line-height: 1.45; }
+a { color: inherit; text-decoration: none; }

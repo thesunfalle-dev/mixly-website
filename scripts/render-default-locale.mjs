@@ -63,7 +63,7 @@ function replaceLocalizedAttributes(source) {
     if (altKey in strings) tag = setAttribute(tag, 'alt', strings[altKey]);
     if (hrefKey in strings) tag = setAttribute(tag, 'href', strings[hrefKey]);
     if (imageKey) {
-      const image = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.png', 'shot.lab': 'Lab.png' }[imageKey];
+      const image = { 'shot.main1': 'main_1.webp', 'shot.main2': 'main_2.webp', 'shot.discovery': 'Discovery.webp', 'shot.lab': 'Lab.webp' }[imageKey];
       if (image) tag = setAttribute(tag, 'src', `/images_for_web/${locale.toUpperCase()}/${image}`);
     }
     return tag;

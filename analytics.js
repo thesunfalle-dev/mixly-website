@@ -50,7 +50,8 @@
   function contentType() {
     if (document.body.dataset.errorPage) return 'error';
     const path = location.pathname.toLowerCase();
-    if (path.endsWith('/blog.html')) return 'blog';
+    if (path.endsWith('/blog.html') || /\/blog\/?$/.test(path)) return 'blog';
+    if (path.endsWith('/changelog.html') || /\/changelog\/?$/.test(path)) return 'home';
     if (/^\/(?:ru|en|de)\/blog\/[a-z0-9-]{1,64}\/?$/.test(path)) return 'article';
     if (path.endsWith('/article.html')) return 'article';
     if (/\/(privacy|terms|eula|support)\.html$/.test(path)) return 'legal';

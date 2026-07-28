@@ -29,7 +29,10 @@
       figure.classList.add('is-zoomable');
       figure.setAttribute('tabindex', '0');
       figure.setAttribute('role', 'button');
-      figure.setAttribute('aria-label', 'Open full-screen image: ' + (image.alt || 'article image'));
+      var caption = (figure.querySelector('figcaption') && figure.querySelector('figcaption').textContent || '').trim();
+      var label = 'Open full-screen image: ' + (image.alt || 'article image');
+      if (caption && label.indexOf(caption) === -1) label += '. ' + caption;
+      figure.setAttribute('aria-label', label);
       function openLightbox() {
         lastTrigger = figure;
         preview.src = image.currentSrc || image.src;
