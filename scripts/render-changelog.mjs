@@ -76,14 +76,17 @@ function injectHomeList(html, locale) {
           ${list}
         </div>
         <p class="changelog-page-link"><a href="${escapeHtml(path)}">${escapeHtml(cta)}</a></p>`;
-  const next = html.replace(
-    /<div class="changelog-list"[\s\S]*?<\/div>\s*(?:<p class="changelog-page-link">[\s\S]*?<\/p>\s*)?/,
-    `${replacement}\n        `
-  );
-  if (next === html) {
+  // Replace from the first .changelog-list through everything before the section close,
+  // including trailing whitespace so re-runs stay idempotent.
+  // Do not use a non-greedy match up to the first </div>: that stops at
+  // .changelog-release-body and leaves orphaned release copies (MIX-83).
+  // Note: when content is already correct, replace is a no-op (next === html);
+  // detect failure by testing the pattern, not by string inequality.
+  const pattern = /<div class="changelog-list"[\s\S]*?\s*(?=<\/section>)/;
+  if (!pattern.test(html)) {
     throw new Error(`Could not inject changelog list into home for locale ${locale}`);
   }
-  return next;
+  return html.replace(pattern, `${replacement}\n      `);
 }
 
 function pageHtml(locale) {
