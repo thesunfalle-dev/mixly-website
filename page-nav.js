@@ -71,6 +71,11 @@
       'scroll-pinned',
       'i18n-pending'
     );
+    // Modal dialogs and older SPA leftovers can leave inert on ancestors and
+    // make the fixed header (language switch included) ignore pointer events.
+    document.querySelectorAll('[inert]').forEach((node) => {
+      node.removeAttribute('inert');
+    });
   };
 
   const closeMobileMenu = ({ restoreFocus = false } = {}) => {
@@ -152,6 +157,26 @@
     if (ready()) return Promise.resolve();
     if (scriptLoads.has(src)) return scriptLoads.get(src);
     const load = new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        // Script tag already in the document (e.g. deferred on article pages).
+        if (ready()) {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', () => resolve(), { once: true });
+        existing.addEventListener(
+          'error',
+          () => reject(new Error(`Could not load ${src}`)),
+          { once: true }
+        );
+        // If the script already finished loading before we attached listeners,
+        // ready() should flip on the next microtask after execution.
+        queueMicrotask(() => {
+          if (ready()) resolve();
+        });
+        return;
+      }
       const script = document.createElement('script');
       script.src = src;
       script.onload = resolve;
@@ -166,7 +191,11 @@
   const isLegalDoc = (doc) => Boolean(doc.body && doc.body.hasAttribute('data-legal-doc'));
 
   const preparePageRuntime = async (incoming) => {
-    const tasks = [];
+    const tasks = [
+      // Language switch lives in the body. After a cold article load, i18n.js
+      // was never present; without loading it here, home/blog switchers stay dead.
+      loadScript('/i18n.js', () => Boolean(window.MixlyI18n)),
+    ];
     if (isArticleDoc(incoming)) {
       tasks.push(
         loadScript('/toc-pin.js', () => Boolean(window.MixlyTocPin)),
@@ -177,7 +206,6 @@
     }
     if (isLegalDoc(incoming)) {
       tasks.push(
-        loadScript('/i18n.js', () => Boolean(window.MixlyI18n)),
         loadScript('/scroll-nav.js', () => Boolean(window.MixlyScrollNav)),
         loadScript('/toc-pin.js', () => Boolean(window.MixlyTocPin)),
         loadScript('/legal-content.js', () => Boolean(window.LEGAL_DOCS)),
@@ -242,6 +270,11 @@
     executeInlineScripts();
     mountPageRuntime();
     mountOptionalBlocks();
+    // Re-bind after article/legal mounts so any shell-injected controls work too.
+    if (window.MixlyI18n) {
+      window.MixlyI18n.bindSwitchers?.();
+      window.MixlyI18n.syncSwitchers?.(window.MixlyI18n.detectLocale());
+    }
     resetUiState();
     requestAnimationFrame(() => scrollToDestination(url));
   };

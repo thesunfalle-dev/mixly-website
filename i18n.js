@@ -916,8 +916,13 @@ var ARTICLES = {
     applySocialLinks(lang);
   }
 
+  function switcherRoots() {
+    // Articles historically used data-static-lang-switch; bind both until fully unified.
+    return document.querySelectorAll('[data-lang-switch], [data-static-lang-switch]');
+  }
+
   function syncSwitchers(lang) {
-    document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
+    switcherRoots().forEach(function (root) {
       var toggle = root.querySelector('.lang-switch-toggle');
       if (toggle) {
         toggle.textContent = LABELS[lang] || lang.toUpperCase();
@@ -970,7 +975,7 @@ var ARTICLES = {
   }
 
   function closeAllMenus(except, returnFocus) {
-    document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
+    switcherRoots().forEach(function (root) {
       if (except && root === except) return;
       var wasOpen = root.classList.contains('is-open');
       root.classList.remove('is-open');
@@ -985,15 +990,16 @@ var ARTICLES = {
   var documentSwitchersBound = false;
 
   function bindSwitchers() {
-    // Idempotent: SPA body swap replaces [data-lang-switch] nodes, so this must
-    // be safe to call again after every page-nav navigation.
-    document.querySelectorAll('[data-lang-switch]').forEach(function (root) {
+    // Idempotent: SPA body swap replaces switcher nodes, so this must be safe
+    // to call again after every page-nav navigation (and after shell injects UI).
+    switcherRoots().forEach(function (root) {
       if (root.getAttribute('data-bound') === '1') return;
       root.setAttribute('data-bound', '1');
       var toggle = root.querySelector('.lang-switch-toggle');
       var menu = root.querySelector('.lang-switch-menu');
       if (toggle && menu) {
         toggle.addEventListener('click', function (event) {
+          event.preventDefault();
           event.stopPropagation();
           var open = !root.classList.contains('is-open');
           closeAllMenus();
@@ -1050,7 +1056,7 @@ var ARTICLES = {
         if (menu) {
           root.classList.add('is-open');
           menu.hidden = false;
-          toggle.setAttribute('aria-expanded', 'true');
+          if (toggle) toggle.setAttribute('aria-expanded', 'true');
         }
         buttons[nextIndex].focus();
       });
@@ -1075,6 +1081,7 @@ var ARTICLES = {
     preferredLocale: preferredLocale,
     applyLocale: applyLocale,
     bindSwitchers: bindSwitchers,
+    syncSwitchers: syncSwitchers,
     pathForLocale: pathForLocale,
     localeFromPath: localeFromPath,
     renderArticle: renderArticle,

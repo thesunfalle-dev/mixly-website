@@ -125,75 +125,34 @@
     else import('/premium-block.js').then(mountPremium).catch(() => {});
   }
 
-  function bindShellInteractions(header) {
-    const switchRoots = header.querySelectorAll('[data-static-lang-switch], .lang-switch');
-
-    // Mobile menu open/close is owned exclusively by page-nav.js (capture-phase
-    // document listener). Binding a second toggle here double-fires after SPA
-    // article hops and cancels the open state — header controls look dead.
-
-    switchRoots.forEach((root) => {
-      const switchToggle = root.querySelector('.lang-switch-toggle');
-      const switchMenu = root.querySelector('.lang-switch-menu');
-      if (!switchToggle || !switchMenu || switchToggle.dataset.shellBound === '1') return;
-      switchToggle.dataset.shellBound = '1';
-      switchToggle.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const open = switchToggle.getAttribute('aria-expanded') !== 'true';
-        switchToggle.setAttribute('aria-expanded', String(open));
-        switchMenu.hidden = !open;
-        root.classList.toggle('is-open', open);
-      });
-    });
-
-    if (!document.documentElement.dataset.shellLangBound) {
-      document.documentElement.dataset.shellLangBound = '1';
-      document.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-lang]');
-        const current = currentArticle();
-        if (button && current && current.paths[button.dataset.lang]) {
-          event.preventDefault();
-          window.location.assign(current.paths[button.dataset.lang]);
-          return;
-        }
-        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
-        if (
-          openMenu &&
-          !event.target.closest('[data-static-lang-switch]') &&
-          !event.target.closest('.lang-switch')
-        ) {
-          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
-          if (tgl) tgl.setAttribute('aria-expanded', 'false');
-          openMenu.parentElement?.classList.remove('is-open');
-          openMenu.hidden = true;
-        }
-      });
-      document.addEventListener('keydown', (event) => {
-        if (event.key !== 'Escape') return;
-        // Prefer page-nav reset so scroll-lock / menu state stay consistent.
-        if (window.MixlyPageNav?.closeMobileMenu) {
-          window.MixlyPageNav.closeMobileMenu({ restoreFocus: true });
-        } else {
-          const toggleBtn = document.querySelector('.mobile-menu-toggle[aria-expanded="true"]');
-          if (toggleBtn) {
-            toggleBtn.setAttribute('aria-expanded', 'false');
-            document.querySelector('#mobile-menu')?.classList.remove('is-open');
-            document.querySelector('#mobile-menu')?.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('mobile-menu-open');
-          }
-        }
-        const openMenu = document.querySelector('.lang-switch-menu:not([hidden])');
-        if (openMenu) {
-          openMenu.hidden = true;
-          openMenu.parentElement?.classList.remove('is-open');
-          const tgl = openMenu.parentElement?.querySelector('.lang-switch-toggle');
-          if (tgl) {
-            tgl.setAttribute('aria-expanded', 'false');
-            tgl.focus();
-          }
-        }
-      });
+  function ensureLangSwitchers() {
+    // Language UI is owned exclusively by MixlyI18n. Do not bind toggles here —
+    // dual handlers open then immediately close the menu (same class of bug as
+    // the old double mobile-menu toggle after SPA hops).
+    const bind = () => {
+      if (!window.MixlyI18n) return false;
+      window.MixlyI18n.bindSwitchers?.();
+      const lang =
+        (window.MixlyI18n.detectLocale && window.MixlyI18n.detectLocale()) ||
+        document.documentElement.lang ||
+        'en';
+      window.MixlyI18n.syncSwitchers?.(lang);
+      return true;
+    };
+    if (bind()) return;
+    const existing = document.querySelector('script[src="/i18n.js"]');
+    if (existing) {
+      existing.addEventListener('load', () => bind(), { once: true });
+      return;
     }
+    // Fallback when neither page markup nor page-nav loaded i18n yet.
+    const script = document.createElement('script');
+    script.src = '/i18n.js';
+    script.onload = () => bind();
+    script.onerror = () => {
+      console.error('Could not load i18n.js for article language switcher');
+    };
+    document.head.appendChild(script);
   }
 
   function ensureShell() {
@@ -203,10 +162,9 @@
     const footer = document.querySelector('.site-footer');
     if (!header || !footer) return;
 
-    // Full static shells already include header/footer markup, but still need
-    // language switch + mobile menu handlers (previously skipped by early return).
+    // Full static shells already include header/footer markup.
     if (header.dataset.shellStatic === 'true' || header.dataset.sharedShell === 'true') {
-      bindShellInteractions(header);
+      ensureLangSwitchers();
       enhanceArticlePage();
       return;
     }
@@ -219,13 +177,21 @@
       actions.innerHTML = `<a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full">${copy.download}</span><span class="cta-short">App Store</span></a>`;
       header.appendChild(actions);
     }
-    if (!actions.querySelector('[data-static-lang-switch]')) {
-      actions.insertAdjacentHTML('beforeend', `<div class="lang-switch" data-static-lang-switch><button type="button" class="lang-switch-toggle" aria-expanded="false" aria-label="Language">${lang.toUpperCase()}</button><ul class="lang-switch-menu" hidden role="radiogroup" aria-label="Language"><li><button type="button" data-lang="ru" role="radio" aria-checked="${lang === 'ru'}">RU</button></li><li><button type="button" data-lang="en" role="radio" aria-checked="${lang === 'en'}">EN</button></li><li><button type="button" data-lang="de" role="radio" aria-checked="${lang === 'de'}">DE</button></li></ul></div><button class="mobile-menu-toggle" type="button" aria-label="${copy.menu}" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span><span></span></button>`);
+    if (!actions.querySelector('[data-lang-switch], [data-static-lang-switch]')) {
+      actions.insertAdjacentHTML(
+        'beforeend',
+        `<div class="lang-switch" data-lang-switch><button type="button" class="lang-switch-toggle" aria-expanded="false" aria-label="Language">${lang.toUpperCase()}</button><ul class="lang-switch-menu" hidden role="radiogroup" aria-label="Language"><li><button type="button" data-lang="ru" role="radio" aria-checked="${lang === 'ru'}">RU</button></li><li><button type="button" data-lang="en" role="radio" aria-checked="${lang === 'en'}">EN</button></li><li><button type="button" data-lang="de" role="radio" aria-checked="${lang === 'de'}">DE</button></li></ul></div><button class="mobile-menu-toggle" type="button" aria-label="${copy.menu}" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span><span></span></button>`
+      );
     }
-    if (!document.querySelector('#mobile-menu')) header.insertAdjacentHTML('afterend', `<aside class="mobile-menu" id="mobile-menu" aria-label="${copy.menuAria}" aria-hidden="true"><nav aria-label="${copy.menuAria}">${link('/#how-it-works', copy.home)}${link('/#features', copy.features)}${link('/changelog', copy.updates)}${link('/blog.html', copy.blog)}</nav></aside>`);
+    if (!document.querySelector('#mobile-menu')) {
+      header.insertAdjacentHTML(
+        'afterend',
+        `<aside class="mobile-menu" id="mobile-menu" aria-label="${copy.menuAria}" aria-hidden="true"><nav aria-label="${copy.menuAria}">${link('/#how-it-works', copy.home)}${link('/#features', copy.features)}${link('/changelog', copy.updates)}${link('/blog.html', copy.blog)}</nav><div class="mobile-menu-lang"><div class="lang-switch lang-switch-mobile" data-lang-switch><div class="lang-switch-segment" role="radiogroup" aria-label="Language"><button type="button" data-lang="ru" role="radio" aria-checked="${lang === 'ru'}">RU</button><button type="button" data-lang="en" role="radio" aria-checked="${lang === 'en'}">EN</button><button type="button" data-lang="de" role="radio" aria-checked="${lang === 'de'}">DE</button></div></div></div></aside>`
+      );
+    }
     if (!footer.querySelector('.footer-main')) footer.innerHTML = `<div class="footer-main"><div class="footer-brand-block"><a class="brand-app footer-brand" href="/">mixly</a><p>Mixly app © 2026</p></div><div class="footer-links"><div><p>${copy.app}</p>${link('/#how-it-works', copy.home)}${link('/#features', copy.features)}${link('/changelog', copy.updates)}${link('/blog.html', copy.blog)}<a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div><div><p>${copy.docs}</p>${link('/privacy.html', copy.privacy)}${link('/cookies.html', copy.cookies)}${link('/terms.html', copy.terms)}${link('/eula.html', copy.eula)}${link('/support.html', copy.support)}</div><div><p>${copy.contacts}</p><a href="mailto:support@get-mixly.app">support@get-mixly.app</a><a href="https://t.me/getmixly" rel="noopener">Telegram</a></div></div></div><div class="footer-bottom"><p>${copy.age}</p><p>${copy.tagline}</p></div>`;
 
-    bindShellInteractions(header);
+    ensureLangSwitchers();
     enhanceArticlePage();
   }
 

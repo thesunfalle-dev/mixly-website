@@ -711,7 +711,7 @@ function header(lang, ui) {
     `<header class="site-header" data-shell-static="true"><a class="brand brand-app" href="/">mixly</a>` +
     `<nav aria-label="${esc(ui.menuAria)}">${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L('/blog.html', ui.blog)}</nav>` +
     `<div class="header-actions"><a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full">${esc(ui.download)}</span><span class="cta-short">App Store</span></a>` +
-    `<div class="lang-switch" data-static-lang-switch><button type="button" class="lang-switch-toggle" aria-expanded="false" aria-label="Language">${lang.toUpperCase()}</button>` +
+    `<div class="lang-switch" data-lang-switch><button type="button" class="lang-switch-toggle" aria-expanded="false" aria-label="Language">${lang.toUpperCase()}</button>` +
     `<ul class="lang-switch-menu" hidden role="radiogroup" aria-label="Language">` +
     `<li><button type="button" data-lang="ru" role="radio" aria-checked="${lang === 'ru'}">RU</button></li>` +
     `<li><button type="button" data-lang="en" role="radio" aria-checked="${lang === 'en'}">EN</button></li>` +
@@ -720,6 +720,12 @@ function header(lang, ui) {
     `<button class="mobile-menu-toggle" type="button" aria-label="${esc(ui.menu)}" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span><span></span></button></div></header>` +
     `<aside class="mobile-menu" id="mobile-menu" aria-label="${esc(ui.menuAria)}" aria-hidden="true">` +
     `<nav aria-label="${esc(ui.menuAria)}">${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L('/blog.html', ui.blog)}</nav>` +
+    `<div class="mobile-menu-lang"><div class="lang-switch lang-switch-mobile" data-lang-switch>` +
+    `<div class="lang-switch-segment" role="radiogroup" aria-label="Language">` +
+    `<button type="button" data-lang="ru" role="radio" aria-checked="${lang === 'ru'}">RU</button>` +
+    `<button type="button" data-lang="en" role="radio" aria-checked="${lang === 'en'}">EN</button>` +
+    `<button type="button" data-lang="de" role="radio" aria-checked="${lang === 'de'}">DE</button>` +
+    `</div></div></div>` +
     `<div class="mobile-menu-socials"><p>${esc(ui.socials)}</p><div class="mobile-menu-social-links">` +
     `<a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a>` +
     `<a href="https://www.threads.com/@get_mixly" rel="noopener">Threads</a></div></div></aside>`
