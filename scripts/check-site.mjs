@@ -107,7 +107,8 @@ function localFileFor(url) {
   if (path === '/ru' || path === '/ru/') return 'index.html';
   // Worker rewrites /changelog → changelog.html (and localized pairs).
   if (path === '/changelog' || path === '/changelog/') return 'changelog.html';
-  // Assets html_handling / Worker serve /en/blog from en/blog.html
+  if (path === '/blog' || path === '/blog/') return 'blog.html';
+  // Assets html_handling / Worker serve extensionless localized pages from .html files.
   const extensionless = path.match(/^\/(en|de)\/(blog|changelog|privacy|cookies|terms|eula|support)$/);
   if (extensionless) return `${extensionless[1]}/${extensionless[2]}.html`;
   const relative = path.replace(/^\//, '');
@@ -157,6 +158,8 @@ for (const file of ['privacy.html', 'cookies.html', 'terms.html', 'eula.html', '
 }
 
 for (const [file, source] of pages) {
+  // Search-engine verification files are fetched as exact tokens, not marketing pages.
+  if (/^yandex_[a-f0-9]+\.html$/i.test(file)) continue;
   // Utility handoff pages stay out of the marketing shell / view-transition contract.
   if (file !== 'share.html' && !source.includes('<link rel="expect" href="#content">')) {
     report(file, 'must identify its main content for a consistent navigation snapshot');
@@ -231,6 +234,7 @@ for (const [file, source] of pages) {
                 : file;
       // Locale marketing/legal files are published extensionless via Worker rewrites.
       expectedPath = expectedPath.replace(/^(en|de)\/(blog|changelog|privacy|cookies|terms|eula|support)\.html$/, '$1/$2');
+      expectedPath = expectedPath.replace(/^blog\.html$/, 'blog');
       expectedPath = expectedPath.replace(/^changelog\.html$/, 'changelog');
       if (canonical !== `${publicOrigin}/${expectedPath}`) {
         report(file, `canonical does not match its public URL: ${canonical}`);
@@ -508,8 +512,8 @@ for (const file of localizedArticles) {
   const articleLocale = file.slice(0, 2);
   const crumbNav = source.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/i)?.[0] || '';
   if (articleLocale === 'ru') {
-    if (!/href="\/"/.test(crumbNav) || !/href="\/blog\.html"/.test(crumbNav)) {
-      report(file, 'RU article breadcrumbs must link home "/" and blog "/blog.html"');
+    if (!/href="\/"/.test(crumbNav) || !/href="\/blog"/.test(crumbNav)) {
+      report(file, 'RU article breadcrumbs must link home "/" and blog "/blog"');
     }
   } else if (articleLocale === 'en' || articleLocale === 'de') {
     const homeHref = `/${articleLocale}/`;
