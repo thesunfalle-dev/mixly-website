@@ -128,6 +128,11 @@ function withSecurityHeaders(response, requestUrl) {
     headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
 
+  // Repository documentation is available for project operations, but must stay out of search indexes.
+  if (/^\/docs(?:\/|$)/i.test(pathname)) {
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
