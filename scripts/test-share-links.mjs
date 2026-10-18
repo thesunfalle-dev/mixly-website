@@ -46,7 +46,7 @@ assert.equal(publicRead.headers.get('Cache-Control'), 'no-store');
 assert.equal(requests.at(-1).url.origin, 'https://example.supabase.co');
 assert.equal(requests.at(-1).url.search, `?code=${code}`);
 assert.deepEqual(Object.keys(requests.at(-1).options.headers), ['Accept']);
-assert.equal(requests.at(-1).options.redirect, 'error');
+assert.equal(requests.at(-1).options.redirect, 'manual');
 assert.equal((await fetchPath(`/api/shared-mixes/${code}`, { method: 'HEAD' })).status, 200);
 assert.equal(requests.at(-1).options.method, 'HEAD');
 const count = requests.length;
@@ -54,6 +54,8 @@ assert.equal((await fetchPath(`/api/shared-mixes/${code}`, { method: 'POST' })).
 assert.equal(requests.length, count);
 status = 404;
 assert.equal((await fetchPath(`/api/shared-mixes/${code}`)).status, 404);
+status = 302;
+assert.equal((await fetchPath(`/api/shared-mixes/${code}`)).status, 503);
 fail = true;
 assert.equal((await fetchPath(`/api/shared-mixes/${code}`)).status, 503);
 

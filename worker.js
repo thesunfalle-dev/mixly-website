@@ -172,8 +172,11 @@ export default {
           method: request.method,
           headers: { Accept: 'application/json' },
           signal: AbortSignal.timeout(5000),
-          redirect: 'error',
+          redirect: 'manual',
         });
+        if (upstream.status >= 300 && upstream.status < 400) {
+          throw new Error('Unexpected redirect from recipe service');
+        }
         return withSecurityHeaders(new Response(upstream.body, {
           status: upstream.status,
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
