@@ -178,7 +178,8 @@ export default {
           status: upstream.status,
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
         }), url);
-      } catch {
+      } catch (error) {
+        console.error('shared_mix_proxy_failed', error instanceof Error ? error.message : 'Unknown fetch error');
         return withSecurityHeaders(new Response(JSON.stringify({ success: false }), {
           status: 503,
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
