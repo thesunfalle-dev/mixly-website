@@ -3,7 +3,7 @@ var LEGAL_DOCS = {
   "privacy": {
     "en": {
       "title": "Privacy Policy",
-      "meta": "Effective date: July 22, 2026",
+      "meta": "Effective date: October 17, 2026",
       "notice": "Mixly is intended for adults only. The app is an informational catalog and recommendation reference for hookah/shisha flavor mixes. It does not sell, ship, facilitate the sale of, or promote the purchase or consumption of tobacco, nicotine, alcohol, or controlled products.",
       "sections": [
         {
@@ -87,7 +87,9 @@ var LEGAL_DOCS = {
           "title": "8. Sharing and links",
           "blocks": [
             { "type": "p", "text": "Mixly lets you share mixes or the app through the operating system share sheet. When you choose to share a mix, Mixly may generate share text, a Mixly deep link, a smart share URL, and, where enabled, a temporary share-card image based on the mix name, ingredients, percentages, description, and app link. The destination app or person you choose to share with is controlled by you and is not controlled by Mixly." },
-            { "type": "p", "text": "Smart share-link pages and deep links may process the shared mix ID, request URL, user-agent, IP address, timestamps, and related technical request metadata so the link can open Mixly or redirect to the appropriate app store. Mixly also tracks basic share events in analytics, such as mix ID, source, share mode, and success or failure state." }
+            { "type": "p", "text": "Smart share-link pages and deep links may process the shared mix ID, request URL, user-agent, IP address, timestamps, and related technical request metadata so the link can open Mixly or redirect to the appropriate app store. Mixly also tracks basic share events in analytics, such as mix ID, source, share mode, and success or failure state." },
+            { "type": "p", "text": "When you share a Labs mix with a short link, Mixly stores a separate snapshot of its name, ingredient labels, percentages, and ingredient types in Supabase, together with a random link code, creation time, and your authenticated or anonymous session ID. Anyone with the link can read the recipe; your session ID and creation time are not returned. Editing or deleting the original mix does not change the snapshot. Shared snapshots are retained so sent links keep working; deleting your account removes its association with the snapshot and does not revoke the link." },
+            { "type": "p", "text": "Mix Shot lets you take a photo or choose an image from your photo library and add a mix recipe to it. Mixly requests camera or photo-library access when you choose the corresponding action, and permission to save an image when you save a Mix Shot. The original image, composed image, and draft references are processed and stored locally on your device; Mixly does not upload these photos or include them in account cloud snapshots or analytics. You can save the composed image to your photo library or share it through the operating system share sheet. Any app or person you choose to share with handles the image under its own policies. You can manage these permissions in your device settings." }
           ]
         },
         {
@@ -100,7 +102,7 @@ var LEGAL_DOCS = {
               "direct card payment processing by Mixly (subscription billing and purchase management are handled by App Store or Google Play);",
               "advertising SDKs or ad personalization;",
               "public social profiles, private chats, or direct messaging between users;",
-              "camera, photo library, contacts, precise location, coarse location, microphone, or push notification permissions."
+              "contacts, precise location, coarse location, microphone, or push notification permissions."
             ] }
           ]
         },
@@ -180,7 +182,7 @@ var LEGAL_DOCS = {
     },
     "ru": {
       "title": "Политика конфиденциальности",
-      "meta": "Дата вступления в силу: 22 июля 2026",
+      "meta": "Дата вступления в силу: 17 октября 2026",
       "notice": "Mixly предназначен только для взрослых. Приложение является информационным каталогом и справочником рекомендаций по миксам вкусов для кальяна/шиши. Оно не продаёт, не доставляет, не содействует продаже и не продвигает покупку или употребление табака, никотина, алкоголя либо контролируемых товаров.",
       "sections": [
         {
@@ -264,7 +266,9 @@ var LEGAL_DOCS = {
           "title": "8. Шаринг и ссылки",
           "blocks": [
             { "type": "p", "text": "Mixly позволяет делиться миксами или приложением через системный share sheet. Когда вы выбираете поделиться миксом, Mixly может создать share text, Mixly deep link, smart share URL и, если функция включена, временное изображение share-card на основе названия микса, ингредиентов, процентов, описания и ссылки на приложение. Приложение-получатель или человек, с которым вы делитесь, выбирается вами и не контролируется Mixly." },
-            { "type": "p", "text": "Smart share-link страницы и deep links могут обрабатывать ID микса, URL запроса, user-agent, IP-адрес, временные метки и связанные технические метаданные запроса, чтобы ссылка могла открыть Mixly или перенаправить в подходящий магазин приложений. Mixly также отслеживает базовые события шаринга в аналитике, например ID микса, источник, режим шаринга и статус успеха или ошибки." }
+            { "type": "p", "text": "Smart share-link страницы и deep links могут обрабатывать ID микса, URL запроса, user-agent, IP-адрес, временные метки и связанные технические метаданные запроса, чтобы ссылка могла открыть Mixly или перенаправить в подходящий магазин приложений. Mixly также отслеживает базовые события шаринга в аналитике, например ID микса, источник, режим шаринга и статус успеха или ошибки." },
+            { "type": "p", "text": "Когда вы делитесь миксом Labs по короткой ссылке, Mixly сохраняет в Supabase отдельный снимок названия, ингредиентов, процентов и типов ингредиентов вместе со случайным кодом ссылки, временем создания и ID вашей авторизованной или анонимной сессии. Рецепт доступен каждому, у кого есть ссылка; ID сессии и время создания получателю не передаются. Редактирование или удаление исходного микса не меняет снимок. Снимки сохраняются, чтобы отправленные ссылки работали; удаление аккаунта убирает связь с ним, но не отзывает ссылку." },
+            { "type": "p", "text": "Mix Shot позволяет сделать фото или выбрать изображение из фотобиблиотеки и добавить к нему рецепт микса. Mixly запрашивает доступ к камере или фотобиблиотеке при выборе соответствующего действия и разрешение на сохранение изображения при сохранении Mix Shot. Исходное фото, готовое изображение и ссылки на черновики обрабатываются и хранятся локально на устройстве; Mixly не загружает эти фотографии на сервер и не включает их в облачные снимки аккаунта или аналитику. Готовое изображение можно сохранить в фотобиблиотеку или передать через системное меню «Поделиться». Выбранное вами приложение или получатель обрабатывает изображение по своим правилам. Управлять разрешениями можно в настройках устройства." }
           ]
         },
         {
@@ -277,7 +281,7 @@ var LEGAL_DOCS = {
               "прямую обработку карточных платежей со стороны Mixly (выставление счетов по подписке и управление покупками осуществляются App Store или Google Play);",
               "рекламные SDK или персонализацию рекламы;",
               "публичные социальные профили, приватные чаты или прямые сообщения между пользователями;",
-              "разрешения на камеру, фото-библиотеку, контакты, точную/примерную геолокацию, микрофон или push-уведомления."
+              "разрешения на контакты, точную/примерную геолокацию, микрофон или push-уведомления."
             ] }
           ]
         },
@@ -357,7 +361,7 @@ var LEGAL_DOCS = {
     },
     "de": {
       "title": "Datenschutzerklärung",
-      "meta": "Gültig ab: 22. Juli 2026",
+      "meta": "Gültig ab: 17. Oktober 2026",
       "notice": "Mixly ist ausschließlich für Erwachsene bestimmt. Die App ist ein informativer Katalog und ein Empfehlungsnachschlagewerk für Geschmacksmischungen für Wasserpfeife/Shisha. Sie verkauft, versendet oder vermittelt keine Tabak-, Nikotin-, Alkohol- oder kontrollierten Produkte und fördert weder deren Kauf noch deren Konsum.",
       "sections": [
         {
@@ -441,7 +445,9 @@ var LEGAL_DOCS = {
           "title": "8. Teilen und Links",
           "blocks": [
             { "type": "p", "text": "Mixly ermöglicht es Ihnen, Mischungen oder die App über das Teilen-Menü des Betriebssystems zu teilen. Wenn Sie eine Mischung teilen, kann Mixly Teilen-Text, einen Mixly-Deeplink, eine Smart-Share-URL und, sofern aktiviert, ein temporäres Share-Card-Bild auf Basis von Mischungsname, Zutaten, Anteilen, Beschreibung und App-Link erzeugen. Die Ziel-App oder die Person, mit der Sie teilen, wählen Sie selbst; dies wird nicht von Mixly kontrolliert." },
-            { "type": "p", "text": "Smart-Share-Link-Seiten und Deeplinks können die geteilte Mix-ID, die Anfrage-URL, den User-Agent, die IP-Adresse, Zeitstempel und zugehörige technische Anfrage-Metadaten verarbeiten, damit der Link Mixly öffnen oder zum passenden App-Store weiterleiten kann. Mixly erfasst außerdem grundlegende Teilen-Ereignisse in der Analyse, etwa Mix-ID, Quelle, Teilen-Modus und Erfolgs- oder Fehlerstatus." }
+            { "type": "p", "text": "Smart-Share-Link-Seiten und Deeplinks können die geteilte Mix-ID, die Anfrage-URL, den User-Agent, die IP-Adresse, Zeitstempel und zugehörige technische Anfrage-Metadaten verarbeiten, damit der Link Mixly öffnen oder zum passenden App-Store weiterleiten kann. Mixly erfasst außerdem grundlegende Teilen-Ereignisse in der Analyse, etwa Mix-ID, Quelle, Teilen-Modus und Erfolgs- oder Fehlerstatus." },
+            { "type": "p", "text": "Wenn Sie eine Labs-Mischung über einen Kurzlink teilen, speichert Mixly in Supabase eine separate Kopie von Name, Zutatenbezeichnungen, Anteilen und Zutatentypen sowie einen zufälligen Linkcode, die Erstellungszeit und die ID Ihrer angemeldeten oder anonymen Sitzung. Jeder mit dem Link kann das Rezept lesen; Sitzungs-ID und Erstellungszeit werden nicht zurückgegeben. Das Bearbeiten oder Löschen der ursprünglichen Mischung ändert diese Kopie nicht. Geteilte Kopien bleiben gespeichert, damit versendete Links funktionieren; das Löschen Ihres Kontos entfernt die Zuordnung, widerruft aber nicht den Link." },
+            { "type": "p", "text": "Mit Mix Shot können Sie ein Foto aufnehmen oder ein Bild aus Ihrer Fotobibliothek auswählen und ein Mix-Rezept hinzufügen. Mixly fragt nach Kamera- oder Fotobibliothekszugriff, wenn Sie die entsprechende Aktion wählen, und nach der Berechtigung zum Speichern eines Bildes, wenn Sie einen Mix Shot speichern. Das Originalfoto, das fertige Bild und Entwurfsverweise werden lokal auf Ihrem Gerät verarbeitet und gespeichert; Mixly lädt diese Fotos nicht hoch und nimmt sie weder in Cloud-Sicherungen des Kontos noch in Analysedaten auf. Sie können das fertige Bild in der Fotobibliothek speichern oder über das systemweite Teilen-Menü weitergeben. Die von Ihnen ausgewählte App oder Person verarbeitet das Bild nach ihren eigenen Richtlinien. Sie können diese Berechtigungen in den Geräteeinstellungen verwalten." }
           ]
         },
         {
@@ -454,7 +460,7 @@ var LEGAL_DOCS = {
               "direkte Kartenzahlungsabwicklung durch Mixly (Abonnementabrechnung und Kaufverwaltung erfolgen über App Store oder Google Play);",
               "Werbe-SDKs oder Werbepersonalisierung;",
               "öffentliche soziale Profile, private Chats oder Direktnachrichten zwischen Nutzern;",
-              "Berechtigungen für Kamera, Fotobibliothek, Kontakte, genauen Standort, ungefähren Standort, Mikrofon oder Push-Benachrichtigungen."
+              "Berechtigungen für Kontakte, genauen Standort, ungefähren Standort, Mikrofon oder Push-Benachrichtigungen."
             ] }
           ]
         },

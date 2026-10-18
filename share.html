@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#29282b" />
     <meta name="color-scheme" content="dark" />
     <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
     <meta name="description" content="Open a shared Mixly mix in the app." />
     <title>Open Mixly</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -103,6 +104,10 @@
         text-align: center;
         text-decoration: none;
       }
+
+      a[hidden] {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -112,14 +117,15 @@
       <a id="open-button" href="#">Open in Mixly</a>
     </main>
     <script>
-      (() => {
+      (async () => {
         const IOS_STORE_URL = 'https://apps.apple.com/app/id6762792005';
         const ANDROID_STORE_URL =
           'https://play.google.com/store/apps/details?id=com.vladyarmakovich.mixly';
         const ANDROID_PACKAGE = 'com.vladyarmakovich.mixly';
         const params = new URLSearchParams(window.location.search);
         const mixId = (params.get('mix') || params.get('mixId') || '').trim();
-        const labPayload = (params.get('lab') || '').trim();
+        let labPayload = (params.get('lab') || '').trim();
+        const shareCode = window.location.pathname.match(/^\/s\/([A-Za-z0-9_-]{16})\/?$/)?.[1];
         const isPreview = params.get('preview') === '1';
         const encodedMixId = encodeURIComponent(mixId);
         const userAgent = navigator.userAgent || '';
@@ -127,6 +133,40 @@
         const isIOS =
           /iphone|ipad|ipod/i.test(userAgent) ||
           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        const button = document.getElementById('open-button');
+        const status = document.getElementById('status');
+        if (shareCode) {
+          button.hidden = true;
+          status.textContent = 'Loading shared mix...';
+          const controller = new AbortController();
+          const timeout = window.setTimeout(() => controller.abort(), 6000);
+          try {
+            const response = await fetch(`/api/shared-mixes/${shareCode}`, {
+              cache: 'no-store',
+              signal: controller.signal,
+            });
+            if (response.status === 404) {
+              status.textContent = 'This shared mix could not be found.';
+              return;
+            }
+            if (!response.ok) throw new Error('Unavailable');
+            const result = await response.json();
+            if (!result.success || result.payload?.v !== 1 || !Array.isArray(result.payload.i)) {
+              throw new Error('Invalid recipe');
+            }
+            labPayload = JSON.stringify(result.payload);
+            button.hidden = false;
+          } catch {
+            status.textContent = 'Could not load this mix. Check your connection and try again.';
+            button.textContent = 'Try again';
+            button.href = window.location.href;
+            button.hidden = false;
+            return;
+          } finally {
+            window.clearTimeout(timeout);
+          }
+        }
 
         let deepLink = 'mixly://';
         if (labPayload) {
@@ -146,8 +186,6 @@
               )};end`
             : ANDROID_STORE_URL;
         const openUrl = isAndroid ? androidIntent : isIOS ? deepLink : storeUrl;
-        const button = document.getElementById('open-button');
-        const status = document.getElementById('status');
         let fallbackTimer;
 
         const cancelFallback = () => {

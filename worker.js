@@ -99,6 +99,7 @@ function barePath(pathname) {
 }
 
 function resolveAssetPath(pathname) {
+  if (/^\/s\/[A-Za-z0-9_-]{16}\/?$/.test(pathname)) return '/share.html';
   if (STATIC_REWRITES[pathname]) return STATIC_REWRITES[pathname];
   const bare = barePath(pathname);
   if (STATIC_REWRITES[bare]) return STATIC_REWRITES[bare];
@@ -133,6 +134,12 @@ function withSecurityHeaders(response, requestUrl) {
     headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
 
+  if (/^\/(?:s\/|api\/shared-mixes\/)/.test(pathname)) {
+    headers.set('Cache-Control', 'no-store');
+    headers.set('Referrer-Policy', 'no-referrer');
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
@@ -149,6 +156,34 @@ export default {
       const target = new URL(redirectTo, url);
       target.search = url.search;
       return withSecurityHeaders(Response.redirect(target.toString(), 301), url);
+    }
+    const sharedMixMatch = url.pathname.match(/^\/api\/shared-mixes\/([A-Za-z0-9_-]{16})$/);
+    if (sharedMixMatch) {
+      if (request.method !== 'GET' && request.method !== 'HEAD') {
+        return withSecurityHeaders(new Response(null, {
+          status: 405,
+          headers: { Allow: 'GET, HEAD' },
+        }), url);
+      }
+      try {
+        const endpoint = new URL(env.SHARE_MIX_FUNCTION_URL);
+        endpoint.searchParams.set('code', sharedMixMatch[1]);
+        const upstream = await fetch(endpoint, {
+          method: request.method,
+          headers: { Accept: 'application/json' },
+          signal: AbortSignal.timeout(5000),
+          redirect: 'error',
+        });
+        return withSecurityHeaders(new Response(upstream.body, {
+          status: upstream.status,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        }), url);
+      } catch {
+        return withSecurityHeaders(new Response(JSON.stringify({ success: false }), {
+          status: 503,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        }), url);
+      }
     }
     const assetPath = resolveAssetPath(url.pathname);
     const assetRequest = assetPath
