@@ -27,6 +27,8 @@ cd website && python3 -m http.server 4173
 
 Язык сайта: RU / EN / DE (переключатель в шапке, `localStorage` ключ `mixly-lang`).
 
+История обновлений и блок «Что нового» на главной используют переводы из `changelog-content.js`. После добавления релиза запускайте `npm run generate:changelog`. Генератор `npm run generate:locale-routes` использует тот же рендерер для блока обновлений на EN/DE: порядок запуска этих команд не меняет язык записей.
+
 ## Техническое SEO
 
 - `sitemap.xml` содержит только индексируемые страницы; `article.html`, `share.html`, legal и страницы ошибок намеренно исключены / `noindex`.

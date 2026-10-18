@@ -265,6 +265,46 @@ for (const file of ['403.html', '404.html', '500.html', 'article.html', 'blog.ht
 }
 
 const homePage = pages.get('index.html');
+// Release content has no data-i18n keys: validate the generated copy itself.
+const changelogContext = {};
+vm.runInNewContext(readFileSync(resolve(root, 'changelog-content.js'), 'utf8'), changelogContext);
+const { CHANGELOG_META, RELEASES } = changelogContext;
+const decodeText = (value = '') => value
+  .replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&');
+for (const locale of ['ru', 'en', 'de']) {
+  const prefix = locale === 'ru' ? '' : `${locale}/`;
+  const path = `/${prefix}changelog`;
+  const meta = CHANGELOG_META[locale];
+  for (const file of [`${prefix}index.html`, `${prefix}changelog.html`]) {
+    const source = pages.get(file) || '';
+    const releases = [...source.matchAll(/<details class="changelog-release" id="([^"]+)"[^>]*>([\s\S]*?)<\/details>/g)];
+    if (releases.map((match) => match[1]).join(',') !== RELEASES.map((release) => release.id).join(',')) {
+      report(file, 'changelog releases must appear once each in source order');
+    }
+    for (const release of RELEASES) {
+      const block = releases.find((match) => match[1] === release.id)?.[2] || '';
+      const labels = release.labels[locale];
+      const version = decodeText(block.match(/<strong>([\s\S]*?)<\/strong>/)?.[1]);
+      const summary = decodeText(block.match(/<\/strong><span>([\s\S]*?)<\/span>/)?.[1]);
+      const date = block.match(/<time datetime="([^"]+)">([\s\S]*?)<\/time>/);
+      const items = [...block.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((match) => decodeText(match[1]));
+      const permalink = block.match(/<p class="changelog-permalink"><a href="([^"]+)">([\s\S]*?)<\/a>/);
+      if (version !== labels.version || summary !== labels.summary
+        || date?.[1] !== release.date || decodeText(date?.[2]) !== labels.date
+        || JSON.stringify(items) !== JSON.stringify(release.items[locale])
+        || permalink?.[1] !== `${path}#${release.id}`
+        || decodeText(permalink?.[2]) !== `${meta.permalinkLabel} ${release.version}`) {
+        report(file, `${release.version}: release copy, date and permalink must match the ${locale.toUpperCase()} source`);
+      }
+    }
+    if (file.endsWith('index.html')) {
+      const cta = source.match(/<p class="changelog-page-link"><a href="([^"]+)">([\s\S]*?)<\/a>/);
+      if (cta?.[1] !== path || decodeText(cta?.[2]) !== meta.homeCta) {
+        report(file, 'all-updates link must match the page locale');
+      }
+    }
+  }
+}
 if (!homePage.includes('window.__mixlySetLocalizedImage')) {
   report('index.html', 'localized images must be assigned before the deferred i18n runtime');
 }
