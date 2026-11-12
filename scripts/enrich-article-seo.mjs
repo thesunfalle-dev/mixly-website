@@ -34,7 +34,7 @@ const CLUSTERS = [
       en: 'Is mint overpowering the base, or is your mix too sweet? Learn what to change in the next batch and how to compare the result.',
       de: 'Überdeckt Minze die Basis oder ist der Mix zu süß? So passt du die nächste Mischung an und vergleichst das Ergebnis.',
     },
-    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.webp`,
+    image: `${origin}/assets/blog/balance-mix-hero.webp`,
   },
   {
     id: 'mix-basics',
