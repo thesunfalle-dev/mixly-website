@@ -16,7 +16,7 @@ npm install
 npm run check:release
 ```
 
-`check:release` must exit `0` before production promotion. It validates local links, i18n dictionaries, canonical URLs, sitemap contents, article SEO contract, and optional external HTTP checks.
+`check:release` must exit `0` before production promotion. It validates local links, i18n dictionaries, canonical URLs, sitemap contents, article SEO contract, and external HTTP checks. New pages do not exist on production yet: run `npm run check` before uploading the version, then run `CHECK_SITE_PREVIEW_ORIGIN=https://<preview-host> npm run check:release` after upload. This checks site URLs on that preview while leaving third-party URL checks unchanged.
 
 ## Upload a version (preview)
 

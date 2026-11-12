@@ -62,6 +62,9 @@ const STATIC_REWRITES = {
 };
 
 const ARTICLE_REWRITES = {
+  '/ru/blog/kak-ispravit-nesbalansirovannyi-miks': '/ru/blog/kak-ispravit-nesbalansirovannyi-miks/index.html',
+  '/en/blog/how-to-fix-unbalanced-hookah-mix': '/en/blog/how-to-fix-unbalanced-hookah-mix/index.html',
+  '/de/blog/unausgewogenen-shisha-mix-verbessern': '/de/blog/unausgewogenen-shisha-mix-verbessern/index.html',
   '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana':
     '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
   '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',

@@ -446,9 +446,15 @@ if (!readFileSync(resolve(root, 'static-article-shell.js'), 'utf8').includes("im
 }
 
 if (checkExternal) {
+  // Before publication, canonical URLs for new pages only exist on the preview.
+  // Keep all third-party checks unchanged while routing site URLs to that version.
+  const previewOrigin = process.env.CHECK_SITE_PREVIEW_ORIGIN;
   for (const url of externalUrls) {
+    const parsed = new URL(url);
+    const checkUrl = previewOrigin && parsed.origin === publicOrigin
+      ? new URL(parsed.pathname + parsed.search, previewOrigin).href : url;
     try {
-      const response = await fetch(url, {
+      const response = await fetch(checkUrl, {
         method: 'HEAD',
         redirect: 'follow',
         signal: AbortSignal.timeout(10_000),
@@ -456,7 +462,7 @@ if (checkExternal) {
       if (response.ok) continue;
 
       if (response.status === 405 || response.status === 403) {
-        const fallback = await fetch(url, {
+        const fallback = await fetch(checkUrl, {
           method: 'GET',
           redirect: 'follow',
           signal: AbortSignal.timeout(10_000),

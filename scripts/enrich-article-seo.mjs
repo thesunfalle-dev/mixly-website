@@ -16,7 +16,30 @@ const defaultImage = `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.we
 
 const CLUSTERS = [
   {
+    id: 'balance-mix',
+    published: '2026-11-12',
+    modified: '2026-11-12',
+    paths: {
+      ru: '/ru/blog/kak-ispravit-nesbalansirovannyi-miks',
+      en: '/en/blog/how-to-fix-unbalanced-hookah-mix',
+      de: '/de/blog/unausgewogenen-shisha-mix-verbessern',
+    },
+    title: {
+      ru: 'Как исправить несбалансированный микс для кальяна',
+      en: 'How to Fix an Unbalanced Hookah Mix',
+      de: 'Unausgewogenen Shisha-Mix verbessern',
+    },
+    description: {
+      ru: 'Мята перебивает основу или смесь кажется слишком сладкой? Разбираем, что изменить в следующем миксе и как проверить результат.',
+      en: 'Is mint overpowering the base, or is your mix too sweet? Learn what to change in the next batch and how to compare the result.',
+      de: 'Überdeckt Minze die Basis oder ist der Mix zu süß? So passt du die nächste Mischung an und vergleichst das Ergebnis.',
+    },
+    image: `${origin}/assets/blog/kak-pravilno-smeshivat-tabak-hero.webp`,
+  },
+  {
     id: 'mix-basics',
+    published: '2026-07-22',
+    modified: '2026-11-12',
     paths: {
       ru: '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
       en: '/en/blog/how-to-mix-hookah-tobacco',
@@ -257,6 +280,7 @@ function enrich(cluster, lang) {
   const articleLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    ...(cluster.published ? { datePublished: cluster.published, dateModified: cluster.modified } : {}),
     headline: title,
     description,
     inLanguage: lang,
