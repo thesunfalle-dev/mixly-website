@@ -444,6 +444,10 @@ html {
 }
 .analytics-consent-actions button:hover { transform: translateY(-1px); }
 .analytics-consent-actions button:focus-visible { outline: 2px solid var(--app-lime); outline-offset: 3px; }
+@media (max-width: 760px) {
+  /* Keep the undecided choice pending while the full-screen menu is open. */
+  body.mobile-menu-open .analytics-consent { visibility: hidden; }
+}
 @media (max-width: 560px) {
   .analytics-consent {
     left: 16px;
