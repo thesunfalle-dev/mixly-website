@@ -167,8 +167,12 @@
 
   function updateUi(showPanel) {
     const copy = COPY[currentLocale];
-    const panel = document.querySelector('[data-analytics-consent]');
-    if (!panel) return;
+    let panel = document.querySelector('[data-analytics-consent]');
+    // SPA navigation replaces the body, including the previously mounted panel.
+    if (!panel) {
+      buildUi();
+      panel = document.querySelector('[data-analytics-consent]');
+    }
 
     panel.hidden = !showPanel;
     panel.querySelector('[data-consent-title]').textContent = copy.title;
