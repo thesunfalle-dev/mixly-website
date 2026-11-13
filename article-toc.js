@@ -1,9 +1,33 @@
 (() => {
   'use strict';
 
+  var imageLightboxCopy = {
+    ru: {
+      preview: 'Просмотр изображения',
+      close: 'Закрыть просмотр изображения',
+      open: 'Открыть изображение на весь экран',
+      image: 'изображение в статье'
+    },
+    en: {
+      preview: 'Image preview',
+      close: 'Close image preview',
+      open: 'Open full-screen image',
+      image: 'article image'
+    },
+    de: {
+      preview: 'Bildvorschau',
+      close: 'Bildvorschau schließen',
+      open: 'Bild im Vollbildmodus öffnen',
+      image: 'Artikelbild'
+    }
+  };
+
   function bindImageLightbox() {
     var figures = Array.prototype.slice.call(document.querySelectorAll('.article-image'));
     if (!figures.length) return;
+
+    var lang = document.documentElement.lang.toLowerCase().split('-')[0];
+    var copy = imageLightboxCopy[lang] || imageLightboxCopy.en;
 
     // Drop leftover lightboxes from prior SPA body swaps / remounts so an open
     // or detached dialog cannot leave the page inert and block the header.
@@ -18,12 +42,13 @@
 
     var dialog = document.createElement('dialog');
     dialog.className = 'article-image-lightbox';
-    dialog.setAttribute('aria-label', 'Image preview');
-    dialog.innerHTML = '<button class="article-image-lightbox-close" type="button" aria-label="Close image preview">×</button><img alt="">';
+    dialog.setAttribute('aria-label', copy.preview);
+    dialog.innerHTML = '<button class="article-image-lightbox-close" type="button">×</button><img alt="">';
     document.body.appendChild(dialog);
 
     var preview = dialog.querySelector('img');
     var closeButton = dialog.querySelector('button');
+    closeButton.setAttribute('aria-label', copy.close);
     var lastTrigger = null;
     function closeLightbox() {
       dialog.close();
@@ -41,7 +66,7 @@
       figure.setAttribute('tabindex', '0');
       figure.setAttribute('role', 'button');
       var caption = (figure.querySelector('figcaption') && figure.querySelector('figcaption').textContent || '').trim();
-      var label = 'Open full-screen image: ' + (image.alt || 'article image');
+      var label = copy.open + ': ' + (image.alt || copy.image);
       if (caption && label.indexOf(caption) === -1) label += '. ' + caption;
       figure.setAttribute('aria-label', label);
       function openLightbox() {

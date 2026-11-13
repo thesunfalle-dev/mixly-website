@@ -116,6 +116,9 @@
 @media (max-width: 640px) { .article-related { margin-top: 44px; padding-top: 28px; }.article-related > h2 { margin-bottom: 22px; }.article-related-grid { grid-template-columns: 1fr; }.article-related-grid a { min-height: 156px; } }
 .article-image.is-zoomable { cursor: zoom-in; }.article-image.is-zoomable:focus-visible { outline: 2px solid var(--app-lime); outline-offset: 4px; }.article-image-lightbox { width: min(100vw, 1600px); max-width: none; max-height: 100vh; margin: 0; padding: 28px; border: 0; background: rgba(16,16,18,.96); color: var(--text); }.article-image-lightbox::backdrop { background: rgba(0,0,0,.82); backdrop-filter: blur(8px); }.article-image-lightbox img { display: block; width: auto; max-width: 100%; height: auto; max-height: calc(100vh - 56px); margin: 0 auto; object-fit: contain; }.article-image-lightbox-close { position: fixed; top: 18px; right: 24px; z-index: 1; display: grid; width: 44px; height: 44px; place-items: center; padding: 0; border: 1px solid rgba(255,255,255,.24); border-radius: 50%; color: #fff; background: rgba(24,24,26,.82); font: 400 32px/1 Arial, sans-serif; cursor: pointer; }.article-image-lightbox-close:hover, .article-image-lightbox-close:focus-visible { border-color: var(--app-lime); color: var(--app-lime); }.article-image-lightbox-close:focus-visible { outline: 2px solid var(--app-lime); outline-offset: 3px; }
 @media (max-width: 760px) { .article-image-lightbox { padding: 16px; }.article-image-lightbox img { max-height: calc(100vh - 32px); }.article-image-lightbox-close { top: 12px; right: 12px; width: 40px; height: 40px; } }
+@media (max-width: 760px) {
+  .article-page-header h1 { font-size: clamp(34px, 10vw, 46px); line-height: 1.02; overflow-wrap: anywhere; hyphens: auto; }
+}
 /* One article geometry for every locale: the title never enters the table-of-contents column. */
 @media (min-width: 981px) {
   .article-layout { grid-template-columns: minmax(0, 820px) minmax(180px, 220px); }
