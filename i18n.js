@@ -1030,6 +1030,9 @@ var ARTICLES = {
         });
       }
       function chooseLocale(nextLang) {
+        document.dispatchEvent(new CustomEvent('mixly:language-choice', {
+          detail: { from: currentLang, to: nextLang }
+        }));
         // Language switch should land on the matching page at the top, not keep an old section hash.
         var nextPath = pathForLocale(nextLang, location.pathname).replace(/#.*$/, '');
         try { localStorage.setItem(STORAGE_KEY, nextLang); } catch (ePersist) {}

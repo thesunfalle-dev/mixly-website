@@ -276,6 +276,7 @@
       window.MixlyI18n.syncSwitchers?.(window.MixlyI18n.detectLocale());
     }
     resetUiState();
+    document.dispatchEvent(new CustomEvent('mixly:page'));
     requestAnimationFrame(() => scrollToDestination(url));
   };
 

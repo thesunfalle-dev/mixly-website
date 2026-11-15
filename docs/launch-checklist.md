@@ -37,7 +37,7 @@ npm run qa:smoke -- https://<preview-alias>.workers.dev
 - [ ] Images have meaningful `alt` (hero, dialog icon, article figures)
 
 ### Analytics / monitoring
-- [ ] With analytics consent: one `page_view` in PostHog
+- [ ] Verify consent, event payloads, and `page_view` counts in Amplitude Mixly Web using `docs/website-analytics-events.md`
 - [ ] Optional single Sentry sample error on preview; then resolve
 
 ### Devices

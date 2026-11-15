@@ -7,7 +7,7 @@
 | Production | `https://get-mixly.app` | Indexable pages only (see `sitemap.xml` / `noindex`) | `wrangler versions deploy <id>@100` |
 | Preview | `https://<alias>-mixly-website.<account>.workers.dev` | Forced `X-Robots-Tag: noindex, nofollow` on `*.workers.dev` | `wrangler versions upload --preview-alias …` |
 
-There is no separate secret-backed build for the static site. Client JS may embed public analytics/monitoring endpoints (Sentry DSN, PostHog host). Cloudflare credentials (`CLOUDFLARE_API_TOKEN`) stay in local `.env` / CI secrets and must never be committed.
+The static site embeds the public Sentry DSN and the public Amplitude browser API key for Mixly Web (`908537`). Cloudflare credentials (`CLOUDFLARE_API_TOKEN`) stay in local `.env` / CI secrets and must never be committed.
 
 ## Pre-flight
 
@@ -81,9 +81,9 @@ Re-check production URLs after rollback. Keep at least the last known-good versi
 | --- | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | local `.env`, CI | **No** |
 | Sentry DSN | `monitoring.js` (public browser DSN) | Yes (expected) |
-| PostHog project key | `analytics.js` (public) | Yes (expected) |
+| Amplitude browser API key | `analytics.js` (public Mixly Web key) | Yes (expected) |
 
-Never put API tokens, private keys, or service-role Supabase keys in this repo.
+Keep Amplitude secret keys, API tokens, private keys, and service-role Supabase keys out of this repo.
 
 ## CI note
 

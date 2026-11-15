@@ -9,7 +9,7 @@ Run after major deploys or roughly once a quarter. Create separate Linear issues
 3. **Lighthouse lab baseline** — compare to `docs/lighthouse-baseline.md` (home, blog, article, privacy).
 4. **Links / locales** — `npm run check:release`.
 5. **Sitemap / robots / canonical / hreflang** — spot-check HTML head + Search Console coverage when available.
-6. **Analytics consent** — no PostHog requests before accept; one `page_view` after accept (`docs/website-analytics-events.md`).
+6. **Analytics consent** — confirm no Amplitude requests before acceptance or after withdrawal and one `page_view` per page after acceptance in Mixly Web (`docs/website-analytics-events.md`).
 7. **Error monitoring** — Sentry/Mixly monitoring free of new recurring client errors.
 8. **A11y smoke** — keyboard: menu, language switch, blog filters, changelog accordion, article TOC.
 9. **CTA / external** — App Store links and Instagram/Threads still resolve.

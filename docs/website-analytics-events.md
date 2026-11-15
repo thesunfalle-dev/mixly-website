@@ -1,65 +1,86 @@
 # Website analytics events
 
-Mixly uses PostHog US Cloud for optional website analytics. This document
-describes the events sent by the production integration.
+Mixly sends optional website analytics to the Amplitude **Mixly Web** project
+(`908537`) using Browser SDK 2.48.1 and US ingestion at
+`https://api2.amplitude.com/2/httpapi`.
 
-## Consent rule
+## Consent and browser storage
 
-No analytics script, beacon, or event loads or runs until the visitor actively
-allows the `analytics` category. A refusal keeps analytics off. Changing or
-withdrawing consent stops future events and clears PostHog client-side state.
-The consent choice itself is stored locally as `mixly-analytics-consent`.
+The site loads the Amplitude SDK only after the visitor accepts analytics. It
+stores the choice in localStorage under `mixly-analytics-consent`, the
+pseudonymous browser ID under `mixly-amplitude-device-id`, and SDK session state
+under the project-specific `AMP_` key. Unsent events stay in memory.
 
-PostHog is loaded from and sends events to `https://us.i.posthog.com`. The
-configuration disables autocapture, automatic page-view and page-leave capture,
-performance capture, heatmaps, automatic error capture, session recording, surveys,
-product tours, feature flags, and person profiles.
+Selecting Reject in Analytics settings stops further collection and clears the
+browser ID and this project's SDK state. The site updates the local
+`mixly-analytics-revocation` marker so other tabs discard uploads queued before
+withdrawal, even if the visitor accepts again before those tabs catch up. The
+marker stays on the device.
+
+The integration sends the five events below and disables SDK autocapture, remote
+configuration, diagnostics, IP address collection, and session replay.
 
 ## Shared properties
 
-Every event should contain only:
+Each event includes these website properties:
 
-- `page_path` — path without query parameters or fragments;
-- `locale` — `ru`, `en`, or `de`;
-- `content_type` — `home`, `blog`, `article`, `legal`, or `error`;
-- `referrer_origin` — origin only, or `direct` when absent.
+- `page_path` is the path without query parameters or fragments. Short share
+  links use `/s/:code` and error pages use `/error`.
+- `locale` is `ru`, `en`, or `de`.
+- `content_type` is `home`, `blog`, `article`, `legal`, or `error`.
+- `referrer_origin` is the document referrer's origin, or `direct` when absent.
+- `environment` is `production` on the live site and `development` on previews
+  and local runs. Filter live-site reports by `environment = production`.
 
-Do not send an email address, IP address from application code, full referrer,
-search terms, free-text content, user identifiers, or query parameters. The
-provider may process network metadata needed to receive the request under its
-own configuration and agreement.
+Keep account identifiers, email addresses, full referrers, query parameters,
+search terms, and other free text out of event payloads. The SDK adds delivery
+metadata, including the pseudonymous device ID, session ID, event time, event
+IDs, SDK version, user agent, platform, and browser language. Browser identity
+uses the locally generated ID. If an incoming URL contains `ampSessionId`, the
+site supplies a fresh local session ID. The SDK omits the IP field and Amplitude
+can process network metadata to receive requests.
+[Amplitude Browser SDK event format](https://amplitude.com/docs/sdks/analytics/browser/browser-sdk-2/verify-events)
 
 ## Events
 
 | Event | When it is sent | Extra properties |
 | --- | --- | --- |
-| `page_view` | Once for each document load after consent | shared properties |
+| `page_view` | Once per displayed page, including client-side page navigation after consent | None |
 | `store_click` | A visitor activates an App Store or Google Play link | `store` (`app_store` or `google_play`), `placement` |
-| `language_change` | A visitor selects a different display language | `from_locale`, `to_locale`, `placement` |
-| `blog_open` | A visitor opens the blog from a site link | `placement` |
-| `article_open` | A visitor opens a published article | `article_slug` from the validated public article slug |
+| `language_change` | A visitor selects a different display language, before any resulting navigation | `from_locale`, `to_locale`, `placement` (`language_switcher`) |
+| `blog_open` | A visitor opens the blog, including a direct visit | `placement` (`direct`) |
+| `article_open` | A visitor opens a published article | `article_slug` from the article path, `placement` (`direct`) |
 
-`placement` is limited to a controlled vocabulary maintained in code, such as
-`header`, `hero`, `footer`, `blog_card`, or `article_cta`.
+`placement` uses the controlled vocabulary in `analytics.js`, including
+`direct`, `header`, `hero`, `footer`, `blog_card`, and `language_switcher`.
 
 ## Duplicate prevention
 
-- A full page navigation produces one `page_view`.
-- A language change is one `language_change`; it does not synthesize a second
-  `page_view` unless the browser subsequently loads a new document.
-- A click handler must be installed once per element and must not emit both a
-  generic outbound-click event and `store_click` for the same interaction.
-- The browser's automatic provider page-view feature must be disabled if Mixly
-  sends `page_view` itself.
+- Count one `page_view` per full document load or client-side path change.
+- Count one `language_change` for an explicit selection in the language switcher.
+  A subsequent page navigation has its own `page_view`.
+- Count one `store_click` per activation. The site handles store links through
+  a single delegated click listener.
 
 ## Release verification
 
-After a provider is selected and consent is implemented:
+Run `node --test scripts/test-analytics.mjs` to check the consent and event logic
+locally before the browser checks.
 
-1. Verify that an unconsented fresh browser session sends no analytics request.
-2. Grant analytics consent and confirm each listed event in the provider's
-   real-time view on RU, EN, and DE.
-3. Repeat a language change and an App Store click; confirm one event each.
-4. Withdraw consent, reload, and confirm no further analytics request is sent.
-5. Review an event payload and confirm it contains only the documented
-   properties.
+1. Open the site in a fresh browser profile. Confirm the Network panel shows no
+   Amplitude requests before consent and after selecting Reject.
+2. Follow Cookies & Analytics in the footer, open analytics settings, and accept.
+   In the **Mixly Web** project, open User Lookup and find the `device_id` from
+   the ingestion request. Confirm one `page_view` in Activity with Live event
+   updates enabled.
+3. Open the blog and an article through site navigation. Confirm one
+   `page_view` for each page and one `blog_open` or `article_open` as appropriate.
+   Confirm one event per language change and one per App Store or Google Play
+   link activation. Spot-check RU, EN, and DE.
+4. Inspect event payloads for the documented properties and check the expected
+   environment. Verify that query parameters, share codes, full referrers, and
+   account identifiers are absent.
+5. Open the site in a second tab. In the first tab, open Analytics settings and
+   select Reject. Confirm the browser ID and project-specific Amplitude keys are
+   cleared and further navigation and reloads in either tab generate no
+   Amplitude requests.
