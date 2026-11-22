@@ -11,9 +11,13 @@ cd website && python3 -m http.server 4173
 
 - `index.html` — лендинг
 - `blog.html` / `article.html` — исходный файл блога и noindex-шаблон статьи; публичный URL блога — `/blog`
-- `share.html` — smart-link handoff для app share (`?mix=`, `?lab=`, `?preview=1`); deep link + fallback в App Store / Play; `noindex`, не в sitemap
+- `share.html` — smart-link handoff для app share: короткие ссылки `/s/<code>`, старые `?mix=` и `?lab=`, режим `?preview=1`; deep link + fallback в App Store / Play; `noindex`, не в sitemap
+- `/api/shared-mixes/<code>` — GET/HEAD proxy к `SHARE_MIX_FUNCTION_URL` из `wrangler.jsonc`. Читает один сохранённый рецепт по случайному коду, без cookies и пользовательских JWT. Ошибка загрузки оставляет кнопку повторной попытки; отсутствующий рецепт не перенаправляет в магазин.
+
 - `privacy.html`, `cookies.html`, `terms.html`, `eula.html`, `support.html` — публичные юридические документы (RU / EN / DE), намеренно исключённые из индексации через `noindex, follow`
 - `404.html`, `403.html`, `500.html` — страницы ошибок (`noindex`)
+
+Короткие ссылки требуют миграцию `20261018120000_shared_lab_mix_links.sql` и обновлённую Supabase функцию `share-mix` из репозитория приложения. Порядок выпуска: миграция → функция → этот сайт → приложение. `npm run test:share` проверяет маршруты, proxy и старые ссылки. Снимок рецепта не меняется при редактировании или удалении исходного микса; доступен каждому, у кого есть ссылка. Ответы `/s/` и `/api/shared-mixes/` имеют `no-store`, `no-referrer` и `noindex`.
 
 Перед публикацией:
 
