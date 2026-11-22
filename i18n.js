@@ -767,7 +767,7 @@ var ARTICLES = {
     var pair;
     var bare;
     var extensionless = {
-      '/blog': '/blog.html',
+      '/blog': '/blog',
       '/changelog': '/changelog.html',
       '/privacy': '/privacy.html',
       '/cookies': '/cookies.html',

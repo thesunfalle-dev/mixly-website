@@ -61,6 +61,28 @@ const STATIC_REWRITES = {
   '/share/': '/share.html',
 };
 
+const PATH_REDIRECTS = {
+  '/blog.html': '/blog',
+  '/blog/': '/blog',
+  '/en/blog.html': '/en/blog',
+  '/en/blog/': '/en/blog',
+  '/de/blog.html': '/de/blog',
+  '/de/blog/': '/de/blog',
+  '/ru': '/',
+  '/ru/': '/',
+  '/favicon.ico': '/favicon-48.png',
+};
+
+const LEGACY_IMAGE_REDIRECTS = {};
+for (const locale of ['EN', 'DE', 'RU']) {
+  for (const file of ['main_1', 'main_2', 'Discovery', 'Lab']) {
+    for (const extension of ['png', 'webp']) {
+      LEGACY_IMAGE_REDIRECTS[`/${locale.toLowerCase()}/images_for_web/${locale}/${file}.${extension}`] =
+        `/images_for_web/${locale}/${file}.webp`;
+    }
+  }
+}
+
 const ARTICLE_REWRITES = {
   '/ru/blog/kak-ispravit-nesbalansirovannyi-miks': '/ru/blog/kak-ispravit-nesbalansirovannyi-miks/index.html',
   '/en/blog/how-to-fix-unbalanced-hookah-mix': '/en/blog/how-to-fix-unbalanced-hookah-mix/index.html',
@@ -154,10 +176,25 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const bare = barePath(url.pathname);
-    const redirectTo = ARTICLE_REDIRECTS[bare];
-    if (redirectTo && redirectTo !== bare) {
-      const target = new URL(redirectTo, url);
+    const productionHost = url.hostname === 'get-mixly.app' || url.hostname === 'www.get-mixly.app';
+    const needsCanonicalHost = productionHost && (url.protocol === 'http:' || url.hostname === 'www.get-mixly.app');
+    const pathRedirect = PATH_REDIRECTS[url.pathname]
+      || LEGACY_IMAGE_REDIRECTS[url.pathname]
+      || ARTICLE_REDIRECTS[bare];
+    if (pathRedirect) {
+      const target = new URL(pathRedirect, url);
       target.search = url.search;
+      if (needsCanonicalHost) {
+        target.protocol = 'https:';
+        target.hostname = 'get-mixly.app';
+      }
+      return withSecurityHeaders(Response.redirect(target.toString(), 301), url);
+    }
+
+    if (needsCanonicalHost) {
+      const target = new URL(url);
+      target.protocol = 'https:';
+      target.hostname = 'get-mixly.app';
       return withSecurityHeaders(Response.redirect(target.toString(), 301), url);
     }
     const sharedMixMatch = url.pathname.match(/^\/api\/shared-mixes\/([A-Za-z0-9_-]{16})$/);

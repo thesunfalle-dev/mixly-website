@@ -9,7 +9,9 @@ const paths = [
   '/',
   '/en/',
   '/de/',
+  '/blog',
   '/blog.html',
+  '/ru',
   '/en/blog',
   '/de/blog',
   '/privacy.html',
@@ -89,7 +91,7 @@ async function check(path) {
       }
       if (/article\.html\?slug=/.test(text)) failures.push(`${path}: still links to query article URLs`);
     }
-    if (path === '/blog.html' && /Скоро здесь появятся/.test(text)) {
+    if ((path === '/blog' || path === '/blog.html') && /Скоро здесь появятся/.test(text)) {
       failures.push('blog lead still says articles are coming soon');
     }
     if (path === '/privacy.html' && !text.includes('legal-title')) {

@@ -16,3 +16,9 @@ worker.js
 wrangler.jsonc
 package.json
 package-lock.json
+AGENTS.md
+CLAUDE.md
+CODEX_HISTORY.md
+.agents
+.claude
+docs/content-drafts

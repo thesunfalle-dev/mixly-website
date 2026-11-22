@@ -167,8 +167,7 @@ function localeHomePath(lang) {
 }
 
 function localeBlogPath(lang) {
-  // RU keeps the .html public form used across the site; EN/DE use extensionless routes.
-  return lang === 'ru' ? '/blog.html' : `/${lang}/blog`;
+  return lang === 'ru' ? '/blog' : `/${lang}/blog`;
 }
 
 function articleFile(path) {

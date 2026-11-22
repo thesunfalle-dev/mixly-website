@@ -10,10 +10,14 @@ cd website && python3 -m http.server 4173
 ## Страницы
 
 - `index.html` — лендинг
-- `blog.html` / `article.html` — блог (пока заглушка «скоро появится»)
-- `share.html` — smart-link handoff для app share (`?mix=`, `?lab=`, `?preview=1`); deep link + fallback в App Store / Play; `noindex`, не в sitemap
+- `blog.html` / `article.html` — исходный файл блога и noindex-шаблон статьи; публичный URL блога — `/blog`
+- `share.html` — smart-link handoff для app share: короткие ссылки `/s/<code>`, старые `?mix=` и `?lab=`, режим `?preview=1`; deep link + fallback в App Store / Play; `noindex`, не в sitemap
+- `/api/shared-mixes/<code>` — GET/HEAD proxy к `SHARE_MIX_FUNCTION_URL` из `wrangler.jsonc`. Читает один сохранённый рецепт по случайному коду, без cookies и пользовательских JWT. Ошибка загрузки оставляет кнопку повторной попытки; отсутствующий рецепт не перенаправляет в магазин.
+
 - `privacy.html`, `cookies.html`, `terms.html`, `eula.html`, `support.html` — публичные юридические документы (RU / EN / DE), намеренно исключённые из индексации через `noindex, follow`
 - `404.html`, `403.html`, `500.html` — страницы ошибок (`noindex`)
+
+Короткие ссылки требуют миграцию `20261018120000_shared_lab_mix_links.sql` и обновлённую Supabase функцию `share-mix` из репозитория приложения. Порядок выпуска: миграция → функция → этот сайт → приложение. `npm run test:share` проверяет маршруты, proxy и старые ссылки. Снимок рецепта не меняется при редактировании или удалении исходного микса; доступен каждому, у кого есть ссылка. Ответы `/s/` и `/api/shared-mixes/` имеют `no-store`, `no-referrer` и `noindex`.
 
 Перед публикацией:
 
@@ -34,7 +38,7 @@ cd website && python3 -m http.server 4173
 - `sitemap.xml` содержит только индексируемые страницы; `article.html`, `share.html`, legal и страницы ошибок намеренно исключены / `noindex`.
 - Каждая индексируемая HTML-страница указывает canonical URL на `https://get-mixly.app`.
 - Локализованные статьи публикуются как отдельные URL (`/ru/blog/...`, `/en/blog/...`, `/de/blog/...`) с взаимным `hreflang`, `x-default`, Open Graph, `Article` + `BreadcrumbList` JSON-LD и видимыми breadcrumbs. Обновление: `npm run generate:article-seo`.
-- Marketing/legal locales: RU at root (`/`, `/blog.html`, `/privacy.html`); EN/DE as `/en/…`, `/de/…` via `npm run generate:locale-routes`. Language switcher navigates between equivalent URLs.
+- Marketing/legal locales: RU at root (`/`, `/blog`, `/privacy.html`); EN/DE as `/en/…`, `/de/…` via `npm run generate:locale-routes`. Legacy `/blog.html` permanently redirects to `/blog`. Language switcher navigates between equivalent URLs.
 - На главной JSON-LD связывает `Organization`, `WebSite` и `MobileApplication` (включая App Store `downloadUrl`).
 
 ## Проверка сайта
