@@ -7,7 +7,7 @@
 | Production | `https://get-mixly.app` | Indexable pages only (see `sitemap.xml` / `noindex`) | `wrangler versions deploy <id>@100` |
 | Preview | `https://<alias>-mixly-website.<account>.workers.dev` | Forced `X-Robots-Tag: noindex, nofollow` on `*.workers.dev` | `wrangler versions upload --preview-alias …` |
 
-There is no separate secret-backed build for the static site. Client JS may embed public analytics/monitoring endpoints (Sentry DSN, PostHog host). Cloudflare credentials (`CLOUDFLARE_API_TOKEN`) stay in local `.env` / CI secrets and must never be committed.
+The static site embeds the public Sentry DSN and the public Amplitude browser API key for Mixly Web (`908537`). Cloudflare credentials (`CLOUDFLARE_API_TOKEN`) stay in local `.env` / CI secrets and must never be committed.
 
 ## Pre-flight
 
@@ -16,7 +16,7 @@ npm install
 npm run check:release
 ```
 
-`check:release` must exit `0` before production promotion. It validates local links, i18n dictionaries, canonical URLs, sitemap contents, article SEO contract, and optional external HTTP checks.
+`check:release` must exit `0` before production promotion. It validates local links, i18n dictionaries, canonical URLs, sitemap contents, article SEO contract, and external HTTP checks. New pages do not exist on production yet: run `npm run check` before uploading the version, then run `CHECK_SITE_PREVIEW_ORIGIN=https://<preview-host> npm run check:release` after upload. This checks site URLs on that preview while leaving third-party URL checks unchanged.
 
 ## Upload a version (preview)
 
@@ -81,9 +81,9 @@ Re-check production URLs after rollback. Keep at least the last known-good versi
 | --- | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | local `.env`, CI | **No** |
 | Sentry DSN | `monitoring.js` (public browser DSN) | Yes (expected) |
-| PostHog project key | `analytics.js` (public) | Yes (expected) |
+| Amplitude browser API key | `analytics.js` (public Mixly Web key) | Yes (expected) |
 
-Never put API tokens, private keys, or service-role Supabase keys in this repo.
+Keep Amplitude secret keys, API tokens, private keys, and service-role Supabase keys out of this repo.
 
 ## CI note
 

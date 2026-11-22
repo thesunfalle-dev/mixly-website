@@ -105,6 +105,10 @@ var STRINGS = {
     "journal.side": "Практичные материалы о вкусах, сочетаниях и привычках",
     "journal.all": "Все статьи",
     "journal.gridAria": "Последние статьи",
+    "blog.card.balance.href": "/ru/blog/kak-ispravit-nesbalansirovannyi-miks",
+    "blog.card.balance.meta": "ПРАКТИКА · 2 МИН",
+    "blog.card.balance.title": "Как исправить несбалансированный микс",
+    "blog.card.balance.excerpt": "Что изменить, если мята перебивает основу или микс кажется слишком сладким.",
     "blog.card.first.href": "/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana",
     "blog.card.first.aria": "Как правильно смешивать табак для кальяна",
     "blog.card.first.meta": "ПРАКТИКА · 4 МИН",
@@ -312,6 +316,10 @@ var STRINGS = {
     "journal.side": "Practical guides to flavors, pairings, and better mixing habits",
     "journal.all": "All articles",
     "journal.gridAria": "Latest articles",
+    "blog.card.balance.href": "/en/blog/how-to-fix-unbalanced-hookah-mix",
+    "blog.card.balance.meta": "PRACTICE · 2 MIN",
+    "blog.card.balance.title": "How to Fix an Unbalanced Hookah Mix",
+    "blog.card.balance.excerpt": "What to change when mint overpowers the base or a mix tastes too sweet.",
     "blog.card.first.href": "/en/blog/how-to-mix-hookah-tobacco",
     "blog.card.first.aria": "How to mix hookah tobacco",
     "blog.card.first.meta": "PRACTICE · 4 MIN",
@@ -519,6 +527,10 @@ var STRINGS = {
     "journal.side": "Praktische Beiträge über Aromen, Kombinationen und bessere Mixing-Routinen",
     "journal.all": "Alle Artikel",
     "journal.gridAria": "Neueste Artikel",
+    "blog.card.balance.href": "/de/blog/unausgewogenen-shisha-mix-verbessern",
+    "blog.card.balance.meta": "PRAXIS · 2 MIN",
+    "blog.card.balance.title": "Unausgewogenen Shisha-Mix verbessern",
+    "blog.card.balance.excerpt": "Was du ändern kannst, wenn Minze die Basis überdeckt oder ein Mix zu süß ist.",
     "blog.card.first.href": "/de/blog/wie-man-shisha-tabak-richtig-mischt",
     "blog.card.first.aria": "Wie man Shisha-Tabak richtig mischt",
     "blog.card.first.meta": "PRAXIS · 4 MIN",
@@ -694,6 +706,11 @@ var ARTICLES = {
   var currentLang = 'en';
 
   var ARTICLE_LOCALE_PATHS = [
+    {
+      ru: '/ru/blog/kak-ispravit-nesbalansirovannyi-miks',
+      en: '/en/blog/how-to-fix-unbalanced-hookah-mix',
+      de: '/de/blog/unausgewogenen-shisha-mix-verbessern'
+    },
     {
       ru: '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana',
       en: '/en/blog/how-to-mix-hookah-tobacco',
@@ -1013,6 +1030,9 @@ var ARTICLES = {
         });
       }
       function chooseLocale(nextLang) {
+        document.dispatchEvent(new CustomEvent('mixly:language-choice', {
+          detail: { from: currentLang, to: nextLang }
+        }));
         // Language switch should land on the matching page at the top, not keep an old section hash.
         var nextPath = pathForLocale(nextLang, location.pathname).replace(/#.*$/, '');
         try { localStorage.setItem(STORAGE_KEY, nextLang); } catch (ePersist) {}

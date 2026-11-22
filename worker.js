@@ -1,5 +1,5 @@
 const SECURITY_HEADERS = {
-  'Content-Security-Policy': "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline' https://browser.sentry-cdn.com https://us.i.posthog.com https://us-assets.i.posthog.com; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' https://browser.sentry-cdn.com https://o4511777909374976.ingest.de.sentry.io https://us.i.posthog.com; object-src 'none'; upgrade-insecure-requests",
+  'Content-Security-Policy': "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline' https://browser.sentry-cdn.com https://cdn.amplitude.com; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self' https://browser.sentry-cdn.com https://o4511777909374976.ingest.de.sentry.io https://api2.amplitude.com; object-src 'none'; upgrade-insecure-requests",
   'Strict-Transport-Security': 'max-age=31536000',
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
@@ -62,6 +62,9 @@ const STATIC_REWRITES = {
 };
 
 const ARTICLE_REWRITES = {
+  '/ru/blog/kak-ispravit-nesbalansirovannyi-miks': '/ru/blog/kak-ispravit-nesbalansirovannyi-miks/index.html',
+  '/en/blog/how-to-fix-unbalanced-hookah-mix': '/en/blog/how-to-fix-unbalanced-hookah-mix/index.html',
+  '/de/blog/unausgewogenen-shisha-mix-verbessern': '/de/blog/unausgewogenen-shisha-mix-verbessern/index.html',
   '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana':
     '/ru/blog/kak-pravilno-smeshivat-tabak-dlya-kalyana/index.html',
   '/en/blog/how-to-mix-hookah-tobacco': '/en/blog/how-to-mix-hookah-tobacco/index.html',
@@ -99,6 +102,7 @@ function barePath(pathname) {
 }
 
 function resolveAssetPath(pathname) {
+  if (/^\/s\/[A-Za-z0-9_-]{16}\/?$/.test(pathname)) return '/share.html';
   if (STATIC_REWRITES[pathname]) return STATIC_REWRITES[pathname];
   const bare = barePath(pathname);
   if (STATIC_REWRITES[bare]) return STATIC_REWRITES[bare];
@@ -128,6 +132,17 @@ function withSecurityHeaders(response, requestUrl) {
     headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
 
+  // Repository documentation is available for project operations, but must stay out of search indexes.
+  if (/^\/docs(?:\/|$)/i.test(pathname)) {
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
+  if (/^\/(?:s\/|api\/shared-mixes\/)/.test(pathname)) {
+    headers.set('Cache-Control', 'no-store');
+    headers.set('Referrer-Policy', 'no-referrer');
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
@@ -144,6 +159,38 @@ export default {
       const target = new URL(redirectTo, url);
       target.search = url.search;
       return withSecurityHeaders(Response.redirect(target.toString(), 301), url);
+    }
+    const sharedMixMatch = url.pathname.match(/^\/api\/shared-mixes\/([A-Za-z0-9_-]{16})$/);
+    if (sharedMixMatch) {
+      if (request.method !== 'GET' && request.method !== 'HEAD') {
+        return withSecurityHeaders(new Response(null, {
+          status: 405,
+          headers: { Allow: 'GET, HEAD' },
+        }), url);
+      }
+      try {
+        const endpoint = new URL(env.SHARE_MIX_FUNCTION_URL);
+        endpoint.searchParams.set('code', sharedMixMatch[1]);
+        const upstream = await fetch(endpoint, {
+          method: request.method,
+          headers: { Accept: 'application/json' },
+          signal: AbortSignal.timeout(5000),
+          redirect: 'manual',
+        });
+        if (upstream.status >= 300 && upstream.status < 400) {
+          throw new Error('Unexpected redirect from recipe service');
+        }
+        return withSecurityHeaders(new Response(upstream.body, {
+          status: upstream.status,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        }), url);
+      } catch (error) {
+        console.error('shared_mix_proxy_failed', error instanceof Error ? error.message : 'Unknown fetch error');
+        return withSecurityHeaders(new Response(JSON.stringify({ success: false }), {
+          status: 503,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        }), url);
+      }
     }
     const assetPath = resolveAssetPath(url.pathname);
     const assetRequest = assetPath

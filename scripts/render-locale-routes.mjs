@@ -9,6 +9,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
+import { injectHomeList } from './changelog-render.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://get-mixly.app';
@@ -262,6 +263,7 @@ function renderMarketing(file, locale) {
   source = replaceLocalizedContents(source, strings);
   source = replaceLocalizedAttributes(source, strings, locale);
   source = renderMeta(source, file, strings, locale);
+  if (file === 'index.html') source = injectHomeList(source, locale);
   source = absolutizeAssets(source);
   source = localizeInternalLinks(source, locale);
   source = markLangSwitch(source, locale);

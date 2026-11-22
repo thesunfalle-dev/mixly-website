@@ -3,7 +3,7 @@ var LEGAL_DOCS = {
   "privacy": {
     "en": {
       "title": "Privacy Policy",
-      "meta": "Effective date: July 22, 2026",
+      "meta": "Effective date: November 13, 2026",
       "notice": "Mixly is intended for adults only. The app is an informational catalog and recommendation reference for hookah/shisha flavor mixes. It does not sell, ship, facilitate the sale of, or promote the purchase or consumption of tobacco, nicotine, alcohol, or controlled products.",
       "sections": [
         {
@@ -19,26 +19,30 @@ var LEGAL_DOCS = {
           "id": "s2",
           "title": "2. Scope of this policy",
           "blocks": [
-            { "type": "p", "text": "This Privacy Policy explains how Mixly handles information when you use the Mixly mobile application and related hosted legal, catalog, analytics, subscription, support, sharing, translation, and community services. It is designed to describe the current behavior of the app." }
+            { "type": "p", "text": "This Privacy Policy explains how Mixly handles information when you use the Mixly mobile application and related hosted legal, catalog, analytics, subscription, support, sharing, translation, and community services. The features described below may vary by app version and platform." }
           ]
         },
         {
           "id": "s3",
-          "title": "3. Information stored on your device",
+          "title": "3. Data stored on your device and in your account",
           "blocks": [
-            { "type": "p", "text": "Mixly stores some app data locally on your device so the app can work without an account. This may include:" },
+            { "type": "p", "text": "Mixly stores some app data locally on your device to keep settings and saved content available between sessions." },
             { "type": "ul", "items": [
               "onboarding preferences, such as selected brands, categories, flavors, and preferred strength;",
               "favorite mix identifiers;",
               "local app state needed to show your personalized mix feed, daily free-access limits, swipe hints, and paywall state;",
               "Labs data, such as custom tobaccos, generated or manual lab mixes, ingredient percentages, and random generation counters;",
-              "a locally generated Mixly user ID and optional nickname used for support and community suggestion features;",
+              "a locally generated Mixly user ID and your saved display name or nickname, used for support and community features;",
               "a locally generated Amplitude device ID used for analytics if analytics is enabled;",
               "temporary share-card images generated on your device when you choose to share a mix image, where that feature is enabled;",
               "language-related app behavior derived from your device locale or in-app language choice."
             ] },
-            { "type": "p", "text": "This information is stored on your device using local storage technology such as AsyncStorage and temporary app files. Mixly does not provide email/password registration. You may choose to sign in with Apple on iOS or Google on Android, and an iOS user may explicitly link Google to the same account. For an authenticated account, Mixly stores a private cloud copy of the listed app data in Supabase so it can be restored on another device. The cloud copy is tied to your authenticated Supabase user ID and is protected so other users cannot read it. Some local identity information, such as your generated Mixly user ID and optional nickname, may also be synced to Supabase so support and community features can work. If you choose to copy your Mixly system ID, that value is placed on your device clipboard by the operating system." },
-            { "type": "p", "text": "The Mixly website stores your selected display language in localStorage (mixly-lang). If you actively allow optional website analytics, Mixly loads PostHog from its US Cloud. PostHog may store its analytics state in cookies or local storage and process a pseudonymous browser identifier, page path without query parameters, display language, page type, referral origin, and interactions with App Store or Google Play links. We do not enable automatic interaction capture, heatmaps, session recording, advertising, or social-media tracking. Analytics can be refused or changed at any time through the Analytics settings link in the footer. PostHog and its infrastructure may process network metadata, including IP address, to receive events; information may be processed in the United States." }
+            { "type": "p", "text": "This information is stored on your device using local storage such as AsyncStorage and temporary app files. If you copy an identifier from your profile, the app puts it on your device clipboard." },
+            { "type": "p", "text": "On iOS, Mixly 1.0.7 requires you to sign in with Apple or Google to use the main app. Earlier iOS versions allowed guest use. Google sign-in is available in supported Android builds." },
+            { "type": "p", "text": "Mixly uses Supabase Auth to create and authenticate your account. When you sign in, we process the provider's account identifier, the email address it shares with us, and authentication data. If you use Apple's Hide My Email, the address may be an Apple relay address. A name shared by Apple or Google may prefill your display name during setup. The name or nickname you save becomes part of your profile." },
+            { "type": "p", "text": "For a signed-in account, Mixly stores a private copy of account data in Supabase to sync and restore it on your devices. This can include saved recipes and ingredients, favorites, onboarding preferences, viewed mix IDs and free-access state, your Mixly user ID, and your display name or nickname. The copy is tied to your Supabase account ID and is accessible through that account." },
+            { "type": "p", "text": "The Mixly website stores your selected display language in localStorage (mixly-lang). With your consent, Mixly uses Amplitude for optional website analytics and stores a pseudonymous browser identifier and analytics session data in localStorage. Analytics events may include their time, basic browser and device information, the page path without query parameters or fragments, the page type, the display language, the referring site's origin, and actions such as opening the blog or an article, changing the language, and following links to App Store or Google Play. We do not enable automatic interaction capture, heatmaps, session recording, advertising, or social-media tracking." },
+            { "type": "p", "text": "To change your choice at any time, open [[a:./cookies.html]]Cookies & Analytics[[/a]] from the footer and select the link to open analytics settings. Withdrawing consent stops further analytics collection and clears the stored analytics data from your browser. Amplitude receives website analytics events in the United States and may process network metadata, such as the request IP address, to receive them. Mixly disables IP-based location enrichment for website analytics." }
           ]
         },
         {
@@ -54,10 +58,10 @@ var LEGAL_DOCS = {
           "id": "s5",
           "title": "5. User identity, support, and community features",
           "blocks": [
-            { "type": "p", "text": "Mixly creates a pseudonymous local user ID, such as an ID beginning with \"MX-\", and lets you optionally set a nickname. This is not an email/password account, but it may be stored locally and synced to Supabase to identify support requests, rate-limit abuse, show community attribution, and manage community suggestion workflows." },
-            { "type": "p", "text": "The app lets you send suggestions, catalog requests, feedback, and community mix suggestions from inside Mixly. Depending on the feature you use, Mixly may send your message text, message type, app language, source label, generated user ID, optional nickname, mix name, mix description, flavors, tobaccos, strength, timestamps, and related technical request data to Supabase Edge Functions." },
-            { "type": "p", "text": "Support and feedback messages may be forwarded through messaging or notification service providers used by the Mixly operator for support and product operations. Community mix suggestions may be stored in Supabase for moderation, review, catalog improvement, and possible publication in the app. If a community mix suggestion is approved, the submitted nickname may be shown with the published mix if you provided one." },
-            { "type": "p", "text": "Community features may let you react to published community mixes, submit ratings, write review/comment text, edit or delete your own reviews, and request translation of review text. Mixly may process the published mix ID, reaction type, rating, review/comment text, review language, generated user ID, optional nickname, timestamps, and related request metadata. Review/comment text and nickname snapshots may be visible to other users if shown in the community area." },
+            { "type": "p", "text": "Mixly generates a pseudonymous local user ID, such as an ID beginning with \"MX-\". Mixly uses that ID and your saved display name or nickname, when available, to identify support requests, limit abuse, and attribute community contributions." },
+            { "type": "p", "text": "The app lets you send suggestions, catalog requests, feedback, and community mix suggestions from inside Mixly. Depending on the feature you use, Mixly may send your message text, message type, app language, source label, generated user ID, saved display name or nickname, mix name, mix description, flavors, tobaccos, strength, timestamps, and related technical request data to Supabase Edge Functions." },
+            { "type": "p", "text": "In-app support and feedback messages may be forwarded to the Mixly operator through Telegram. They can include your Supabase user ID, your sign-in status when you sent the message, and your Mixly user ID and display name or nickname when available. Community mix suggestions may be stored in Supabase for moderation, review, catalog improvement, and possible publication in the app. If a suggestion is approved, the submitted display name or nickname may appear with the published mix." },
+            { "type": "p", "text": "Community features may let you react to published community mixes, submit ratings, write review/comment text, edit or delete your own reviews, and request translation of review text. Mixly may process the published mix ID, reaction type, rating, review/comment text, review language, generated user ID, saved display name or nickname, timestamps, and related request metadata. Review or comment text and the display name or nickname at the time of submission may be visible to other users if shown in the community area." },
             { "type": "p", "text": "If you request translation of community review/comment text, Mixly may send the text and target language to third-party translation service providers. Translation providers may process that text and related technical metadata under their own terms and privacy practices." },
             { "type": "p", "text": "Messaging and notification service providers may process message content and related metadata under their own terms and privacy practices. Please do not include sensitive personal information in support, feedback, or suggestion messages unless it is necessary for your request." }
           ]
@@ -66,10 +70,12 @@ var LEGAL_DOCS = {
           "id": "s6",
           "title": "6. Analytics",
           "blocks": [
-            { "type": "p", "text": "Mixly uses Amplitude as an analytics service provider to understand basic app usage, improve product quality, diagnose feature performance, and evaluate premium feature flows. Analytics is enabled only when the app is configured with an Amplitude API key." },
-            { "type": "p", "text": "Analytics events may include a pseudonymous Amplitude device ID, session ID, event name, event time, platform, operating system name and version, app version, build number, app slug, app language, premium status, active tab, and device locale information such as device language, language tag, region, currency, measurement system, text direction, time zone, and 24-hour-clock setting. If you sign in with Apple or Google, Mixly also sends the pseudonymous Supabase account ID to link analytics across your signed-in devices; it does not send your provider email address or name." },
-            { "type": "p", "text": "Analytics event properties may include selected tab, previous tab, screen name, selected onboarding counts, selected strength identifiers, mix ID, mix name, ingredient count, strength level, favorite state, search query length and result count, swipe direction, paywall source, package identifier, product identifier, package type, price, currency, restore status, purchase event status, share status, review rating, review text length, reaction ID, and similar product interaction metadata." },
-            { "type": "p", "text": "Amplitude and related analytics infrastructure may also process IP address and request metadata when analytics events are sent. Depending on Amplitude settings, this may be used to derive approximate geographic information such as country, region, or city for product analytics and abuse prevention." },
+            { "type": "p", "text": "In app versions with Amplitude enabled, Mixly automatically sends usage and diagnostic events to Amplitude to understand how the app is used, improve it, and evaluate Premium features." },
+            { "type": "p", "text": "Analytics events may include a persistent, pseudonymous Amplitude device ID, session ID, event name, event time, platform, operating system name and version, app version, build number, app slug, app language, premium status, active tab, and device locale information such as device language, language tag, region, currency, measurement system, text direction, time zone, and 24-hour-clock setting. If you sign in with Apple or Google, Mixly also sends the pseudonymous Supabase account ID to link analytics across your signed-in devices." },
+            { "type": "p", "text": "Analytics event properties may include selected tab, previous tab, screen name, selected onboarding counts, selected strength identifiers, mix ID, mix name, ingredient count, strength level, favorite state, swipe direction, paywall source, package identifier, product identifier, package type, price, currency, restore status, purchase event status, share status, review rating, review text length, support and feedback message length, reaction ID, and similar product interaction metadata." },
+            { "type": "p", "text": "For Favorites search analytics, Mixly sends whether you entered a search query, the number of characters you entered, and the number of results. Mixly does not send the search text to Amplitude." },
+            { "type": "p", "text": "Performance and diagnostic events may include app startup time, Apple sign-in attempt duration, the reason, stage or error code for a failed sign-in, and the category of a cloud sync or restore failure." },
+            { "type": "p", "text": "Amplitude uses the analytics request IP address to derive an approximate location such as country, region or city when its GeoIP settings allow. Mixly uses this information for product analytics." },
             { "type": "p", "text": "Successful premium purchase events may include Amplitude revenue fields when RevenueCat exposes product price data. Mixly does not use Amplitude for advertising, ad personalization, or cross-app tracking. We do not intentionally send your name, email address, precise GPS location, contacts, photos, support message text, or full community review/comment text to Amplitude." }
           ]
         },
@@ -87,7 +93,9 @@ var LEGAL_DOCS = {
           "title": "8. Sharing and links",
           "blocks": [
             { "type": "p", "text": "Mixly lets you share mixes or the app through the operating system share sheet. When you choose to share a mix, Mixly may generate share text, a Mixly deep link, a smart share URL, and, where enabled, a temporary share-card image based on the mix name, ingredients, percentages, description, and app link. The destination app or person you choose to share with is controlled by you and is not controlled by Mixly." },
-            { "type": "p", "text": "Smart share-link pages and deep links may process the shared mix ID, request URL, user-agent, IP address, timestamps, and related technical request metadata so the link can open Mixly or redirect to the appropriate app store. Mixly also tracks basic share events in analytics, such as mix ID, source, share mode, and success or failure state." }
+            { "type": "p", "text": "Smart share-link pages and deep links may process the shared mix ID, request URL, user-agent, IP address, timestamps, and related technical request metadata so the link can open Mixly or redirect to the appropriate app store. Mixly also tracks basic share events in analytics, such as mix ID, source, share mode, and success or failure state." },
+            { "type": "p", "text": "When you share a Labs mix with a short link, Mixly stores a separate snapshot of its name, ingredient labels, percentages, and ingredient types in Supabase, together with a random link code, creation time, and your authenticated or anonymous session ID. Anyone with the link can read the recipe; your session ID and creation time are not returned. Editing or deleting the original mix does not change the snapshot. Shared snapshots are retained so sent links keep working; deleting your account removes its association with the snapshot and does not revoke the link." },
+            { "type": "p", "text": "Mix Shot lets you take a photo or choose an image from your photo library and add a mix recipe to it. Mixly requests camera or photo-library access when you choose the corresponding action, and permission to save an image when you save a Mix Shot. The original image, composed image, and draft references are processed and stored locally on your device; Mixly does not upload these photos or include them in account cloud snapshots or analytics. You can save the composed image to your photo library or share it through the operating system share sheet. Any app or person you choose to share with handles the image under its own policies. You can manage these permissions in your device settings." }
           ]
         },
         {
@@ -96,11 +104,11 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "In the current release, Mixly does not provide or use:" },
             { "type": "ul", "items": [
-              "email/password account registration; Mixly supports only optional Apple and Google account sign-in;",
+              "email-and-password registration or sign-in;",
               "direct card payment processing by Mixly (subscription billing and purchase management are handled by App Store or Google Play);",
               "advertising SDKs or ad personalization;",
               "public social profiles, private chats, or direct messaging between users;",
-              "camera, photo library, contacts, precise location, coarse location, microphone, or push notification permissions."
+              "contacts, precise location, coarse location, microphone, or push notification permissions."
             ] }
           ]
         },
@@ -110,6 +118,7 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "We use information described in this policy to:" },
             { "type": "ul", "items": [
+              "authenticate your account and sync or restore saved account data;",
               "provide the app's core catalog, filtering, recommendation, favorites, and onboarding functionality;",
               "load and update catalog and community content;",
               "receive, route, review, and respond where possible to support, feedback, and content suggestion messages;",
@@ -128,7 +137,7 @@ var LEGAL_DOCS = {
           "title": "11. Sharing information",
           "blocks": [
             { "type": "p", "text": "We do not sell personal data. We do not share personal data for advertising tracking or ad personalization." },
-            { "type": "p", "text": "We may share or allow processing of information with service providers that help operate Mixly, including Supabase, messaging and notification service providers, Amplitude, RevenueCat, Apple App Store, Google Play, translation service providers, hosting providers, email providers, and technical infrastructure providers. These providers process information for service operation, hosting, analytics, subscription management, translation, security, support, and similar purposes." },
+            { "type": "p", "text": "We may share or allow processing of information with service providers that help operate Mixly, including Supabase, Apple and Google for sign-in, Telegram and other messaging and notification service providers, Amplitude, RevenueCat, Apple App Store, Google Play, translation service providers, hosting providers, email providers, and technical infrastructure providers. These providers process information for service operation, hosting, analytics, subscription management, translation, security, support, and similar purposes." },
             { "type": "p", "text": "We may also disclose information if required by law, legal process, government request, or to protect the rights, safety, and security of Mixly, users, or others." }
           ]
         },
@@ -180,7 +189,7 @@ var LEGAL_DOCS = {
     },
     "ru": {
       "title": "Политика конфиденциальности",
-      "meta": "Дата вступления в силу: 22 июля 2026",
+      "meta": "Дата вступления в силу: 13 ноября 2026",
       "notice": "Mixly предназначен только для взрослых. Приложение является информационным каталогом и справочником рекомендаций по миксам вкусов для кальяна/шиши. Оно не продаёт, не доставляет, не содействует продаже и не продвигает покупку или употребление табака, никотина, алкоголя либо контролируемых товаров.",
       "sections": [
         {
@@ -196,26 +205,30 @@ var LEGAL_DOCS = {
           "id": "s2",
           "title": "2. Область применения",
           "blocks": [
-            { "type": "p", "text": "Эта Политика конфиденциальности описывает, как Mixly обрабатывает информацию при использовании мобильного приложения Mixly и связанных с ним юридических страниц, сервисов каталога, аналитики, подписок, поддержки, шаринга, перевода и community-функций. Политика предназначена для описания текущего поведения приложения." }
+            { "type": "p", "text": "Эта Политика конфиденциальности описывает, как Mixly обрабатывает информацию при использовании мобильного приложения Mixly и связанных с ним юридических страниц, сервисов каталога, аналитики, подписок, поддержки, шаринга, перевода и community-функций. Описанные ниже функции могут различаться в зависимости от версии приложения и платформы." }
           ]
         },
         {
           "id": "s3",
-          "title": "3. Информация, хранящаяся на вашем устройстве",
+          "title": "3. Данные на устройстве и в аккаунте",
           "blocks": [
-            { "type": "p", "text": "Mixly хранит часть данных локально на вашем устройстве, чтобы приложение могло работать без аккаунта. Это может включать:" },
+            { "type": "p", "text": "Mixly хранит часть данных на вашем устройстве, чтобы настройки и сохранённые материалы были доступны между сеансами." },
             { "type": "ul", "items": [
               "предпочтения онбординга, например выбранные бренды, категории, вкусы и предпочитаемую крепость;",
               "идентификаторы избранных миксов;",
               "локальное состояние приложения, необходимое для показа персонализированной ленты миксов, дневных бесплатных лимитов, подсказок свайпа и состояния paywall;",
               "данные Labs, такие как пользовательские табаки, сгенерированные или ручные lab-миксы, проценты ингредиентов и счётчики случайной генерации;",
-              "локально созданный Mixly user ID и необязательный никнейм для поддержки и community-функций;",
+              "созданный на устройстве идентификатор пользователя Mixly и сохранённое имя или никнейм для поддержки и функций сообщества;",
               "локально созданный Amplitude device ID для аналитики, если аналитика включена;",
               "временные изображения share-card, созданные на вашем устройстве, когда вы выбираете поделиться изображением микса и эта функция включена;",
               "поведение приложения, связанное с языком, определяемое по локали устройства или выбору языка в приложении."
             ] },
-            { "type": "p", "text": "Эта информация хранится на устройстве с использованием технологий локального хранилища, таких как AsyncStorage, и временных файлов приложения. Mixly не предоставляет регистрацию по email/паролю. Вы можете войти через Apple на iOS или через Google на Android, а на iOS пользователь может явно привязать Google к тому же аккаунту. Для авторизованного аккаунта Mixly сохраняет приватную облачную копию перечисленных данных в Supabase, чтобы восстановить их на другом устройстве. Эта копия привязана к аутентифицированному Supabase user ID и недоступна другим пользователям. Часть локальной идентификационной информации, например созданный Mixly user ID и необязательный никнейм, также может синхронизироваться с Supabase для работы поддержки и community-функций. Если вы выбираете скопировать свой системный ID Mixly, это значение помещается в буфер обмена устройства средствами операционной системы." },
-            { "type": "p", "text": "Сайт Mixly хранит выбранный язык интерфейса в localStorage (mixly-lang). Если вы явно разрешаете необязательную веб-аналитику, Mixly загружает PostHog из US Cloud. PostHog может хранить состояние аналитики в cookies или localStorage и обрабатывать псевдонимный идентификатор браузера, путь страницы без query-параметров, язык интерфейса, тип страницы, origin реферера и переходы по ссылкам App Store или Google Play. Мы не включаем автосбор действий, heatmaps, запись сессий, рекламу или отслеживание в соцсетях. От аналитики можно отказаться или изменить выбор в любой момент по ссылке «Настройки аналитики» в футере. PostHog и его инфраструктура могут обрабатывать сетевые метаданные, включая IP-адрес, для приёма событий; информация может обрабатываться в США." }
+            { "type": "p", "text": "Эти сведения хранятся на устройстве с помощью локального хранилища, например AsyncStorage, и временных файлов приложения. Если вы копируете идентификатор из профиля, приложение помещает его в буфер обмена устройства." },
+            { "type": "p", "text": "Для доступа к основным разделам Mixly 1.0.7 на iOS требуется вход через Apple или Google. В более ранних версиях для iOS был доступен гостевой режим. Вход через Google доступен в поддерживаемых сборках для Android." },
+            { "type": "p", "text": "Mixly использует Supabase Auth для создания аккаунта и входа в него. При входе мы обрабатываем идентификатор аккаунта у выбранного поставщика, переданный им адрес электронной почты и данные аутентификации. Если вы используете функцию Apple «Скрыть e-mail», это может быть адрес переадресации Apple. Имя, полученное от Apple или Google, может автоматически подставляться при настройке профиля. Сохранённое вами имя или никнейм становится частью профиля." },
+            { "type": "p", "text": "После входа Mixly хранит в Supabase закрытую копию данных аккаунта для синхронизации и восстановления на ваших устройствах. В неё могут входить сохранённые рецепты и ингредиенты, избранное, настройки онбординга, идентификаторы просмотренных миксов, данные о бесплатном доступе, идентификатор пользователя Mixly и ваше имя или никнейм. Копия привязана к идентификатору аккаунта Supabase и доступна через этот аккаунт." },
+            { "type": "p", "text": "Сайт Mixly хранит выбранный язык интерфейса в localStorage (mixly-lang). С вашего согласия Mixly использует Amplitude для необязательной веб-аналитики и сохраняет в localStorage псевдонимный идентификатор браузера и данные аналитической сессии. Аналитические события могут включать время события, основные сведения о браузере и устройстве, путь страницы без параметров запроса и фрагмента, тип страницы, язык интерфейса, адрес сайта-источника без пути к странице, а также действия вроде открытия блога или статьи, смены языка и перехода по ссылкам App Store или Google Play. Мы не включаем автоматический сбор действий, тепловые карты, запись сессий, рекламу или отслеживание в соцсетях." },
+            { "type": "p", "text": "Чтобы изменить выбор в любой момент, откройте внизу страницы раздел [[a:./cookies.html]]«Cookies и аналитика»[[/a]] и перейдите по ссылке на настройки аналитики. Если вы отзовёте согласие, Mixly прекратит сбор новых событий и удалит сохранённые данные аналитики из браузера. Amplitude принимает события веб-аналитики в США и при приёме может обрабатывать сетевые метаданные, включая IP-адрес запроса. Для веб-аналитики Mixly отключает определение местоположения по IP-адресу." }
           ]
         },
         {
@@ -231,10 +244,10 @@ var LEGAL_DOCS = {
           "id": "s5",
           "title": "5. User ID, поддержка и community-функции",
           "blocks": [
-            { "type": "p", "text": "Mixly создаёт псевдонимный локальный user ID, например идентификатор, начинающийся с «MX-», и позволяет по желанию указать никнейм. Это не аккаунт с email/паролем, но эти данные могут храниться локально и синхронизироваться с Supabase для идентификации запросов поддержки, ограничения злоупотреблений, отображения community-авторства и работы процессов предложений." },
-            { "type": "p", "text": "Приложение позволяет отправлять предложения, запросы по каталогу, обратную связь и community-предложения миксов. В зависимости от функции Mixly может передавать текст сообщения, тип сообщения, язык приложения, метку источника, созданный user ID, необязательный никнейм, название микса, описание микса, вкусы, табаки, крепость, временные метки и связанные технические данные запроса в Supabase Edge Functions." },
-            { "type": "p", "text": "Сообщения поддержки и обратной связи могут пересылаться через сервисы сообщений или уведомлений, которые оператор Mixly использует для поддержки и продуктовых операций. Community-предложения миксов могут сохраняться в Supabase для модерации, проверки, улучшения каталога и возможной публикации в приложении. Если community-предложение одобрено, указанный никнейм может отображаться рядом с опубликованным миксом." },
-            { "type": "p", "text": "Community-функции могут позволять реагировать на опубликованные community-миксы, отправлять оценки, писать текст отзывов/комментариев, редактировать или удалять свои отзывы и запрашивать перевод текста отзывов. Mixly может обрабатывать ID опубликованного микса, тип реакции, оценку, текст отзыва/комментария, язык отзыва, созданный user ID, необязательный никнейм, временные метки и связанные метаданные запроса. Текст отзыва/комментария и snapshot никнейма могут быть видны другим пользователям, если отображаются в community-разделе." },
+            { "type": "p", "text": "Mixly создаёт на устройстве псевдонимный идентификатор пользователя, например начинающийся с «MX-». Mixly использует его и ваше сохранённое имя или никнейм, если они доступны, для обработки обращений в поддержку, ограничения злоупотреблений и указания авторства в сообществе." },
+            { "type": "p", "text": "Приложение позволяет отправлять предложения, запросы по каталогу, обратную связь и community-предложения миксов. В зависимости от функции Mixly может передавать текст сообщения, тип сообщения, язык приложения, метку источника, созданный идентификатор пользователя, сохранённое имя или никнейм, название микса, описание микса, вкусы, табаки, крепость, временные метки и связанные технические данные запроса в Supabase Edge Functions." },
+            { "type": "p", "text": "Обращения в поддержку и отзывы из приложения могут передаваться оператору Mixly через Telegram. Вместе с сообщением могут передаваться идентификатор пользователя Supabase, статус входа при отправке, а также идентификатор пользователя Mixly и имя или никнейм, если они доступны. Предложения миксов от сообщества могут храниться в Supabase для модерации, проверки, улучшения каталога и возможной публикации. Если предложение одобрено, указанное имя или никнейм может отображаться рядом с опубликованным миксом." },
+            { "type": "p", "text": "Community-функции могут позволять реагировать на опубликованные community-миксы, отправлять оценки, писать текст отзывов/комментариев, редактировать или удалять свои отзывы и запрашивать перевод текста отзывов. Mixly может обрабатывать ID опубликованного микса, тип реакции, оценку, текст отзыва/комментария, язык отзыва, созданный идентификатор пользователя, сохранённое имя или никнейм, временные метки и связанные метаданные запроса. Текст отзыва или комментария и имя или никнейм, сохранённые при отправке, могут быть видны другим пользователям, если отображаются в community-разделе." },
             { "type": "p", "text": "Если вы запрашиваете перевод текста community-отзыва/комментария, Mixly может отправить этот текст и целевой язык сторонним поставщикам сервисов перевода. Поставщики перевода могут обрабатывать этот текст и связанные технические метаданные в соответствии со своими условиями и практиками конфиденциальности." },
             { "type": "p", "text": "Сервисы сообщений и уведомлений могут обрабатывать содержание сообщений и связанные метаданные в соответствии со своими условиями и практиками конфиденциальности. Пожалуйста, не указывайте чувствительные персональные данные в сообщениях поддержки, обратной связи или предложений, если это не необходимо для вашего запроса." }
           ]
@@ -243,10 +256,12 @@ var LEGAL_DOCS = {
           "id": "s6",
           "title": "6. Аналитика",
           "blocks": [
-            { "type": "p", "text": "Mixly использует Amplitude как провайдера аналитики, чтобы понимать базовое использование приложения, улучшать качество продукта, диагностировать работу функций и оценивать premium-сценарии. Аналитика включается только если приложение настроено с Amplitude API key." },
-            { "type": "p", "text": "Аналитические события могут включать псевдонимный Amplitude device ID, session ID, название события, время события, платформу, название и версию операционной системы, версию приложения, build number, app slug, язык приложения, premium-статус, активную вкладку и сведения о локали устройства, такие как язык устройства, language tag, регион, валюта, система измерения, направление текста, часовой пояс и использование 24-часового формата. Если вы входите через Apple или Google, Mixly также отправляет псевдонимный Supabase account ID, чтобы связать аналитику между вашими авторизованными устройствами; email и имя из аккаунта провайдера не отправляются." },
-            { "type": "p", "text": "Свойства аналитических событий могут включать выбранную вкладку, предыдущую вкладку, название экрана, количество выбранных элементов онбординга, выбранные идентификаторы крепости, ID микса, название микса, количество ингредиентов, уровень крепости, состояние избранного, длину поискового запроса и количество результатов, направление свайпа, источник paywall, package ID, product ID, тип package, цену, валюту, статус восстановления, статус события покупки, статус шаринга, оценку отзыва, длину текста отзыва, reaction ID и похожие метаданные взаимодействия с продуктом." },
-            { "type": "p", "text": "Amplitude и связанная аналитическая инфраструктура также могут обрабатывать IP-адрес и метаданные запроса при отправке аналитических событий. В зависимости от настроек Amplitude это может использоваться для определения примерной географической информации, такой как страна, регион или город, для продуктовой аналитики и предотвращения злоупотреблений." },
+            { "type": "p", "text": "В версиях приложения с включённой аналитикой Mixly автоматически отправляет в Amplitude данные об использовании и диагностике. Эти данные помогают понять, как пользователи работают с приложением, улучшать его и оценивать функции Premium." },
+            { "type": "p", "text": "Аналитические события могут включать постоянный псевдонимный идентификатор устройства Amplitude, session ID, название события, время события, платформу, название и версию операционной системы, версию приложения, build number, app slug, язык приложения, premium-статус, активную вкладку и сведения о локали устройства, такие как язык устройства, language tag, регион, валюта, система измерения, направление текста, часовой пояс и использование 24-часового формата. Если вы входите через Apple или Google, Mixly также отправляет псевдонимный Supabase account ID, чтобы связать аналитические данные с вашим аккаунтом на разных устройствах." },
+            { "type": "p", "text": "Свойства аналитических событий могут включать выбранную вкладку, предыдущую вкладку, название экрана, количество выбранных элементов онбординга, выбранные идентификаторы крепости, ID микса, название микса, количество ингредиентов, уровень крепости, состояние избранного, направление свайпа, источник paywall, package ID, product ID, тип package, цену, валюту, статус восстановления, статус события покупки, статус шаринга, оценку отзыва, длину текста отзыва, длину сообщения в поддержку или сообщения обратной связи, reaction ID и похожие метаданные взаимодействия с продуктом." },
+            { "type": "p", "text": "Для аналитики поиска в «Избранном» Mixly передаёт сведения о наличии запроса, количестве символов в нём и количестве результатов. Mixly не передаёт текст запроса в Amplitude." },
+            { "type": "p", "text": "Данные о производительности и диагностике могут включать время запуска приложения, длительность попытки входа через Apple, причину, этап или код ошибки входа, а также категорию сбоя синхронизации или восстановления данных из облака." },
+            { "type": "p", "text": "Amplitude использует IP-адрес запроса аналитики для определения примерного местоположения, например страны, региона или города, если это предусмотрено настройками GeoIP. Mixly использует эти сведения для продуктовой аналитики." },
             { "type": "p", "text": "События успешной premium-покупки могут включать Amplitude revenue fields, если RevenueCat предоставляет данные цены продукта. Mixly не использует Amplitude для рекламы, персонализации рекламы или cross-app tracking. Мы намеренно не отправляем в Amplitude ваше имя, email, точную GPS-геолокацию, контакты, фотографии, текст сообщений поддержки или полный текст community-отзывов/комментариев." }
           ]
         },
@@ -264,7 +279,9 @@ var LEGAL_DOCS = {
           "title": "8. Шаринг и ссылки",
           "blocks": [
             { "type": "p", "text": "Mixly позволяет делиться миксами или приложением через системный share sheet. Когда вы выбираете поделиться миксом, Mixly может создать share text, Mixly deep link, smart share URL и, если функция включена, временное изображение share-card на основе названия микса, ингредиентов, процентов, описания и ссылки на приложение. Приложение-получатель или человек, с которым вы делитесь, выбирается вами и не контролируется Mixly." },
-            { "type": "p", "text": "Smart share-link страницы и deep links могут обрабатывать ID микса, URL запроса, user-agent, IP-адрес, временные метки и связанные технические метаданные запроса, чтобы ссылка могла открыть Mixly или перенаправить в подходящий магазин приложений. Mixly также отслеживает базовые события шаринга в аналитике, например ID микса, источник, режим шаринга и статус успеха или ошибки." }
+            { "type": "p", "text": "Smart share-link страницы и deep links могут обрабатывать ID микса, URL запроса, user-agent, IP-адрес, временные метки и связанные технические метаданные запроса, чтобы ссылка могла открыть Mixly или перенаправить в подходящий магазин приложений. Mixly также отслеживает базовые события шаринга в аналитике, например ID микса, источник, режим шаринга и статус успеха или ошибки." },
+            { "type": "p", "text": "Когда вы делитесь миксом Labs по короткой ссылке, Mixly сохраняет в Supabase отдельный снимок названия, ингредиентов, процентов и типов ингредиентов вместе со случайным кодом ссылки, временем создания и ID вашей авторизованной или анонимной сессии. Рецепт доступен каждому, у кого есть ссылка; ID сессии и время создания получателю не передаются. Редактирование или удаление исходного микса не меняет снимок. Снимки сохраняются, чтобы отправленные ссылки работали; удаление аккаунта убирает связь с ним, но не отзывает ссылку." },
+            { "type": "p", "text": "Mix Shot позволяет сделать фото или выбрать изображение из фотобиблиотеки и добавить к нему рецепт микса. Mixly запрашивает доступ к камере или фотобиблиотеке при выборе соответствующего действия и разрешение на сохранение изображения при сохранении Mix Shot. Исходное фото, готовое изображение и ссылки на черновики обрабатываются и хранятся локально на устройстве; Mixly не загружает эти фотографии на сервер и не включает их в облачные снимки аккаунта или аналитику. Готовое изображение можно сохранить в фотобиблиотеку или передать через системное меню «Поделиться». Выбранное вами приложение или получатель обрабатывает изображение по своим правилам. Управлять разрешениями можно в настройках устройства." }
           ]
         },
         {
@@ -273,11 +290,11 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "В текущем релизе Mixly не предоставляет и не использует:" },
             { "type": "ul", "items": [
-              "регистрацию или вход через email/пароль; Mixly поддерживает только необязательный вход через аккаунты Apple и Google;",
+              "регистрацию или вход по адресу электронной почты и паролю;",
               "прямую обработку карточных платежей со стороны Mixly (выставление счетов по подписке и управление покупками осуществляются App Store или Google Play);",
               "рекламные SDK или персонализацию рекламы;",
               "публичные социальные профили, приватные чаты или прямые сообщения между пользователями;",
-              "разрешения на камеру, фото-библиотеку, контакты, точную/примерную геолокацию, микрофон или push-уведомления."
+              "разрешения на контакты, точную/примерную геолокацию, микрофон или push-уведомления."
             ] }
           ]
         },
@@ -287,6 +304,7 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "Мы используем информацию, описанную в этой политике, чтобы:" },
             { "type": "ul", "items": [
+              "подтверждать вход в аккаунт, синхронизировать и восстанавливать сохранённые данные аккаунта;",
               "предоставлять основные функции приложения: каталог, фильтры, рекомендации, избранное и онбординг;",
               "загружать и обновлять контент каталога и community-контент;",
               "получать, маршрутизировать, просматривать и по возможности отвечать на сообщения поддержки, обратной связи и предложений;",
@@ -305,7 +323,7 @@ var LEGAL_DOCS = {
           "title": "11. Передача информации",
           "blocks": [
             { "type": "p", "text": "Мы не продаём персональные данные. Мы не передаём персональные данные для рекламного трекинга или персонализации рекламы." },
-            { "type": "p", "text": "Мы можем передавать или допускать обработку информации поставщиками сервисов, которые помогают работать Mixly, включая Supabase, сервисы сообщений и уведомлений, Amplitude, RevenueCat, Apple App Store, Google Play, поставщиков сервисов перевода, провайдеров хостинга, провайдеров электронной почты и поставщиков технической инфраструктуры. Эти провайдеры обрабатывают информацию для работы сервиса, хостинга, аналитики, управления подписками, перевода, безопасности, поддержки и аналогичных целей." },
+            { "type": "p", "text": "Мы можем передавать или допускать обработку информации поставщиками сервисов, которые помогают работать Mixly, включая Supabase, Apple и Google для входа, Telegram и другие сервисы сообщений и уведомлений, Amplitude, RevenueCat, Apple App Store, Google Play, поставщиков сервисов перевода, провайдеров хостинга, провайдеров электронной почты и поставщиков технической инфраструктуры. Эти провайдеры обрабатывают информацию для работы сервиса, хостинга, аналитики, управления подписками, перевода, безопасности, поддержки и аналогичных целей." },
             { "type": "p", "text": "Мы также можем раскрывать информацию, если этого требует закон, судебный или иной правовой процесс, запрос государственных органов, либо для защиты прав, безопасности и защищённости Mixly, пользователей или других лиц." }
           ]
         },
@@ -357,7 +375,7 @@ var LEGAL_DOCS = {
     },
     "de": {
       "title": "Datenschutzerklärung",
-      "meta": "Gültig ab: 22. Juli 2026",
+      "meta": "Gültig ab: 13. November 2026",
       "notice": "Mixly ist ausschließlich für Erwachsene bestimmt. Die App ist ein informativer Katalog und ein Empfehlungsnachschlagewerk für Geschmacksmischungen für Wasserpfeife/Shisha. Sie verkauft, versendet oder vermittelt keine Tabak-, Nikotin-, Alkohol- oder kontrollierten Produkte und fördert weder deren Kauf noch deren Konsum.",
       "sections": [
         {
@@ -373,26 +391,30 @@ var LEGAL_DOCS = {
           "id": "s2",
           "title": "2. Geltungsbereich dieser Erklärung",
           "blocks": [
-            { "type": "p", "text": "Diese Datenschutzerklärung erläutert, wie Mixly Informationen verarbeitet, wenn Sie die mobile Mixly-Anwendung und die zugehörigen gehosteten Dienste für Rechtstexte, Katalog, Analyse, Abonnements, Support, Teilen, Übersetzung und Community nutzen. Sie beschreibt das aktuelle Verhalten der App." }
+            { "type": "p", "text": "Diese Datenschutzerklärung erläutert, wie Mixly Informationen verarbeitet, wenn Sie die mobile Mixly-Anwendung und die zugehörigen gehosteten Dienste für Rechtstexte, Katalog, Analyse, Abonnements, Support, Teilen, Übersetzung und Community nutzen. Die nachfolgend beschriebenen Funktionen können je nach App-Version und Plattform variieren." }
           ]
         },
         {
           "id": "s3",
-          "title": "3. Auf Ihrem Gerät gespeicherte Informationen",
+          "title": "3. Auf Ihrem Gerät und in Ihrem Konto gespeicherte Daten",
           "blocks": [
-            { "type": "p", "text": "Mixly speichert einige App-Daten lokal auf Ihrem Gerät, damit die App ohne Konto funktioniert. Dazu können gehören:" },
+            { "type": "p", "text": "Mixly speichert einige App-Daten lokal auf Ihrem Gerät, damit Einstellungen und gespeicherte Inhalte auch bei der nächsten Nutzung verfügbar sind." },
             { "type": "ul", "items": [
               "Onboarding-Einstellungen wie ausgewählte Marken, Kategorien, Geschmacksrichtungen und bevorzugte Stärke;",
               "Kennungen favorisierter Mischungen;",
               "lokaler App-Zustand, der erforderlich ist, um Ihren personalisierten Mix-Feed, tägliche Limits für den kostenlosen Zugang, Wischhinweise und den Paywall-Zustand anzuzeigen;",
               "Labs-Daten wie benutzerdefinierte Tabake, generierte oder manuelle Lab-Mischungen, Zutatenanteile und Zähler für die Zufallsgenerierung;",
-              "eine lokal generierte Mixly-Benutzer-ID und ein optionaler Spitzname, die für Support- und Community-Vorschlagsfunktionen verwendet werden;",
+              "eine lokal erzeugte Mixly-Benutzer-ID und Ihren gespeicherten Anzeigenamen oder Spitznamen für Support- und Community-Funktionen;",
               "eine lokal generierte Amplitude-Geräte-ID, die für die Analyse verwendet wird, sofern die Analyse aktiviert ist;",
               "temporäre Share-Card-Bilder, die auf Ihrem Gerät erzeugt werden, wenn Sie ein Mischungsbild teilen und diese Funktion aktiviert ist;",
               "sprachbezogenes App-Verhalten, das aus Ihrer Geräte-Locale oder Ihrer In-App-Sprachauswahl abgeleitet wird."
             ] },
-            { "type": "p", "text": "Diese Informationen werden mit lokaler Speichertechnologie wie AsyncStorage und temporären App-Dateien auf Ihrem Gerät gespeichert. Mixly bietet keine Registrierung mit E-Mail/Passwort an. Sie können sich unter iOS mit Apple oder unter Android mit Google anmelden, und ein iOS-Nutzer kann Google ausdrücklich mit demselben Konto verknüpfen. Für ein authentifiziertes Konto speichert Mixly eine private Cloud-Kopie der aufgeführten App-Daten in Supabase, damit sie auf einem anderen Gerät wiederhergestellt werden kann. Die Cloud-Kopie ist mit Ihrer authentifizierten Supabase-Benutzer-ID verknüpft und so geschützt, dass andere Nutzer sie nicht lesen können. Einige lokale Identitätsinformationen, etwa Ihre generierte Mixly-Benutzer-ID und der optionale Spitzname, können ebenfalls mit Supabase synchronisiert werden, damit Support- und Community-Funktionen arbeiten können. Wenn Sie Ihre Mixly-System-ID kopieren, wird dieser Wert vom Betriebssystem in die Zwischenablage Ihres Geräts gelegt." },
-            { "type": "p", "text": "Die Mixly-Website speichert Ihre gewählte Anzeigesprache in localStorage (mixly-lang). Wenn Sie optionale Webanalyse ausdrücklich erlauben, lädt Mixly PostHog aus der US Cloud. PostHog kann seinen Analysestatus in Cookies oder localStorage speichern und eine pseudonyme Browserkennung, den Seitenpfad ohne Query-Parameter, Anzeigesprache, Seitentyp, Referrer-Origin sowie Interaktionen mit App-Store- oder Google-Play-Links verarbeiten. Wir aktivieren keine automatische Interaktionserfassung, Heatmaps, Sitzungsaufzeichnungen, Werbung oder Social-Media-Tracking. Sie können die Analyse jederzeit über den Link „Analyse-Einstellungen“ in der Fußzeile ablehnen oder Ihre Auswahl ändern. PostHog und seine Infrastruktur können Netzwerkmetadaten einschließlich der IP-Adresse verarbeiten, um Ereignisse zu empfangen; Informationen können in den Vereinigten Staaten verarbeitet werden." }
+            { "type": "p", "text": "Diese Informationen werden auf Ihrem Gerät im lokalen Speicher, etwa AsyncStorage, und in temporären App-Dateien gespeichert. Wenn Sie eine Kennung aus Ihrem Profil kopieren, legt die App sie in der Zwischenablage Ihres Geräts ab." },
+            { "type": "p", "text": "Für den Zugriff auf die Hauptfunktionen von Mixly 1.0.7 unter iOS ist eine Anmeldung mit Apple oder Google erforderlich. Frühere iOS-Versionen konnten im Gastmodus genutzt werden. Die Google-Anmeldung ist in unterstützten Android-Versionen verfügbar." },
+            { "type": "p", "text": "Mixly verwendet Supabase Auth, um Ihr Konto zu erstellen und Sie anzumelden. Bei der Anmeldung verarbeiten wir die Kontokennung des gewählten Anbieters, die von ihm übermittelte E-Mail-Adresse und Authentifizierungsdaten. Wenn Sie bei Apple „E-Mail-Adresse verbergen“ wählen, kann dies eine Weiterleitungsadresse von Apple sein. Ein von Apple oder Google übermittelter Name kann bei der Einrichtung als Anzeigename vorgeschlagen werden. Der von Ihnen gespeicherte Name oder Spitzname wird Teil Ihres Profils." },
+            { "type": "p", "text": "Wenn Sie angemeldet sind, speichert Mixly eine private Kopie Ihrer Kontodaten in Supabase, damit sie auf Ihren Geräten synchronisiert und wiederhergestellt werden können. Dazu können gespeicherte Rezepte und Zutaten, Favoriten, Einstellungen aus der Ersteinrichtung, Kennungen angesehener Mischungen, Angaben zum kostenlosen Zugriff, Ihre Mixly-Benutzer-ID und Ihr Anzeigename oder Spitzname gehören. Die Kopie ist Ihrer Supabase-Konto-ID zugeordnet und über dieses Konto zugänglich." },
+            { "type": "p", "text": "Die Mixly-Website speichert Ihre gewählte Anzeigesprache in localStorage (mixly-lang). Mit Ihrer Einwilligung nutzt Mixly Amplitude für die optionale Webanalyse und speichert eine pseudonyme Browserkennung und Analysesitzungsdaten in localStorage. Analyseereignisse können den Zeitpunkt, grundlegende Browser- und Geräteinformationen, den Seitenpfad ohne Abfrageparameter oder Fragmente, den Seitentyp, die Anzeigesprache, die Herkunftswebsite sowie Aktionen wie das Öffnen des Blogs oder eines Artikels, Sprachwechsel und Klicks auf Links zum App Store oder zu Google Play umfassen. Wir aktivieren keine automatische Interaktionserfassung, Heatmaps, Sitzungsaufzeichnungen, Werbung oder Social-Media-Tracking." },
+            { "type": "p", "text": "Um Ihre Auswahl jederzeit zu ändern, öffnen Sie [[a:./cookies.html]]Cookies & Analyse[[/a]] über die Fußzeile und wählen Sie den Link zu den Analyse-Einstellungen. Wenn Sie Ihre Einwilligung widerrufen, erfasst Mixly keine weiteren Analyseereignisse und löscht die gespeicherten Analysedaten aus Ihrem Browser. Amplitude empfängt Webanalyseereignisse in den Vereinigten Staaten und kann beim Empfang Netzwerkmetadaten wie die IP-Adresse der Anfrage verarbeiten. Mixly deaktiviert die IP-basierte Standortermittlung für die Webanalyse." }
           ]
         },
         {
@@ -408,10 +430,10 @@ var LEGAL_DOCS = {
           "id": "s5",
           "title": "5. Benutzeridentität, Support und Community-Funktionen",
           "blocks": [
-            { "type": "p", "text": "Mixly erstellt eine pseudonyme lokale Benutzer-ID, etwa eine ID, die mit „MX-“ beginnt, und ermöglicht Ihnen die optionale Festlegung eines Spitznamens. Dies ist kein Konto mit E-Mail/Passwort, kann jedoch lokal gespeichert und mit Supabase synchronisiert werden, um Support-Anfragen zuzuordnen, Missbrauch durch Ratenbegrenzung einzuschränken, die Community-Zuordnung anzuzeigen und Community-Vorschlagsabläufe zu verwalten." },
-            { "type": "p", "text": "Über die App können Sie Vorschläge, Katalogwünsche, Feedback und Community-Mischungsvorschläge aus Mixly heraus senden. Je nach genutzter Funktion kann Mixly Ihren Nachrichtentext, den Nachrichtentyp, die App-Sprache, ein Quellenlabel, die generierte Benutzer-ID, den optionalen Spitznamen, den Mischungsnamen, die Mischungsbeschreibung, Geschmacksrichtungen, Tabake, Stärke, Zeitstempel und zugehörige technische Anfragedaten an Supabase Edge Functions senden." },
-            { "type": "p", "text": "Support- und Feedback-Nachrichten können über Messaging- oder Benachrichtigungsdienstleister weitergeleitet werden, die der Mixly-Betreiber für Support und Produktbetrieb einsetzt. Community-Mischungsvorschläge können in Supabase zur Moderation, Prüfung, Katalogverbesserung und möglichen Veröffentlichung in der App gespeichert werden. Wird ein Community-Mischungsvorschlag genehmigt, kann der eingereichte Spitzname zusammen mit der veröffentlichten Mischung angezeigt werden, sofern Sie einen angegeben haben." },
-            { "type": "p", "text": "Community-Funktionen können es Ihnen ermöglichen, auf veröffentlichte Community-Mischungen zu reagieren, Bewertungen abzugeben, Rezensions-/Kommentartext zu verfassen, Ihre eigenen Rezensionen zu bearbeiten oder zu löschen und die Übersetzung von Rezensionstext anzufordern. Mixly kann die ID der veröffentlichten Mischung, den Reaktionstyp, die Bewertung, den Rezensions-/Kommentartext, die Rezensionssprache, die generierte Benutzer-ID, den optionalen Spitznamen, Zeitstempel und zugehörige Anfrage-Metadaten verarbeiten. Rezensions-/Kommentartext und Momentaufnahmen des Spitznamens können für andere Nutzer sichtbar sein, wenn sie im Community-Bereich angezeigt werden." },
+            { "type": "p", "text": "Mixly erzeugt eine pseudonyme lokale Benutzer-ID, etwa eine Kennung, die mit „MX-“ beginnt. Mixly verwendet diese Kennung und Ihren gespeicherten Anzeigenamen oder Spitznamen, sofern verfügbar, um Supportanfragen zuzuordnen, Missbrauch einzudämmen und Community-Beiträge ihren Verfassern zuzuordnen." },
+            { "type": "p", "text": "Über die App können Sie Vorschläge, Katalogwünsche, Feedback und Community-Mischungsvorschläge aus Mixly heraus senden. Je nach genutzter Funktion kann Mixly Ihren Nachrichtentext, den Nachrichtentyp, die App-Sprache, ein Quellenlabel, die generierte Benutzer-ID, den gespeicherten Anzeigenamen oder Spitznamen, den Mischungsnamen, die Mischungsbeschreibung, Geschmacksrichtungen, Tabake, Stärke, Zeitstempel und zugehörige technische Anfragedaten an Supabase Edge Functions senden." },
+            { "type": "p", "text": "Supportanfragen und Feedback aus der App können über Telegram an den Mixly-Betreiber weitergeleitet werden. Dazu können die Supabase-Benutzer-ID, der Anmeldestatus beim Senden sowie die Mixly-Benutzer-ID und der Anzeigename oder Spitzname gehören, soweit verfügbar. Vorschläge für Community-Mischungen können zur Moderation, Prüfung, Katalogverbesserung und möglichen Veröffentlichung in Supabase gespeichert werden. Wird ein Vorschlag genehmigt, kann der angegebene Anzeigename oder Spitzname mit der veröffentlichten Mischung angezeigt werden." },
+            { "type": "p", "text": "Community-Funktionen können es Ihnen ermöglichen, auf veröffentlichte Community-Mischungen zu reagieren, Bewertungen abzugeben, Rezensions-/Kommentartext zu verfassen, Ihre eigenen Rezensionen zu bearbeiten oder zu löschen und die Übersetzung von Rezensionstext anzufordern. Mixly kann die ID der veröffentlichten Mischung, den Reaktionstyp, die Bewertung, den Rezensions-/Kommentartext, die Rezensionssprache, die generierte Benutzer-ID, den gespeicherten Anzeigenamen oder Spitznamen, Zeitstempel und zugehörige Anfrage-Metadaten verarbeiten. Rezensions- oder Kommentartext und der beim Einreichen gespeicherte Anzeigename oder Spitzname können für andere Nutzer sichtbar sein, wenn sie im Community-Bereich angezeigt werden." },
             { "type": "p", "text": "Wenn Sie die Übersetzung von Community-Rezensions-/Kommentartext anfordern, kann Mixly den Text und die Zielsprache an Drittanbieter von Übersetzungsdiensten senden. Übersetzungsanbieter können diesen Text und zugehörige technische Metadaten gemäß ihren eigenen Bedingungen und Datenschutzpraktiken verarbeiten." },
             { "type": "p", "text": "Messaging- und Benachrichtigungsdienstleister können Nachrichteninhalte und zugehörige Metadaten gemäß ihren eigenen Bedingungen und Datenschutzpraktiken verarbeiten. Bitte geben Sie in Support-, Feedback- oder Vorschlagsnachrichten keine sensiblen personenbezogenen Daten an, sofern dies für Ihr Anliegen nicht erforderlich ist." }
           ]
@@ -420,10 +442,12 @@ var LEGAL_DOCS = {
           "id": "s6",
           "title": "6. Analyse",
           "blocks": [
-            { "type": "p", "text": "Mixly nutzt Amplitude als Analysedienstleister, um die grundlegende App-Nutzung zu verstehen, die Produktqualität zu verbessern, die Funktionsleistung zu diagnostizieren und Premium-Funktionsabläufe zu bewerten. Die Analyse ist nur aktiviert, wenn die App mit einem Amplitude-API-Schlüssel konfiguriert ist." },
-            { "type": "p", "text": "Analyseereignisse können eine pseudonyme Amplitude-Geräte-ID, eine Sitzungs-ID, den Ereignisnamen, die Ereigniszeit, die Plattform, den Namen und die Version des Betriebssystems, die App-Version, die Build-Nummer, den App-Slug, die App-Sprache, den Premium-Status, den aktiven Tab und Informationen zur Geräte-Locale wie Gerätesprache, Sprach-Tag, Region, Währung, Maßsystem, Textrichtung, Zeitzone und Einstellung der 24-Stunden-Uhr umfassen. Wenn Sie sich mit Apple oder Google anmelden, sendet Mixly außerdem die pseudonyme Supabase-Konto-ID, um die Analyse über Ihre angemeldeten Geräte hinweg zu verknüpfen; die E-Mail-Adresse oder der Name Ihres Anbieterkontos werden nicht gesendet." },
-            { "type": "p", "text": "Eigenschaften von Analyseereignissen können den ausgewählten Tab, den vorherigen Tab, den Bildschirmnamen, die ausgewählten Onboarding-Anzahlen, die ausgewählten Stärke-Kennungen, die Mix-ID, den Mischungsnamen, die Zutatenanzahl, die Stärkestufe, den Favoritenstatus, die Länge der Suchanfrage und die Anzahl der Ergebnisse, die Wischrichtung, die Paywall-Quelle, die Paket-Kennung, die Produkt-Kennung, den Pakettyp, den Preis, die Währung, den Wiederherstellungsstatus, den Status des Kaufereignisses, den Teilen-Status, die Rezensionsbewertung, die Länge des Rezensionstexts, die Reaktions-ID und ähnliche Metadaten zur Produktinteraktion umfassen." },
-            { "type": "p", "text": "Amplitude und die zugehörige Analyseinfrastruktur können beim Senden von Analyseereignissen auch die IP-Adresse und Anfrage-Metadaten verarbeiten. Je nach Amplitude-Einstellungen kann dies verwendet werden, um ungefähre geografische Informationen wie Land, Region oder Stadt für Produktanalyse und Missbrauchsprävention abzuleiten." },
+            { "type": "p", "text": "In App-Versionen mit aktivierter Amplitude-Analyse sendet Mixly automatisch Nutzungs- und Diagnoseereignisse an Amplitude. So misst Mixly die App-Nutzung, verbessert die App und bewertet Premium-Funktionen." },
+            { "type": "p", "text": "Analyseereignisse können eine dauerhafte, pseudonyme Amplitude-Geräte-ID, eine Sitzungs-ID, den Ereignisnamen, die Ereigniszeit, die Plattform, den Namen und die Version des Betriebssystems, die App-Version, die Build-Nummer, den App-Slug, die App-Sprache, den Premium-Status, den aktiven Tab und Informationen zur Geräte-Locale wie Gerätesprache, Sprach-Tag, Region, Währung, Maßsystem, Textrichtung, Zeitzone und Einstellung der 24-Stunden-Uhr umfassen. Wenn Sie sich mit Apple oder Google anmelden, sendet Mixly außerdem die pseudonyme Supabase-Konto-ID, um die Analysedaten Ihrer angemeldeten Geräte demselben Konto zuzuordnen." },
+            { "type": "p", "text": "Eigenschaften von Analyseereignissen können den ausgewählten Tab, den vorherigen Tab, den Bildschirmnamen, die ausgewählten Onboarding-Anzahlen, die ausgewählten Stärke-Kennungen, die Mix-ID, den Mischungsnamen, die Zutatenanzahl, die Stärkestufe, den Favoritenstatus, die Wischrichtung, die Paywall-Quelle, die Paket-Kennung, die Produkt-Kennung, den Pakettyp, den Preis, die Währung, den Wiederherstellungsstatus, den Status des Kaufereignisses, den Teilen-Status, die Rezensionsbewertung, die Länge des Rezensionstexts, die Länge von Support- und Feedbacknachrichten, die Reaktions-ID und ähnliche Metadaten zur Produktinteraktion umfassen." },
+            { "type": "p", "text": "Für die Analyse der Favoritensuche übermittelt Mixly, ob Sie einen Suchbegriff eingegeben haben, wie viele Zeichen er enthält und wie viele Ergebnisse angezeigt wurden. Mixly sendet den Suchtext nicht an Amplitude." },
+            { "type": "p", "text": "Leistungs- und Diagnoseereignisse können die App-Startzeit, die Dauer eines Apple-Anmeldeversuchs, den Grund, die Phase oder den Fehlercode einer fehlgeschlagenen Anmeldung sowie die Kategorie eines Fehlers bei der Cloud-Synchronisierung oder Wiederherstellung enthalten." },
+            { "type": "p", "text": "Amplitude verwendet die IP-Adresse der Analyseanfrage, um einen ungefähren Standort wie Land, Region oder Stadt zu ermitteln, sofern die GeoIP-Einstellungen dies zulassen. Mixly nutzt diese Informationen für die Produktanalyse." },
             { "type": "p", "text": "Erfolgreiche Premium-Kaufereignisse können Amplitude-Umsatzfelder enthalten, wenn RevenueCat Produktpreisdaten bereitstellt. Mixly nutzt Amplitude nicht für Werbung, Werbepersonalisierung oder app-übergreifendes Tracking. Wir senden absichtlich weder Ihren Namen, Ihre E-Mail-Adresse, Ihren genauen GPS-Standort, Kontakte, Fotos, Support-Nachrichtentext noch den vollständigen Community-Rezensions-/Kommentartext an Amplitude." }
           ]
         },
@@ -441,7 +465,9 @@ var LEGAL_DOCS = {
           "title": "8. Teilen und Links",
           "blocks": [
             { "type": "p", "text": "Mixly ermöglicht es Ihnen, Mischungen oder die App über das Teilen-Menü des Betriebssystems zu teilen. Wenn Sie eine Mischung teilen, kann Mixly Teilen-Text, einen Mixly-Deeplink, eine Smart-Share-URL und, sofern aktiviert, ein temporäres Share-Card-Bild auf Basis von Mischungsname, Zutaten, Anteilen, Beschreibung und App-Link erzeugen. Die Ziel-App oder die Person, mit der Sie teilen, wählen Sie selbst; dies wird nicht von Mixly kontrolliert." },
-            { "type": "p", "text": "Smart-Share-Link-Seiten und Deeplinks können die geteilte Mix-ID, die Anfrage-URL, den User-Agent, die IP-Adresse, Zeitstempel und zugehörige technische Anfrage-Metadaten verarbeiten, damit der Link Mixly öffnen oder zum passenden App-Store weiterleiten kann. Mixly erfasst außerdem grundlegende Teilen-Ereignisse in der Analyse, etwa Mix-ID, Quelle, Teilen-Modus und Erfolgs- oder Fehlerstatus." }
+            { "type": "p", "text": "Smart-Share-Link-Seiten und Deeplinks können die geteilte Mix-ID, die Anfrage-URL, den User-Agent, die IP-Adresse, Zeitstempel und zugehörige technische Anfrage-Metadaten verarbeiten, damit der Link Mixly öffnen oder zum passenden App-Store weiterleiten kann. Mixly erfasst außerdem grundlegende Teilen-Ereignisse in der Analyse, etwa Mix-ID, Quelle, Teilen-Modus und Erfolgs- oder Fehlerstatus." },
+            { "type": "p", "text": "Wenn Sie eine Labs-Mischung über einen Kurzlink teilen, speichert Mixly in Supabase eine separate Kopie von Name, Zutatenbezeichnungen, Anteilen und Zutatentypen sowie einen zufälligen Linkcode, die Erstellungszeit und die ID Ihrer angemeldeten oder anonymen Sitzung. Jeder mit dem Link kann das Rezept lesen; Sitzungs-ID und Erstellungszeit werden nicht zurückgegeben. Das Bearbeiten oder Löschen der ursprünglichen Mischung ändert diese Kopie nicht. Geteilte Kopien bleiben gespeichert, damit versendete Links funktionieren; das Löschen Ihres Kontos entfernt die Zuordnung, widerruft aber nicht den Link." },
+            { "type": "p", "text": "Mit Mix Shot können Sie ein Foto aufnehmen oder ein Bild aus Ihrer Fotobibliothek auswählen und ein Mix-Rezept hinzufügen. Mixly fragt nach Kamera- oder Fotobibliothekszugriff, wenn Sie die entsprechende Aktion wählen, und nach der Berechtigung zum Speichern eines Bildes, wenn Sie einen Mix Shot speichern. Das Originalfoto, das fertige Bild und Entwurfsverweise werden lokal auf Ihrem Gerät verarbeitet und gespeichert; Mixly lädt diese Fotos nicht hoch und nimmt sie weder in Cloud-Sicherungen des Kontos noch in Analysedaten auf. Sie können das fertige Bild in der Fotobibliothek speichern oder über das systemweite Teilen-Menü weitergeben. Die von Ihnen ausgewählte App oder Person verarbeitet das Bild nach ihren eigenen Richtlinien. Sie können diese Berechtigungen in den Geräteeinstellungen verwalten." }
           ]
         },
         {
@@ -450,11 +476,11 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "In der aktuellen Version bietet oder verwendet Mixly nicht:" },
             { "type": "ul", "items": [
-              "Kontoregistrierung mit E-Mail/Passwort; Mixly unterstützt nur die optionale Anmeldung mit Apple- und Google-Konten;",
+              "Registrierung oder Anmeldung mit E-Mail-Adresse und Passwort;",
               "direkte Kartenzahlungsabwicklung durch Mixly (Abonnementabrechnung und Kaufverwaltung erfolgen über App Store oder Google Play);",
               "Werbe-SDKs oder Werbepersonalisierung;",
               "öffentliche soziale Profile, private Chats oder Direktnachrichten zwischen Nutzern;",
-              "Berechtigungen für Kamera, Fotobibliothek, Kontakte, genauen Standort, ungefähren Standort, Mikrofon oder Push-Benachrichtigungen."
+              "Berechtigungen für Kontakte, genauen Standort, ungefähren Standort, Mikrofon oder Push-Benachrichtigungen."
             ] }
           ]
         },
@@ -464,6 +490,7 @@ var LEGAL_DOCS = {
           "blocks": [
             { "type": "p", "text": "Wir verwenden die in dieser Erklärung beschriebenen Informationen, um:" },
             { "type": "ul", "items": [
+              "Sie an Ihrem Konto anzumelden und gespeicherte Kontodaten zu synchronisieren oder wiederherzustellen;",
               "die Kernfunktionen der App bereitzustellen: Katalog, Filterung, Empfehlungen, Favoriten und Onboarding;",
               "Katalog- und Community-Inhalte zu laden und zu aktualisieren;",
               "Support-, Feedback- und Inhaltsvorschlagsnachrichten zu empfangen, weiterzuleiten, zu prüfen und wo möglich zu beantworten;",
@@ -482,7 +509,7 @@ var LEGAL_DOCS = {
           "title": "11. Weitergabe von Informationen",
           "blocks": [
             { "type": "p", "text": "Wir verkaufen keine personenbezogenen Daten. Wir geben personenbezogene Daten nicht für Werbetracking oder Werbepersonalisierung weiter." },
-            { "type": "p", "text": "Wir können Informationen an Dienstleister weitergeben oder von diesen verarbeiten lassen, die den Betrieb von Mixly unterstützen, darunter Supabase, Messaging- und Benachrichtigungsdienstleister, Amplitude, RevenueCat, Apple App Store, Google Play, Übersetzungsdienstleister, Hosting-Anbieter, E-Mail-Anbieter und Anbieter technischer Infrastruktur. Diese Anbieter verarbeiten Informationen für Dienstbetrieb, Hosting, Analyse, Abonnementverwaltung, Übersetzung, Sicherheit, Support und ähnliche Zwecke." },
+            { "type": "p", "text": "Wir können Informationen an Dienstleister weitergeben oder von diesen verarbeiten lassen, die den Betrieb von Mixly unterstützen, darunter Supabase, Apple und Google für die Anmeldung, Telegram und weitere Messaging- und Benachrichtigungsdienstleister, Amplitude, RevenueCat, Apple App Store, Google Play, Übersetzungsdienstleister, Hosting-Anbieter, E-Mail-Anbieter und Anbieter technischer Infrastruktur. Diese Anbieter verarbeiten Informationen für Dienstbetrieb, Hosting, Analyse, Abonnementverwaltung, Übersetzung, Sicherheit, Support und ähnliche Zwecke." },
             { "type": "p", "text": "Wir können Informationen auch offenlegen, wenn dies gesetzlich, durch ein Gerichts- oder sonstiges Rechtsverfahren, durch eine behördliche Anfrage vorgeschrieben ist oder um die Rechte, Sicherheit und Integrität von Mixly, der Nutzer oder Dritter zu schützen." }
           ]
         },
@@ -546,7 +573,7 @@ var LEGAL_DOCS = {
           { "type": "p", "text": "The website remembers your language, your analytics choice, and a one-time page-transition preference in browser storage. These values are not used for advertising, cross-site tracking, or profiling." }
         ] },
         { "id": "s3", "title": "3. Optional analytics", "blocks": [
-          { "type": "p", "text": "If you allow analytics, we use a service provider to understand page visits, language changes, and clicks on app-store links. We do not record sessions, use heatmaps, or automatically capture interactions. More details are in our [[a:./privacy.html]]Privacy Policy[[/a]]." }
+          { "type": "p", "text": "If you allow analytics, we use Amplitude to measure page visits, language changes, and clicks on app-store links. We store a pseudonymous browser identifier and analytics session data in localStorage and clear them when you withdraw consent. We do not record sessions, use heatmaps, or automatically capture interactions. More details are in our [[a:./privacy.html]]Privacy Policy[[/a]]." }
         ] },
         { "id": "s4", "title": "4. More information", "blocks": [
           { "type": "p", "text": "For the wider information-handling practices of Mixly, read our [[a:./privacy.html]]Privacy Policy[[/a]]. For questions, contact [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
@@ -565,7 +592,7 @@ var LEGAL_DOCS = {
           { "type": "p", "text": "Сайт запоминает выбранный язык, ваш выбор аналитики и однократную настройку анимации перехода между страницами в хранилище браузера. Эти значения не используются для рекламы, межсайтового трекинга или построения профиля." }
         ] },
         { "id": "s3", "title": "3. Необязательная аналитика", "blocks": [
-          { "type": "p", "text": "Если вы разрешаете аналитику, мы используем сервис, чтобы понимать посещения страниц, смену языка и переходы по ссылкам на магазины приложений. Мы не записываем сессии, не используем heatmaps и не собираем действия автоматически. Подробности — в [[a:./privacy.html]]Политике конфиденциальности[[/a]]." }
+          { "type": "p", "text": "Если вы разрешаете аналитику, мы используем Amplitude, чтобы измерять посещения страниц, смену языка и переходы в магазины приложений. Мы сохраняем в localStorage псевдонимный идентификатор браузера и данные аналитической сессии и удаляем их, когда вы отзываете согласие. Мы не записываем сессии, не используем тепловые карты и не собираем действия автоматически. Подробности описаны в [[a:./privacy.html]]Политике конфиденциальности[[/a]]." }
         ] },
         { "id": "s4", "title": "4. Дополнительная информация", "blocks": [
           { "type": "p", "text": "Более широкое описание обработки информации приведено в [[a:./privacy.html]]Политике конфиденциальности[[/a]]. По вопросам пишите на [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }
@@ -584,7 +611,7 @@ var LEGAL_DOCS = {
           { "type": "p", "text": "Die Website speichert Ihre gewählte Sprache, Ihre Analyse-Auswahl und eine einmalige Einstellung für die Seitenwechsel-Animation im Browser. Diese Werte werden nicht für Werbung, websiteübergreifendes Tracking oder Profilbildung verwendet." }
         ] },
         { "id": "s3", "title": "3. Optionale Analysen", "blocks": [
-          { "type": "p", "text": "Wenn Sie Analysen erlauben, nutzen wir einen Dienst, um Seitenbesuche, Sprachwechsel und Klicks auf App-Store-Links zu verstehen. Wir zeichnen keine Sitzungen auf, nutzen keine Heatmaps und erfassen Interaktionen nicht automatisch. Weitere Details finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]." }
+          { "type": "p", "text": "Wenn Sie der Analyse zustimmen, verwenden wir Amplitude, um Seitenaufrufe, Sprachwechsel und Klicks auf Links zu App-Stores zu messen. Dazu speichern wir eine pseudonyme Browserkennung und Analysesitzungsdaten in localStorage. Bei einem Widerruf Ihrer Einwilligung löschen wir diese Daten aus dem Browserspeicher. Wir zeichnen keine Sitzungen auf, nutzen keine Heatmaps und erfassen Interaktionen nicht automatisch. Weitere Details finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]." }
         ] },
         { "id": "s4", "title": "4. Weitere Informationen", "blocks": [
           { "type": "p", "text": "Weitere Informationen zur Verarbeitung durch Mixly finden Sie in unserer [[a:./privacy.html]]Datenschutzerklärung[[/a]]. Fragen richten Sie bitte an [[a:mailto:support@get-mixly.app]]support@get-mixly.app[[/a]]." }

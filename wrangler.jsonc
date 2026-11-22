@@ -11,5 +11,8 @@
     "run_worker_first": true,
     "not_found_handling": "404-page",
     "html_handling": "none"
+  },
+  "vars": {
+    "SHARE_MIX_FUNCTION_URL": "https://snljkpgmtrhaclsmmfdt.supabase.co/functions/v1/share-mix"
   }
 }

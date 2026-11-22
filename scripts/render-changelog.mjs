@@ -5,29 +5,10 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import vm from 'node:vm';
+import { CHANGELOG_META, escapeHtml, injectHomeList, publicPath, releaseListHtml } from './changelog-render.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const origin = 'https://get-mixly.app';
-
-const context = {};
-vm.runInNewContext(readFileSync(resolve(root, 'changelog-content.js'), 'utf8'), context, {
-  filename: 'changelog-content.js',
-});
-const { CHANGELOG_META, RELEASES } = context;
-
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function publicPath(locale) {
-  if (locale === 'ru') return '/changelog';
-  return `/${locale}/changelog`;
-}
 
 function publicUrl(locale) {
   return `${origin}${publicPath(locale)}`;
@@ -39,54 +20,6 @@ function homePath(locale) {
 
 function blogPath(locale) {
   return locale === 'ru' ? '/blog.html' : `/${locale}/blog`;
-}
-
-function releaseListHtml(locale, { openFirst = true, permalinkBase = '' } = {}) {
-  const meta = CHANGELOG_META[locale];
-  return RELEASES.map((release, index) => {
-    const labels = release.labels[locale];
-    const items = release.items[locale];
-    const open = openFirst && (release.open || index === 0) ? ' open' : '';
-    const permalink = `${permalinkBase}#${release.id}`;
-    const list = items.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
-    return `<details class="changelog-release" id="${escapeHtml(release.id)}"${open}>
-            <summary>
-              <span class="changelog-release-title"><strong>${escapeHtml(labels.version)}</strong><span>${escapeHtml(labels.summary)}</span></span>
-              <time datetime="${escapeHtml(release.date)}">${escapeHtml(labels.date)}</time>
-              <span class="changelog-toggle-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="changelog-release-body">
-              <ul>${list}</ul>
-              <p class="changelog-permalink"><a href="${escapeHtml(permalink)}">${escapeHtml(meta.permalinkLabel)} ${escapeHtml(release.version)}</a></p>
-            </div>
-          </details>`;
-  }).join('\n          ');
-}
-
-function homeListHtml(locale) {
-  // Home keeps full list for parity, generated from the same source (no i18n keys).
-  return releaseListHtml(locale, { openFirst: true, permalinkBase: publicPath(locale) });
-}
-
-function injectHomeList(html, locale) {
-  const list = homeListHtml(locale);
-  const cta = CHANGELOG_META[locale].homeCta;
-  const path = publicPath(locale);
-  const replacement = `<div class="changelog-list" data-i18n-aria="changelog.listAria" aria-label="${escapeHtml(CHANGELOG_META[locale].listAria)}">
-          ${list}
-        </div>
-        <p class="changelog-page-link"><a href="${escapeHtml(path)}">${escapeHtml(cta)}</a></p>`;
-  // Replace from the first .changelog-list through everything before the section close,
-  // including trailing whitespace so re-runs stay idempotent.
-  // Do not use a non-greedy match up to the first </div>: that stops at
-  // .changelog-release-body and leaves orphaned release copies (MIX-83).
-  // Note: when content is already correct, replace is a no-op (next === html);
-  // detect failure by testing the pattern, not by string inequality.
-  const pattern = /<div class="changelog-list"[\s\S]*?\s*(?=<\/section>)/;
-  if (!pattern.test(html)) {
-    throw new Error(`Could not inject changelog list into home for locale ${locale}`);
-  }
-  return html.replace(pattern, `${replacement}\n      `);
 }
 
 const BREADCRUMB_COPY = {
@@ -247,7 +180,7 @@ for (const locale of ['en', 'de']) {
   console.log(`wrote ${locale}/changelog.html`);
 }
 
-// 3) Patch en/de home if present (after locale routes may regenerate them)
+// 3) Patch en/de home if present; locale routes use the same renderer.
 for (const locale of ['en', 'de']) {
   const path = resolve(root, locale, 'index.html');
   try {
@@ -256,6 +189,6 @@ for (const locale of ['en', 'de']) {
     writeFileSync(path, html);
     console.log(`updated ${locale}/index.html changelog list`);
   } catch {
-    // regenerated later by generate:locale-routes + re-run
+    // Localized homes will be rendered by generate:locale-routes if not present yet.
   }
 }
