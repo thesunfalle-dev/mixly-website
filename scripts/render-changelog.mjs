@@ -19,7 +19,7 @@ function homePath(locale) {
 }
 
 function blogPath(locale) {
-  return locale === 'ru' ? '/blog.html' : `/${locale}/blog`;
+  return locale === 'ru' ? '/blog' : `/${locale}/blog`;
 }
 
 const BREADCRUMB_COPY = {

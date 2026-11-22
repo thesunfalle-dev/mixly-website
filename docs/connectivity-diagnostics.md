@@ -11,7 +11,7 @@ From a European network (Cloudflare edge `WAW`):
 | Path | HTTP | CF cache | Notes |
 | --- | --- | --- | --- |
 | `/` | 200 | HIT | OK |
-| `/blog.html` | 200 | HIT | OK |
+| `/blog` | 200 | HIT | OK |
 | `/privacy.html` | 200 | HIT | OK |
 | `/terms.html` | 200 | HIT | OK |
 | `/share.html?mix=test&preview=1` | 200 | HIT | OK (may 307 to `/share`) |

@@ -9,7 +9,7 @@ blocks fonts, localization, or hero media.
 | Surface tag | How it is detected |
 | --- | --- |
 | `website` | default marketing pages |
-| `blog` | path ends with `blog.html` |
+| `blog` | path ends with `/blog` (legacy `/blog.html` redirects before page scripts load) |
 | `article` | `.article-page` present |
 | `legal` | `data-legal-doc` on body |
 | `share` | share handoff page |

@@ -707,9 +707,10 @@ function countWords(html) {
 
 function header(lang, ui) {
   const L = (href, text) => `<a href="${href}">${esc(text)}</a>`;
+  const blogPath = lang === 'ru' ? '/blog' : `/${lang}/blog`;
   return (
     `<header class="site-header" data-shell-static="true"><a class="brand brand-app" href="/">mixly</a>` +
-    `<nav aria-label="${esc(ui.menuAria)}">${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L('/blog.html', ui.blog)}</nav>` +
+    `<nav aria-label="${esc(ui.menuAria)}">${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L(blogPath, ui.blog)}</nav>` +
     `<div class="header-actions"><a class="header-cta" href="https://apps.apple.com/app/id6762792005" rel="noopener"><span class="cta-full">${esc(ui.download)}</span><span class="cta-short">App Store</span></a>` +
     `<div class="lang-switch" data-lang-switch><button type="button" class="lang-switch-toggle" aria-expanded="false" aria-label="Language">${lang.toUpperCase()}</button>` +
     `<ul class="lang-switch-menu" hidden role="radiogroup" aria-label="Language">` +
@@ -719,7 +720,7 @@ function header(lang, ui) {
     `</ul></div>` +
     `<button class="mobile-menu-toggle" type="button" aria-label="${esc(ui.menu)}" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span><span></span></button></div></header>` +
     `<aside class="mobile-menu" id="mobile-menu" aria-label="${esc(ui.menuAria)}" aria-hidden="true">` +
-    `<nav aria-label="${esc(ui.menuAria)}">${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L('/blog.html', ui.blog)}</nav>` +
+    `<nav aria-label="${esc(ui.menuAria)}">${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L(blogPath, ui.blog)}</nav>` +
     `<div class="mobile-menu-lang"><div class="lang-switch lang-switch-mobile" data-lang-switch>` +
     `<div class="lang-switch-segment" role="radiogroup" aria-label="Language">` +
     `<button type="button" data-lang="ru" role="radio" aria-checked="${lang === 'ru'}">RU</button>` +
@@ -732,11 +733,12 @@ function header(lang, ui) {
   );
 }
 
-function footer(ui) {
+function footer(lang, ui) {
   const L = (href, text) => `<a href="${href}">${esc(text)}</a>`;
+  const blogPath = lang === 'ru' ? '/blog' : `/${lang}/blog`;
   return (
     `<footer class="site-footer"><div class="footer-main"><div class="footer-brand-block"><a class="brand-app footer-brand" href="/">mixly</a><p>Mixly app © 2026</p></div>` +
-    `<div class="footer-links"><div><p>${esc(ui.app)}</p>${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L('/blog.html', ui.blog)}` +
+    `<div class="footer-links"><div><p>${esc(ui.app)}</p>${L('/#how-it-works', ui.home)}${L('/#features', ui.features)}${L('/#changelog', ui.updates)}${L(blogPath, ui.blog)}` +
     `<a href="https://apps.apple.com/app/id6762792005" rel="noopener">App Store</a></div>` +
     `<div><p>${esc(ui.docs)}</p>${L('/privacy.html', ui.privacy)}${L('/cookies.html', ui.cookies)}${L('/terms.html', ui.terms)}${L('/eula.html', ui.eula)}${L('/support.html', ui.support)}</div>` +
     `<div><p>${esc(ui.socials)}</p><a href="https://www.instagram.com/get_mixly/" rel="noopener">Instagram</a><a href="https://www.threads.com/@get_mixly" rel="noopener">Threads</a></div><div><p>${esc(ui.contacts)}</p><a href="mailto:support@get-mixly.app">support@get-mixly.app</a><a href="https://t.me/getmixly" rel="noopener">Telegram</a></div></div></div>` +
@@ -851,7 +853,7 @@ function renderArticle(article, lang) {
     `<main class="article-page" id="content">` +
     `<nav class="breadcrumbs" aria-label="Breadcrumbs"><ol>` +
     `<li><a href="${lang === 'ru' ? '/' : `/${lang}/`}">${lang === 'ru' ? 'Главная' : lang === 'de' ? 'Start' : 'Home'}</a></li>` +
-    `<li><a href="${lang === 'ru' ? '/blog.html' : `/${lang}/blog`}">${esc(ui.blog)}</a></li>` +
+    `<li><a href="${lang === 'ru' ? '/blog' : `/${lang}/blog`}">${esc(ui.blog)}</a></li>` +
     `<li aria-current="page">${esc(article.title[lang])}</li></ol></nav>` +
     `<div class="article-layout"><article>` +
     `<header class="article-page-header">` +
@@ -864,7 +866,7 @@ function renderArticle(article, lang) {
     `</article>${tocHtml(article, lang, ui)}</div>` +
     // premium placeholder — regenerate:article-meta will inject localized block
     `<div data-premium-block data-premium-static="true"></div>` +
-    `</main>${footer(ui)}</body></html>`
+    `</main>${footer(lang, ui)}</body></html>`
   );
 }
 

@@ -65,4 +65,7 @@ await fetchPath('/share?lab=legacy');
 assert.equal(assets.at(-1).pathname, '/share.html');
 await fetchPath('/blog');
 assert.equal(assets.at(-1).pathname, '/blog.html');
-console.log('Production-based share route regression passed');
+const canonical = await context.worker.fetch(new Request(`https://www.get-mixly.app/s/${code}?preview=1`), env);
+assert.equal(canonical.status, 301);
+assert.equal(canonical.headers.get('Location'), `https://get-mixly.app/s/${code}?preview=1`);
+console.log('Share-link routes, proxy, privacy headers and legacy routes passed');

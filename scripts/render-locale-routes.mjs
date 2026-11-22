@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Build static locale-prefixed marketing/legal pages for MIX-7:
- *   /en/, /de/  (+ /en/blog.html, /en/privacy.html, …)
- * RU remains at site root (/, /blog.html, /privacy.html) as the default locale.
+ *   /en/, /de/  (+ /en/blog, /en/privacy, …)
+ * RU remains at site root (/, /blog, /privacy, …) as the default locale.
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -112,6 +112,7 @@ function localizeInternalLinks(source, locale) {
   const map = {
     'href="/"': `href="/${locale}/"`,
     'href="/#': `href="/${locale}/#`,
+    'href="/blog"': `href="/${locale}/blog"`,
     'href="/blog.html"': `href="/${locale}/blog"`,
     'href="/privacy.html"': `href="/${locale}/privacy"`,
     'href="/cookies.html"': `href="/${locale}/cookies"`,
@@ -128,7 +129,7 @@ function localizeInternalLinks(source, locale) {
 }
 
 function publicPath(locale, pageKey) {
-  // pageKey: '' | 'blog.html' | 'privacy.html' ...
+  // pageKey: '' | 'blog' | 'privacy.html' ...
   if (locale === 'ru') return pageKey ? `/${pageKey}` : '/';
   if (!pageKey) return `/${locale}/`;
   return `/${locale}/${pageKey.replace(/\.html$/, '')}`;
@@ -156,6 +157,12 @@ function setCanonicalAndHreflang(source, locale, pageKey) {
     source = source.replace('</title>', `</title><link rel="canonical" href="${canonicalUrl}" />${tags}`);
   }
   source = source.replace(/(property="og:url"\s+content=")[^"]*(")/i, `$1${canonicalUrl}$2`);
+  if (pageKey === 'blog') {
+    source = source.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, (match) => {
+      if (!match.includes('"CollectionPage"')) return match;
+      return match.replace(/("url"\s*:\s*")[^"]*(")/, `$1${canonicalUrl}$2`);
+    });
+  }
   return source;
 }
 
@@ -267,7 +274,7 @@ function renderMarketing(file, locale) {
   source = absolutizeAssets(source);
   source = localizeInternalLinks(source, locale);
   source = markLangSwitch(source, locale);
-  const pageKey = file === 'index.html' ? '' : file;
+  const pageKey = file === 'index.html' ? '' : file === 'blog.html' ? 'blog' : file;
   source = setCanonicalAndHreflang(source, locale, pageKey);
   if (file === 'blog.html') {
     const homeHref = publicPath(locale, '');
@@ -276,7 +283,7 @@ function renderMarketing(file, locale) {
     source = source.replace(/<a class="back-home"[\s\S]*?<\/a>\s*/i, '');
     source = source.replace(/<nav class="breadcrumbs"[\s\S]*?<\/nav>\s*/i, '');
     source = source.replace(/<main[^>]*>/i, (m) => `${m}\n      ${crumbs}\n      `);
-    source = injectBreadcrumbListJsonLd(source, locale, 'blog.html', blogLabel);
+    source = injectBreadcrumbListJsonLd(source, locale, 'blog', blogLabel);
   }
   // Prefer absolute asset paths already; ensure i18n still works for interactive bits
   return source;
@@ -381,11 +388,11 @@ for (const locale of locales) {
 }
 
 enhanceRootHreflang('index.html', '');
-enhanceRootHreflang('blog.html', 'blog.html');
+enhanceRootHreflang('blog.html', 'blog');
 for (const file of legalFiles) enhanceRootHreflang(file, file);
 
 // Root RU static pages get BreadcrumbList JSON-LD (visible crumbs are already in templates).
-enhanceRootBreadcrumbJsonLd('blog.html', 'blog.html', STRINGS.ru['nav.blog'] || 'Блог');
+enhanceRootBreadcrumbJsonLd('blog.html', 'blog', STRINGS.ru['nav.blog'] || 'Блог');
 for (const file of legalFiles) {
   const doc = file.replace(/\.html$/, '');
   const title = LEGAL_DOCS[doc]?.ru?.title || STRINGS.ru[`footer.${doc}`] || doc;

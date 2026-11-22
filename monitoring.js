@@ -25,7 +25,7 @@
     if (document.body?.hasAttribute('data-error-page')) return 'error';
     if (document.querySelector('.article-page')) return 'article';
     if (document.body?.hasAttribute('data-legal-doc')) return 'legal';
-    if (/blog\.html$/i.test(location.pathname)) return 'blog';
+    if (/\/blog(?:\.html)?\/?$/i.test(location.pathname)) return 'blog';
     if (/share\.html?$|\/share$/i.test(location.pathname)) return 'share';
     return 'website';
   }

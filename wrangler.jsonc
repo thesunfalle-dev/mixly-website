@@ -4,6 +4,7 @@
   "compatibility_date": "2026-07-21",
   "main": "worker.js",
   "workers_dev": true,
+  "routes": ["www.get-mixly.app/*"],
   "preview_urls": true,
   "assets": {
     "directory": ".",
